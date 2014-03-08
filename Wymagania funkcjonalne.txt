@@ -1,0 +1,41 @@
+Temat: System rejestracji aktywności fizycznych "wiRunner"
+Opis: Stworzony zostanie serwis internetowy, który ułatwi użytkownikom gromadzenie i analizowanie swoich aktywności fizycznych.
+Role: gość, użytkownik, moderator, administrator
+
+Jako gość mogę:
+              - się zarejestrować,
+              - się zalogować,
+              - zrestartować hasło do swojego konta (podając adres email),
+              - przeglądać aktywności, do których dostęp jest publiczny.
+            
+Jako użytkownik mogę:
+              - edytować swój profil (imię, nazwisko, email, avatar, wagę, wzrost, płeć, miejsce zamieszkania, swoje motto, typ profilu(prywatny/publiczny),
+              - zmienić swoje hasło,
+              - usunąć swoje konto,
+              - dodawać aktywności (wybór sportu, dystans, czas, temp, trasa, nazwa treningu, zdjęcia),
+              - dodawać przyjaciół,
+              - wyszukiwać przyjaciół,
+              - usuwać przyjaciół,
+              - blokować wybranych użytkowników,
+              - pisać prywatne wiadomości do innych użytkowników,
+              - przeglądać aktywności (filtrowanie, sortowanie),
+              - planować przyszłe aktywności,
+              - zapraszać swoich znajomych do przyszłych aktywności,
+              - czytać informację o aktywnościach swoich znajomych,
+              - komentować aktywności swoje, jak i innych użytkowników,
+              - polubić aktywności swoje, jak i innych użytkoników,
+              - zarządzać swoimi stałymi trasami (nazwa, długość, trasa; dodawanie, edytowanie, usuwanie),
+              - zaimportować czyjąś trasę jako swoją,
+              - wyznaczać sobie cele (np. przejechać w lipcu 1000km na rowerze),
+              - brać udział w rywalizacjach,
+              - poprzez formularz kontatkowy skontaktować się z administracją.
+              
+Jako moderator mogę wszystko co użytkownik, ponadto:
+              - usuwać i edytować aktywności użytkowników,
+              - blokować konta użytkowników.
+              
+Jako administrator mogę wszystko co użytkownik i moderator, ponadto:
+              - nadawać rangę moderatora użytkownikom,
+              - odbierać rangę moderatora,
+              - zarządzać rywalizacjami (np. kto przebiegnie najwięcej km w czerwcu; dodawanie, edytowanie, usuwanie),
+              - wysyłać masowe wiadomości do użytkowników.
