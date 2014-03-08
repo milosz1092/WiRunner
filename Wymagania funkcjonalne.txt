@@ -23,12 +23,12 @@ Jako użytkownik mogę:
               - zapraszać swoich znajomych do przyszłych aktywności,
               - czytać informację o aktywnościach swoich znajomych,
               - komentować aktywności swoje, jak i innych użytkowników,
-              - polubić aktywności swoje, jak i innych użytkoników,
+              - polubić aktywności swoje, jak i innych użytkowników,
               - zarządzać swoimi stałymi trasami (nazwa, długość, trasa; dodawanie, edytowanie, usuwanie),
               - zaimportować czyjąś trasę jako swoją,
               - wyznaczać sobie cele (np. przejechać w lipcu 1000km na rowerze),
               - brać udział w rywalizacjach,
-              - poprzez formularz kontatkowy skontaktować się z administracją.
+              - poprzez formularz kontaktowy skontaktować się z administracją.
               
 Jako moderator mogę wszystko co użytkownik, ponadto:
               - usuwać i edytować aktywności użytkowników,
