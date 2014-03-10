@@ -1,0 +1,22 @@
+// DO UZGODNIENIA
+
+Wykorzystywane technologie:
+ - Object-Oriented PHP
+ - PDO + MySQL
+ - JavaScript (jQuery + AJAX)
+ - HTML5
+ - CSS3
+
+Struktura katalogów:
+/			- pliki g³ówne, miêdzy innymi "index.php"
+/style			- kaskadowe arkusze stylów (CSS)
+/js			- skrypty JavaScript
+/php			- skrypty PHP, pliki include
+/php/classes		- klasy, ka¿da w osobnym pliku (przyk³ad: plik "My_dbWork.php" => klasa My_dbWork)
+/php/async		- generatory danych dla AJAX
+/img			- pliki graficzne
+/img/web		- grafika, wygl¹d strony
+
+Konwencja nazewnicza klas:
+My_nazwaKlasy
+
