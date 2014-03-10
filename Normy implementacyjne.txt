@@ -7,15 +7,15 @@ Wykorzystywane technologie:
  - HTML5
  - CSS3
 
-Struktura katalogów:
-/			- pliki g³ówne, miêdzy innymi "index.php"
-/style			- kaskadowe arkusze stylów (CSS)
+Struktura katalogow:
+/			- pliki g³owne, miêdzy innymi "index.php"
+/style			- kaskadowe arkusze stylow (CSS)
 /js			- skrypty JavaScript
 /php			- skrypty PHP, pliki include
-/php/classes		- klasy, ka¿da w osobnym pliku (przyk³ad: plik "My_dbWork.php" => klasa My_dbWork)
+/php/classes		- klasy, kazda w osobnym pliku (przyk³ad: plik "My_dbWork.php" => klasa My_dbWork)
 /php/async		- generatory danych dla AJAX
 /img			- pliki graficzne
-/img/web		- grafika, wygl¹d strony
+/img/web		- grafika, wyglad strony
 
 Konwencja nazewnicza klas:
 My_nazwaKlasy
