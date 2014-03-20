@@ -1,32 +1,32 @@
-Temat: System rejestracji aktywności fizycznych "wiRunner"
+﻿Temat: System rejestracji aktywności fizycznych "wiRunner"
 Opis: Stworzony zostanie serwis internetowy, który ułatwi użytkownikom gromadzenie i analizowanie swoich aktywności fizycznych.
 Role: gość, użytkownik, moderator, administrator
 
 Jako gość mogę:
-              - się zarejestrować,
-              - się zalogować,
-              - zrestartować hasło do swojego konta (podając adres email),
-              - przeglądać aktywności, do których dostęp jest publiczny,
+MS              - się zarejestrować,
+MS              - się zalogować,
+MS              - zrestartować hasło do swojego konta (podając adres email),
+MS              - przeglądać aktywności, do których dostęp jest publiczny,
 ŁS              - planować na mapie trasę swoich aktywności.
             
 Jako użytkownik mogę:
-              - edytować swój profil (imię, nazwisko, email, avatar, wagę, wzrost, płeć, miejsce zamieszkania, swoje motto, typ profilu(prywatny/publiczny),
-              - zmienić swoje hasło,
-              - usunąć swoje konto,
-              - dodawać aktywności (wybór sportu, dystans, czas, temp, trasa, nazwa treningu, zdjęcia),
-              - dodawać przyjaciół,
-              - wyszukiwać przyjaciół,
-              - usuwać przyjaciół,
-              - blokować wybranych użytkowników,
-              - odblokować wybranych zablokowanych użytkowników,
-              - pisać prywatne wiadomości do innych użytkowników,
-              - przeglądać wiadomości od innych użytkowników,
-              - usuwać otrzymane wiadomości,
-              - przeglądać aktywności (filtrowanie, sortowanie),
-JS            - planować przyszłe aktywności,
-JS            - zapraszać swoich znajomych do przyszłych aktywności,
-JS            - czytać informację o aktywnościach swoich znajomych,
-              - poprzez formularz kontaktowy skontaktować się z administracją,
+MS              - edytować swój profil (imię, nazwisko, email, avatar, wagę, wzrost, płeć, miejsce zamieszkania, swoje motto, typ profilu(prywatny/publiczny),
+MS              - zmienić swoje hasło,
+MS              - usunąć swoje konto,
+MS              - dodawać aktywności (wybór sportu, dystans, czas, temp, trasa, nazwa treningu, zdjęcia),
+MS              - dodawać przyjaciół,
+MS              - wyszukiwać przyjaciół,
+TP              - usuwać przyjaciół,
+TP              - blokować wybranych użytkowników,
+TP              - odblokować wybranych zablokowanych użytkowników,
+TP              - pisać prywatne wiadomości do innych użytkowników,
+TP              - przeglądać wiadomości od innych użytkowników,
+TP              - usuwać otrzymane wiadomości,
+TP              - przeglądać aktywności (filtrowanie, sortowanie),
+JS              - planować przyszłe aktywności,
+JS              - zapraszać swoich znajomych do przyszłych aktywności,
+JS              - czytać informację o aktywnościach swoich znajomych,
+TP              - poprzez formularz kontaktowy skontaktować się z administracją,
 ŁS              - komentować aktywności swoje, jak i innych użytkowników,
 ŁS              - polubić aktywności swoje, jak i innych użytkowników,
 ŁS              - zarządzać swoimi stałymi trasami (nazwa, długość, trasa; dodawanie, edytowanie, usuwanie),
@@ -43,9 +43,9 @@ JS              - edytować aktywności użytkowników,
 JS              - blokować konta użytkowników.
               
 Jako administrator mogę wszystko co użytkownik i moderator, ponadto:
-JS            - nadawać rangę moderatora użytkownikom,
-JS            - odbierać rangę moderatora,
-JS            - tworzyć nowe rywalizacje,
-JS            - edytować istniejące już rywalizacje,
-              - wysyłać masowe wiadomości do użytkowników,
-              - przeglądać statystyki aktywności wszystkich użytkowników systemu.
+JS              - nadawać rangę moderatora użytkownikom,
+JS              - odbierać rangę moderatora,
+JS              - tworzyć nowe rywalizacje,
+JS              - edytować istniejące już rywalizacje,
+TP              - wysyłać masowe wiadomości do użytkowników,
+TP              - przeglądać statystyki aktywności wszystkich użytkowników systemu.
