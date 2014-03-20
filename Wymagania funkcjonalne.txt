@@ -6,7 +6,8 @@ Jako gość mogę:
               - się zarejestrować,
               - się zalogować,
               - zrestartować hasło do swojego konta (podając adres email),
-              - przeglądać aktywności, do których dostęp jest publiczny.
+              - przeglądać aktywności, do których dostęp jest publiczny,
+ŁS              - planować na mapie trasę swoich aktywności.
             
 Jako użytkownik mogę:
               - edytować swój profil (imię, nazwisko, email, avatar, wagę, wzrost, płeć, miejsce zamieszkania, swoje motto, typ profilu(prywatny/publiczny),
@@ -17,25 +18,34 @@ Jako użytkownik mogę:
               - wyszukiwać przyjaciół,
               - usuwać przyjaciół,
               - blokować wybranych użytkowników,
+              - odblokować wybranych zablokowanych użytkowników,
               - pisać prywatne wiadomości do innych użytkowników,
+              - przeglądać wiadomości od innych użytkowników,
+              - usuwać otrzymane wiadomości,
               - przeglądać aktywności (filtrowanie, sortowanie),
               - planować przyszłe aktywności,
               - zapraszać swoich znajomych do przyszłych aktywności,
               - czytać informację o aktywnościach swoich znajomych,
-              - komentować aktywności swoje, jak i innych użytkowników,
-              - polubić aktywności swoje, jak i innych użytkowników,
-              - zarządzać swoimi stałymi trasami (nazwa, długość, trasa; dodawanie, edytowanie, usuwanie),
-              - zaimportować czyjąś trasę jako swoją,
-              - wyznaczać sobie cele (np. przejechać w lipcu 1000km na rowerze),
-              - brać udział w rywalizacjach,
-              - poprzez formularz kontaktowy skontaktować się z administracją.
+              - poprzez formularz kontaktowy skontaktować się z administracją,
+ŁS              - komentować aktywności swoje, jak i innych użytkowników,
+ŁS              - polubić aktywności swoje, jak i innych użytkowników,
+ŁS              - zarządzać swoimi stałymi trasami (nazwa, długość, trasa; dodawanie, edytowanie, usuwanie),
+ŁS              - zaimportować czyjąś trasę jako swoją,
+ŁS              - wyznaczać sobie cele (np. przejechać w lipcu 1000km na rowerze),
+ŁS              - zapisać się do brania udziału w rywalizacjach,
+ŁS              - rezygnować z udziału z rywalizacji, do których się wcześniej zapisało,
+ŁS              - korzystać z kalkulatora, przeliczającego wymagane tempo do osiągnięcia danego czasu,
+ŁS              - planować na mapie trasę swoich aktywności, z dodatkową opcją ustawienia domyślnego startu planowania.
               
 Jako moderator mogę wszystko co użytkownik, ponadto:
-              - usuwać i edytować aktywności użytkowników,
+              - usuwać aktywności użytkowników,
+              - edytować aktywności użytkowników,
               - blokować konta użytkowników.
               
 Jako administrator mogę wszystko co użytkownik i moderator, ponadto:
               - nadawać rangę moderatora użytkownikom,
               - odbierać rangę moderatora,
-              - zarządzać rywalizacjami (np. kto przebiegnie najwięcej km w czerwcu; dodawanie, edytowanie, usuwanie),
-              - wysyłać masowe wiadomości do użytkowników.
+              - tworzyć nowe rywalizacje,
+              - edytować istniejące już rywalizacje,
+              - wysyłać masowe wiadomości do użytkowników,
+              - przeglądać statystyki aktywności wszystkich użytkowników systemu.
