@@ -23,9 +23,9 @@ Jako użytkownik mogę:
               - przeglądać wiadomości od innych użytkowników,
               - usuwać otrzymane wiadomości,
               - przeglądać aktywności (filtrowanie, sortowanie),
-              - planować przyszłe aktywności,
-              - zapraszać swoich znajomych do przyszłych aktywności,
-              - czytać informację o aktywnościach swoich znajomych,
+JS            - planować przyszłe aktywności,
+JS            - zapraszać swoich znajomych do przyszłych aktywności,
+JS            - czytać informację o aktywnościach swoich znajomych,
               - poprzez formularz kontaktowy skontaktować się z administracją,
 ŁS              - komentować aktywności swoje, jak i innych użytkowników,
 ŁS              - polubić aktywności swoje, jak i innych użytkowników,
@@ -38,14 +38,14 @@ Jako użytkownik mogę:
 ŁS              - planować na mapie trasę swoich aktywności, z dodatkową opcją ustawienia domyślnego startu planowania.
               
 Jako moderator mogę wszystko co użytkownik, ponadto:
-              - usuwać aktywności użytkowników,
-              - edytować aktywności użytkowników,
-              - blokować konta użytkowników.
+JS              - usuwać aktywności użytkowników,
+JS              - edytować aktywności użytkowników,
+JS              - blokować konta użytkowników.
               
 Jako administrator mogę wszystko co użytkownik i moderator, ponadto:
-              - nadawać rangę moderatora użytkownikom,
-              - odbierać rangę moderatora,
-              - tworzyć nowe rywalizacje,
-              - edytować istniejące już rywalizacje,
+JS            - nadawać rangę moderatora użytkownikom,
+JS            - odbierać rangę moderatora,
+JS            - tworzyć nowe rywalizacje,
+JS            - edytować istniejące już rywalizacje,
               - wysyłać masowe wiadomości do użytkowników,
               - przeglądać statystyki aktywności wszystkich użytkowników systemu.
