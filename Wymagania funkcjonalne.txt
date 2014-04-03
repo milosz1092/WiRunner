@@ -44,5 +44,6 @@ JS              - Jako administrator mogę wszystko co użytkownik i moderator, 
 JS              - Jako administrator mogę wszystko co użytkownik i moderator, ponadto odbierać rangę moderatora,
 JS              - Jako administrator mogę wszystko co użytkownik i moderator, ponadto tworzyć nowe rywalizacje,
 JS              - Jako administrator mogę wszystko co użytkownik i moderator, ponadto edytować istniejące już rywalizacje,
+JS              - Jako administrator mogę wszystko co użytkownik i moderator, ponadto usuwać istniejące już rywalizacje,
 TP              - Jako administrator mogę wszystko co użytkownik i moderator, ponadto wysyłać masowe wiadomości do użytkowników,
 TP              - Jako administrator mogę wszystko co użytkownik i moderator, ponadto przeglądać statystyki aktywności wszystkich użytkowników systemu.
