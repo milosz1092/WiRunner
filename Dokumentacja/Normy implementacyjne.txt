@@ -12,11 +12,14 @@ Struktura katalogow:
 /style			- kaskadowe arkusze stylow (CSS)
 /js			- skrypty JavaScript
 /php			- skrypty PHP, pliki include
-/php/classes		- klasy, kazda w osobnym pliku (przyk³ad: plik "My_dbWork.php" => klasa My_dbWork)
+/php/classes		- klasy, kazda w osobnym pliku (przyk³ad: plik "my_dbWork.php" => klasa my_dbWork)
 /php/async		- generatory danych dla AJAX
 /img			- pliki graficzne
 /img/web		- grafika, wyglad strony
 
 Konwencja nazewnicza klas:
-My_nazwaKlasy
+my_nazwaKlasy
+
+Do³¹czanie klas i tworzenie sta³ych obiektów w projekcie:
+/php/classesSet.php
 
