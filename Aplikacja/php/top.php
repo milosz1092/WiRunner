@@ -29,6 +29,7 @@
 		<link rel="stylesheet" href="style/default.css" type="text/css" />
 		<link rel="shortcut icon" href="img/web/ikona.jpg" />
 		<script src="js/jquery-2.0.0.min.js"></script>
+		<script src="js/default.js"></script>
 	</head>
 	<body>
 		<div id="paper">

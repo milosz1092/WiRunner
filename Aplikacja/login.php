@@ -35,8 +35,8 @@
 							<li style="margin-top:20px;">
 								<input type="submit" name="log_send" value="Zaloguj się" /><input type="reset" value="Wyczyść" />
 							</li>
-							<li style="color:grey;margin-top:5px;display:none;">
-								Nie pamiętasz hasła? <a style="color:grey;" href="passreset.php">Zresetuj je</a>.
+							<li id="passReset" style="color:grey;margin-top:5px;display:none;">
+								Nie pamiętasz hasła? <a id="resetLink" style="color:grey;" href="login.php?action=passReset&email=default@domena.pl">Zresetuj je</a>.
 							</li>
 						</ul>
 					</form>
@@ -48,6 +48,15 @@
 			<?php
 					if(isset($_POST['log_send'])) {
 						$my_userAction->login(array('email' => $_POST['log_email'], 'haslo' => $_POST['log_haslo']));
+					}
+					else if(isset($_GET['action']) && $_GET['action'] == 'passReset') {
+						if(!my_validDate::email(array($_GET['email'])))
+							$bledy[] = 'Podano niepoprawny adres e-mail';
+
+						if(isset($bledy) && count($bledy) > 0)
+							my_simpleMsg::show('Nie można zresetować hasła!', $bledy, 0);
+						else
+							header('Location: passreset.php?email='.$_GET['email']);
 					}
 			?>
 				</div>
