@@ -243,3 +243,10 @@ a.login_link {
 	border: 1px solid #c8e8c7;
 	color:green;
 }
+.wrong_msg {
+	padding:15px;
+	margin-bottom: 30px;
+	font-size:15px;
+	border: 1px solid #c88686;
+	color:red;
+}

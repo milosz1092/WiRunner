@@ -108,6 +108,19 @@
 					if ($count != 1)
 						$bledy[] = 'Nieoczekiwany błąd podczas dodawania użytkownika';
 					else if ($count == 1) {
+					
+$mail = $dane['email'];
+$link = 'http://wi.ourtrips.pl/login.php?action=accountActiv&code='.md5($dane['haslo'].'a').'&mail='.$dane['email'];
+$wiadomosc = <<<EOD
+<html>
+	<body>
+		<h2>Aktywacja konta $mail!</h2>
+		<p>Jeżeli rejestrowałeś się na naszej stronie, kliknij w poniższy link w celu aktywacji:</p>
+		<a href="$link">$link</a>
+	</body>
+</html>
+EOD;
+						my_eMail::send($wiadomosc, 'wi.runner@gmail.com', $dane['email'], 'Aktywacja konta :: WiRunner', 'mailactiv');
 						header("Location: login.php?msg=justReg");
 					}
 					
@@ -122,6 +135,52 @@
 
 			if(isset($bledy) && count($bledy) > 0)
 				my_simpleMsg::show('Błedy rejestracji!', $bledy, 0);
+		}
+
+		function activation($dane) {
+			try {
+				$stmt = $this -> pdo -> prepare('SELECT email, haslo FROM uzytkownicy WHERE email LIKE BINARY :mail');
+				$stmt -> bindValue(':mail', $dane['mail'], PDO::PARAM_STR);
+				$stmt -> execute();
+				if($stmt -> rowCount() != 1) {
+					return 0;
+				}
+				else {
+					$row = $stmt -> fetch();
+				}
+				$stmt -> closeCursor();
+				unset($stmt);
+			}
+			catch(PDOException $e) {
+				echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
+				return 0;
+			}
+
+			// poprawic aktywacje konta ze wzgledu na zlozony ciag
+
+			//echo md5($row['haslo'].'a').'<br />';
+			//echo $dane['code'];
+			
+			if($row['email'] == $dane['mail']) {
+				// aktywowanie konta w bazie danych
+				try {
+					$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET potwierdzony_mail = 1 WHERE email LIKE BINARY :mail');
+					$stmt -> bindValue(':mail', $dane['mail'], PDO::PARAM_STR);
+					$count = $stmt -> execute();
+					$stmt -> closeCursor();
+					unset($stmt);
+				}
+				catch(PDOException $e) {
+					echo '<p>Wystąpił błąd biblioteki PDO</p>';
+					//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
+					return 0;
+				}
+				if ($count == 1) {
+					return 1;
+				}
+			}
+
 		}
 	}
 ?>

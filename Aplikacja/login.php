@@ -3,17 +3,28 @@
 ?>
 		<article>
 <?php
-		if($_SESSION['WiRunner_log_id'] == 0) {
+		
+		if($_SESSION['WiRunner_log_id'] == 0) {	
 ?>
 			<section>
 				<div class="left_part"  style="width:500px;margin-right:70px;">
 				<?php
 					if (isset($_GET['msg']) && $_GET['msg'] == 'justReg') {
-				?>
-						<div class="ok_msg">Rejestracja zakończona powodzeniem!</div>
-				<?php
+
+						echo '<div class="ok_msg">Rejestracja zakończona powodzeniem!<br /><span style="font-size:13px;font-style:italic;">Wysłaliśmy link aktywacyjny, wiadomość może trafić do spamu.</span></div>';
+
+					}
+
+					// akcja przy uzyciu linku aktywacyjnego (przy gosciu)
+					if(isset($_GET['action']) && $_GET['action'] == 'accountActiv' && isset($_GET['code']) && !empty($_GET['code']) && isset($_GET['mail']) && !empty($_GET['mail'])) {
+						if ($my_userAction->activation(array('code' => $_GET['code'], 'mail' => $_GET['mail'])))
+							echo '<div class="ok_msg">Twoje konto zostało aktywowane!</div>';
+						else
+							echo '<div class="wrong_msg">Błąd podczas aktywacji konta!</div>';
 					}
 				?>
+
+
 					<header class="entry-header hr_bor">
 						<h1 class="entry-title">Logowanie</h1>
 					</header>
@@ -64,8 +75,13 @@
 
 <?php
 		}
-		else
-			header("Location: konto.php");
+		else {
+			// przekierowanie: aktywacja konta z linku w podstronie konto.php
+			if(isset($_GET['action']) && $_GET['action'] == 'accountActiv' && isset($_GET['code']) && !empty($_GET['code']) && isset($_GET['mail']) && !empty($_GET['mail']))
+				header('Location: konto.php?action=accountActiv&code='.$_GET['code']);
+			else
+				header("Location: konto.php");
+		}
 ?>
 		</article>
 <?php
