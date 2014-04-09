@@ -6,8 +6,10 @@
 
 			if(!my_validDate::wymagane(array($mail)))
 				$bledy[] = 'Podaj swój adres e-mail abym mógł Ci odpisać';
-
-			// klasa sprawdzajaca czy podane konto istnieje
+				
+			$my_simpleDbCheck = new my_simpleDbCheck;
+			if (!$my_simpleDbCheck->userIssetFromMail($to))
+				$bledy[] = 'Użytkownik o podanym adresie e-mail nie istnieje';
 
 			if(!my_validDate::dlugoscmin(array($tresc), 3))
 				$bledy[] = 'Twoja wiadomość zawiera za mało znaków';
@@ -18,7 +20,7 @@
 				$message = $tresc;
 				$headers = 'MIME-Version: 1.0' . "\r\n";
 				$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-				$headers .= 'From: '.$mail.' <'.$mail.'>' . "\r\n" ;
+				$headers .= 'From: '.$mail.' <'.$mail.'>' . "\r\n";
 
 				if (mail($to, $subject, $message, $headers))
 					switch($action) {

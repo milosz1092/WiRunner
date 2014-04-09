@@ -108,9 +108,10 @@
 					if ($count != 1)
 						$bledy[] = 'Nieoczekiwany błąd podczas dodawania użytkownika';
 					else if ($count == 1) {
+					$last_id = $this->pdo->lastInsertId();
 					
 $mail = $dane['email'];
-$link = 'http://wi.ourtrips.pl/login.php?action=accountActiv&code='.md5($dane['haslo'].'a').'&mail='.$dane['email'];
+$link = 'http://wi.ourtrips.pl/login.php?action=accountActiv&code='.md5($last_id.'zXdfcmKs35Dc').'&mail='.$dane['email'];
 $wiadomosc = <<<EOD
 <html>
 	<body>
@@ -139,7 +140,7 @@ EOD;
 
 		function activation($dane) {
 			try {
-				$stmt = $this -> pdo -> prepare('SELECT email, haslo FROM uzytkownicy WHERE email LIKE BINARY :mail');
+				$stmt = $this -> pdo -> prepare('SELECT id_uzytkownika, email, haslo FROM uzytkownicy WHERE email LIKE BINARY :mail');
 				$stmt -> bindValue(':mail', $dane['mail'], PDO::PARAM_STR);
 				$stmt -> execute();
 				if($stmt -> rowCount() != 1) {
@@ -157,12 +158,10 @@ EOD;
 				return 0;
 			}
 
-			// poprawic aktywacje konta ze wzgledu na zlozony ciag
-
-			//echo md5($row['haslo'].'a').'<br />';
-			//echo $dane['code'];
+			$from_code = $dane['code'];
+			$from_db = md5($row['id_uzytkownika'].'zXdfcmKs35Dc');
 			
-			if($row['email'] == $dane['mail']) {
+			if($from_db == $from_code) {
 				// aktywowanie konta w bazie danych
 				try {
 					$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET potwierdzony_mail = 1 WHERE email LIKE BINARY :mail');

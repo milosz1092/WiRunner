@@ -236,7 +236,7 @@
 			return $poprawne;
 		}
 
-		static function zle_nazwy($login) {
+		/*static function zle_nazwy($login) {
 			$poprawne = true;
 
 			$zakazane = array('admin', 'administrator', 'moderator');
@@ -249,7 +249,7 @@
 			}
 				
 			return $poprawne;
-		}
+		}*/
 
 		static function check_count($dane, $ile) {
 			$poprawne = true;
