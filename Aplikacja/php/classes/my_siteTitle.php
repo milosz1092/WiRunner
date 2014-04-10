@@ -4,13 +4,14 @@
 
 		function __construct () {
 			$this -> titles = array(
-				'index.php'			=> 'Strona Główna',
-				'konto.php'			=> 'Moje konto',
+				'index.php'		=> 'Strona Główna',
+				'konto.php'		=> 'Moje konto',
 				'kontakt.php'		=> 'Kontakt',
 				'register.php'		=> 'Rejestracja',
-				'login.php'			=> 'Logowanie',
+				'login.php'		=> 'Logowanie',
 				'regulamin.php'		=> 'Regulamin',
-				'passreset.php'		=> 'Reset hasła'
+				'passreset.php'		=> 'Reset hasła',
+				'kalkulatortempa.php'	=> 'Kalkulator tempa'
 			);
 		}
 

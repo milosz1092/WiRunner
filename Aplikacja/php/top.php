@@ -30,6 +30,7 @@
 		<link rel="shortcut icon" href="img/web/ikona.jpg" />
 		<script src="js/jquery-2.0.0.min.js"></script>
 		<script src="js/default.js"></script>
+	<?php  if (my_getFilename::normal() != 'kalkulatorTempa.php') echo '<script src="js/kalkulatorTempa.js"></script>'; ?>
 	</head>
 	<body>
 		<div id="paper">
