@@ -11,7 +11,8 @@
 				'login.php'		=> 'Logowanie',
 				'regulamin.php'		=> 'Regulamin',
 				'passreset.php'		=> 'Reset hasła',
-				'kalkulatortempa.php'	=> 'Kalkulator tempa'
+				'kalkulatortempa.php'	=> 'Kalkulator tempa',
+				'wspolrzedne.php'	=> 'Ustawianie startu tworzenia trasy'
 			);
 		}
 

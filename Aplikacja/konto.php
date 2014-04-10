@@ -8,8 +8,10 @@
 		else
 			echo '<div class="wrong_msg">Błąd podczas aktywacji konta!</div>';
 	}
-?>
 
+// w przyszłości dorobić sprawdzenie, czy współrzędne nie są już czasem ustawione;
+	echo '<a href="./wspolrzedne.php">Ustaw swoje współrzędne na mapie!</a>';
+?>
 <?php
 	include('php/bottom.php');
 ?>

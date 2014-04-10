@@ -258,3 +258,7 @@ a.login_link {
 #kalkulator span { clear: both; width: 240px; float: left; padding: 3px;}
 #kalkulator h2 { line-height: 90%; }
 #kalkulator #wynik { clear: both; width: 196px; font-variant: small-caps; padding: 2px; margin: 3px; border: 1px solid #000; font-size: 13px; }
+
+#obszar_mapy { width:600px; height:400px; }
+#wspolrzedne { margin: 20px; }
+#wspolrzedne input { width: 50px; border: 1px solid; text-align: center; }

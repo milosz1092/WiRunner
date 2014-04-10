@@ -153,6 +153,7 @@ EOD;
 				unset($stmt);
 			}
 			catch(PDOException $e) {
+
 				echo '<p>Wystąpił błąd biblioteki PDO</p>';
 				//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
 				return 0;
@@ -180,6 +181,62 @@ EOD;
 				}
 			}
 
+		}
+
+		function get_coordinates() {
+			try {
+				$stmt = $this -> pdo -> prepare('SELECT szerokosc, dlugosc FROM wspolrzedne WHERE nr_usera=:numer_usera');
+				$stmt -> bindValue(':numer_usera', $_SESSION['WiRunner_log_id'], PDO::PARAM_STR);
+				$stmt -> execute();
+				if($stmt -> rowCount() != 1) {
+					return 0;
+				}
+				else {
+					$row = $stmt -> fetch();
+				}
+				$stmt -> closeCursor();
+				unset($stmt);
+			}
+			catch(PDOException $e) {
+				echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				return 0;
+			}
+				
+			return array($row['szerokosc'], $row['dlugosc']);
+
+		}
+
+		function set_coordinates($dane) {
+	
+			if(!isset($_SESSION['WiRunner_log_id']))
+				$bledy[] = 'Musisz być zalogowany!';
+
+			if(!isset($dane['szerokosc']) || !isset($dane['dlugosc']) || !is_numeric($dane['szerokosc']) || !is_numeric($dane
+['szerokosc']))	$bledy[] = 'Wprowadzono nieprawidłowe wartości wspołrzędnych!';
+
+			try {
+				$stmt = $this -> pdo -> prepare('INSERT INTO wspolrzedne VALUES (:nr_usera,:szerokosc,:dlugosc,:data)
+  ON DUPLICATE KEY UPDATE szerokosc=:szerokosc, dlugosc=:dlugosc, data_ustawienia=:data');
+				$stmt -> bindValue(':nr_usera', $_SESSION['WiRunner_log_id'], PDO::PARAM_INT);
+				$stmt -> bindValue(':szerokosc', $dane['szerokosc'], PDO::PARAM_STR);
+				$stmt -> bindValue(':dlugosc', $dane['dlugosc'], PDO::PARAM_STR);
+				$stmt -> bindValue(':data', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+				$stmt -> execute();
+				if($stmt -> rowCount() != 1) {
+					// return 0;
+				}
+				else {
+					$row = $stmt -> fetch();
+				}
+				$stmt -> closeCursor();
+				unset($stmt);
+			}
+			catch(PDOException $e) {
+				echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				return 0;
+			}
+				
+			return (!empty($bledy))?$bledy:1;
 		}
 	}
 ?>

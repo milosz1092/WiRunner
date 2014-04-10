@@ -1,6 +1,9 @@
 <?php
 	include('php/top.php');
 ?>
+
+<article>
+	<section>
 	<div id="kalkulator">
 		<h2>Kalkulator Tempa</h2>
 			<span id="dystans" >Dystans: <input name="dystans" type="number" maxlength="6" value="0.00" id="Fd"> km</span>
@@ -12,6 +15,8 @@
 			<span><input id="oblicz" name="oblicz" type="submit" value="Oblicz"></span>
 		<div id="wynik">Wymagane tempo</div>
 	</div>
+	</section>
+</article>
 <?php
 	include('php/bottom.php');
 ?>
