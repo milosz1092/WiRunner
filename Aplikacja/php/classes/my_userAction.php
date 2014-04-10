@@ -213,7 +213,20 @@ EOD;
 
 			if(!isset($dane['szerokosc']) || !isset($dane['dlugosc']) || !is_numeric($dane['szerokosc']) || !is_numeric($dane
 ['szerokosc']))	$bledy[] = 'Wprowadzono nieprawidłowe wartości wspołrzędnych!';
-
+		else
+			{
+				if(abs($dane['szerokosc']) > 90)
+					$bledy[] = 'Nieprawidłowa wartość szerokości!';
+			
+				if(abs($dane['dlugosc']) > 180)
+					$bledy[] = 'Nieprawidłowa wartość długości!';
+			}
+		
+			if(isset($bledy) && count($bledy) > 0){
+				my_simpleMsg::show('Błedy danych!', $bledy, 0);
+				return 0;			
+			}	
+			
 			try {
 				$stmt = $this -> pdo -> prepare('INSERT INTO wspolrzedne VALUES (:nr_usera,:szerokosc,:dlugosc,:data)
   ON DUPLICATE KEY UPDATE szerokosc=:szerokosc, dlugosc=:dlugosc, data_ustawienia=:data');
@@ -236,7 +249,7 @@ EOD;
 				return 0;
 			}
 				
-			return (!empty($bledy))?$bledy:1;
+			return 1;
 		}
 	}
 ?>

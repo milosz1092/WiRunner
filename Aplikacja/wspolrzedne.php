@@ -6,7 +6,7 @@
 	<section>
 <?php 
 if(isset($_POST['ustaw'])){
-	$my_userAction->set_coordinates(array('szerokosc' => $_POST['szerokosc'], 'dlugosc' => $_POST['dlugosc']));
+	if($my_userAction->set_coordinates(array('szerokosc' => $_POST['szerokosc'], 'dlugosc' => $_POST['dlugosc'])))
 	$komunikat = "Pomyślnie zaktualizowano!";
 }
 
@@ -26,7 +26,7 @@ var x;
 function inicjalizacja(x) { 
 
  mojeUstawienia = {
-    zoom: 8, //!!zmienione powiekszenie!!										
+    zoom: 10, 									
     center: latlng, 								
     mapTypeId: google.maps.MapTypeId.ROADMAP 		
   };
