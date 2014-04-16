@@ -183,7 +183,8 @@ EOD;
 
 		}
 
-		function get_coordinates() {
+// pobieranaie domyślnych współrzędnych użytkownika
+		function get_coordinates($p = 0) {
 			try {
 				$stmt = $this -> pdo -> prepare('SELECT szerokosc, dlugosc FROM wspolrzedne WHERE nr_usera=:numer_usera');
 				$stmt -> bindValue(':numer_usera', $_SESSION['WiRunner_log_id'], PDO::PARAM_STR);
@@ -192,6 +193,7 @@ EOD;
 					return 0;
 				}
 				else {
+					if($p == 1) return 1;
 					$row = $stmt -> fetch();
 				}
 				$stmt -> closeCursor();
@@ -206,6 +208,7 @@ EOD;
 
 		}
 
+// ustawianie domyślnych współrzędnych użytkownika
 		function set_coordinates($dane) {
 	
 			if(!isset($_SESSION['WiRunner_log_id']))
@@ -229,6 +232,7 @@ EOD;
 			
 			try {
 				$stmt = $this -> pdo -> prepare('INSERT INTO wspolrzedne VALUES (:nr_usera,:szerokosc,:dlugosc,:data)
+
   ON DUPLICATE KEY UPDATE szerokosc=:szerokosc, dlugosc=:dlugosc, data_ustawienia=:data');
 				$stmt -> bindValue(':nr_usera', $_SESSION['WiRunner_log_id'], PDO::PARAM_INT);
 				$stmt -> bindValue(':szerokosc', $dane['szerokosc'], PDO::PARAM_STR);
@@ -251,5 +255,104 @@ EOD;
 				
 			return 1;
 		}
+
+// dodawanie nowej trasy
+		function add_track($dane) {
+	
+			if(!isset($_SESSION['WiRunner_log_id']))
+				$bledy[] = 'Musisz być zalogowany!';
+
+			if(!isset($dane['nazwa']) || !isset($dane['przebieg']) || !is_numeric($dane['dlugosc']) || !isset($dane
+['punkty']))	$bledy[] = 'Nieprawidłowe wartości niektóych pól!';
+		else
+			{
+				if(strlen($dane['nazwa']) < 3 || strlen($dane['nazwa']) > 36)
+					$bledy[] = 'Długość nazwy powinna zawierać od 3 do 36 znaków!';
+			
+				// .. tutaj można jeszcze powymyślać jeszcze jakieś warunki
+			}
+		
+			if(isset($bledy) && count($bledy) > 0){
+				my_simpleMsg::show('Błedy danych!', $bledy, 0);
+				return 0;			
+			}	
+			
+			try {
+				$stmt = $this -> pdo -> prepare('INSERT INTO trasy VALUES   
+(0, :nr_usera,:nazwa,:dlugosc,:przebieg,:punkty, :data)');
+
+				$stmt -> bindValue(':nr_usera', $_SESSION['WiRunner_log_id'], PDO::PARAM_INT);
+				$stmt -> bindValue(':nazwa', $dane['nazwa'], PDO::PARAM_STR);
+				$stmt -> bindValue(':dlugosc', $dane['dlugosc'], PDO::PARAM_STR);
+				$stmt -> bindValue(':przebieg', $dane['przebieg'], PDO::PARAM_STR);
+				$stmt -> bindValue(':punkty', $dane['punkty'], PDO::PARAM_STR);
+				$stmt -> bindValue(':data', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+				$stmt -> execute();
+				
+				$stmt -> closeCursor();
+				unset($stmt);
+			}
+			catch(PDOException $e) {
+				echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				return 0;
+			}
+				
+			return 1;
+		}
+
+		function get_tracks($user_id=0) {
+			if($user_id == 0) $user_id = $_SESSION['WiRunner_log_id'];
+			try {
+				$stmt = $this -> pdo -> prepare('SELECT id_trasy, nazwa_trasy, data_dodania FROM trasy WHERE nr_uzytkownika=:numer_usera');
+				$stmt -> bindValue(':numer_usera', $user_id, PDO::PARAM_STR);
+				$stmt -> execute();
+								
+				if($stmt -> rowCount() == 0) {
+					return 0;
+				}
+				else {
+					echo "<strong>Twoje trasy:</strong>
+						<ul>";
+						
+						while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+							echo '<li><a href="./trasy.php?id='.$row['id_trasy'].'">'.$row['nazwa_trasy'].'</a> (ostatnio edytowana '.$row['data_dodania'].')</li>';
+						}
+					echo 	"</ul>";
+				}
+				$stmt -> closeCursor();
+				unset($stmt);
+			}
+			catch(PDOException $e) {
+				echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				return 0;
+			}
+				
+			return 1;
+
+		}
+		function get_track($track_id) {
+
+			try {
+				$stmt = $this -> pdo -> prepare('SELECT * FROM trasy WHERE id_trasy=:id_trasy');
+				$stmt -> bindValue(':id_trasy', $track_id, PDO::PARAM_STR);
+				$stmt -> execute();
+								
+				if($stmt -> rowCount() == 0) {
+					return 0;
+				}
+				else {
+					$row = $stmt->fetch(PDO::FETCH_ASSOC);
+				}
+				$stmt -> closeCursor();
+				unset($stmt);
+			}
+			catch(PDOException $e) {
+				echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				return 0;
+			}
+				
+			return $row;
+
+		}	
 	}
 ?>

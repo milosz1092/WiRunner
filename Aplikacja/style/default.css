@@ -255,10 +255,12 @@ a.login_link {
 #kalkulator input { width: 200px; border: 1px solid #000; text-align: center; }
 #kalkulator #dystans input{ width: 60px; }
 #kalkulator #czas input  { width: 40px; }
-#kalkulator span { clear: both; width: 240px; float: left; padding: 3px;}
+#kalkulator span, #dodawanie_trasy span { clear: both; width: 240px; float: left; padding: 3px;}
 #kalkulator h2 { line-height: 90%; }
 #kalkulator #wynik { clear: both; width: 196px; font-variant: small-caps; padding: 2px; margin: 3px; border: 1px solid #000; font-size: 13px; }
 
 #obszar_mapy { width:600px; height:400px; }
 #wspolrzedne { margin: 20px; }
 #wspolrzedne input { width: 50px; border: 1px solid; text-align: center; }
+
+

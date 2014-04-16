@@ -12,7 +12,9 @@
 				'regulamin.php'		=> 'Regulamin',
 				'passreset.php'		=> 'Reset hasła',
 				'kalkulatortempa.php'	=> 'Kalkulator tempa',
-				'wspolrzedne.php'	=> 'Ustawianie startu tworzenia trasy'
+				'wspolrzedne.php'	=> 'Ustawianie startu tworzenia trasy',
+				'trasy.php'		=> 'Przeglądaj trasy',
+				'wytyczanietrasy.php'	=> 'Wyznacz trasę dla swoich aktywności'
 			);
 		}
 

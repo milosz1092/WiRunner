@@ -6,11 +6,12 @@
 
 		function __construct() {			
 			$this -> links_normal = array(
-				'.'			=> 'Strona Główna'
+				'.'				=> 'Strona Główna',
+				'wytyczanietrasy.php'		=> 'Wyznaczanie trasy'
 				
 			);
 			$this -> links_offline = array(
-				'register.php'		=> 'Rejestracja',
+				'register.php'			=> 'Rejestracja',
 				'login.php'			=> 'Logowanie'	
 			);
 			$this -> links_online = array(

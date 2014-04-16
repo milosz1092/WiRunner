@@ -9,8 +9,13 @@
 			echo '<div class="wrong_msg">Błąd podczas aktywacji konta!</div>';
 	}
 
-// w przyszłości dorobić sprawdzenie, czy współrzędne nie są już czasem ustawione;
+// sprawdzenie, czy współrzędne nie są już czasem ustawione;
+if(!$my_userAction->get_coordinates(1))
 	echo '<a href="./wspolrzedne.php">Ustaw swoje współrzędne na mapie!</a>';
+
+// pobranie tras użytkownika, jeżeli takowe istnieją
+	$my_userAction->get_tracks();
+
 ?>
 <?php
 	include('php/bottom.php');
