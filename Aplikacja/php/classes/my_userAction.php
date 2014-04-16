@@ -283,7 +283,7 @@ EOD;
 
 				$stmt -> bindValue(':nr_usera', $_SESSION['WiRunner_log_id'], PDO::PARAM_INT);
 				$stmt -> bindValue(':nazwa', $dane['nazwa'], PDO::PARAM_STR);
-				$stmt -> bindValue(':dlugosc', $dane['dlugosc'], PDO::PARAM_STR);
+				$stmt -> bindValue(':dlugosc', $dane['dlugosc']/1000, PDO::PARAM_STR);
 				$stmt -> bindValue(':przebieg', $dane['przebieg'], PDO::PARAM_STR);
 				$stmt -> bindValue(':punkty', $dane['punkty'], PDO::PARAM_STR);
 				$stmt -> bindValue(':data', date("Y-m-d H:i:s"), PDO::PARAM_STR);

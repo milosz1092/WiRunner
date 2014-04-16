@@ -19,7 +19,7 @@ echo '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sen
 	var wspolrzedne = [];
 	var i = '.sizeof($wsp).';';
 	foreach($wsp as $key => $punkt)
-		echo 'wspolrzedne['.$key.'] = "'.$punkt.($key+1 != sizeof($wsp)?')':'').'";';
+		echo 'wspolrzedne['.$key.'] =  new google.maps.LatLng'.$punkt.($key+1 != sizeof($wsp)?')':'').';';
 ?>
 var marker;
 var mojeUstawienia;
@@ -36,29 +36,30 @@ function inicjalizacja() {
   };
   mapa = new google.maps.Map(document.getElementById("obszar_mapy"), mojeUstawienia);
 	
-  
-var line = new google.maps.Polyline({
+new google.maps.Polyline({
 path: wspolrzedne,
 strokeColor: '#0000FF',
 strokeOpacity: 1.0,
-strokeWeight: 3	
+strokeWeight: 3,
+map: mapa
 });
-line.setMap(mapa);
+
 var dys = 0;
-	alert(wspolrzedne[1].valueOf());
-	for(k=0;k<parseInt(i);k++)
-		{
-if(k>0)
+for(k=0;k<i;k++)
+{
+	if(k>0)
 	dys += distance(k);
-		marker = new google.maps.Marker(
-		   { 
-			position: wspolrzedne[k],
-			map: mapa,
+	marker = new google.maps.Marker(
+	   { 
+		icon: './img/web/red_marker.png',
+		position: wspolrzedne[k],
+		map: mapa,
+		title: "Pkt " + (k+1) + ((k >= 1) ? ". \nOd poprzedniego: " + (distance(k)/1000).toFixed(3) + "km"+"\nOd startu: "+(dys/1000).toFixed(3) + "km":"."),
+		flat: false
+	   });
+}
 
-		title: "Pkt " + (k+1) + ((k >= 1) ? ". \nOd poprzedniego: " + (distance(k)/1000).toFixed(3) + "km"+"\nOd startu: "+(dys/1000).toFixed(3) + "km":".")
 
-		   } );
-		}
 }
 
 function distance(o) {	// zwraca ilość metrów od poprzedniego markera.
@@ -100,7 +101,7 @@ window.onload=inicjalizacja;
 		<div id="tekst" style="margin: 20px; ">
 			Nazwa trasy: <b><?php echo $dane['nazwa_trasy']; ?></b><br/>
 			Przebieg: <b><?php echo $dane['przebieg_trasy']; ?></b><br/>
-			Długość: <b><?php echo $dane['dlugosc_trasy']; ?></b>m<br/>
+			Długość: <b><?php echo $dane['dlugosc_trasy']; ?>km</b><br/>
 			Data dodania: <b><?php echo $dane['data_dodania']; ?></b><br/>
 		</div>
 	</section>
