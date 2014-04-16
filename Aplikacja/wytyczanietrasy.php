@@ -25,7 +25,7 @@ var dystans;
 var mapa;
 var x;
 var dystans = 0;
-
+var obr;
 		
 function inicjalizacja(x) { 
 
@@ -45,8 +45,12 @@ function inicjalizacja(x) {
 
 	document.getElementsByTagName("div")['tekst'].innerHTML="Ilosc markerów na mapie: " + i +"<br>Planowany dystans: " + (dystans/1000).toFixed(3) + "km";
 
+	if(i==1) obr="./img/web/start_marker.png";
+	else obr="./img/web/red_marker.png";
+
 marker = new google.maps.Marker(
 {
+	icon: obr,
 	position: event.latLng, 
 	map: mapa,
 	draggable: false,
@@ -81,11 +85,16 @@ var dys = 0;
 		{
 if(k>0)
 	dys += distance(k);
+
+
+	if(k==0) obr="./img/web/start_marker.png";
+	else obr="./img/web/red_marker.png";
+
 		marker = new google.maps.Marker(
 		   { 
 			position: wspolrzedne[k],
 			map: mapa,
-
+			icon: obr,
 		title: "Pkt " + (k+1) + ((k >= 1) ? ". \nOd poprzedniego: " + (distance(k)/1000).toFixed(3) + "km"+"\nOd startu: "+(dys/1000).toFixed(3) + "km":"."),
 	//		title: "Pkt " + (k+1) + ((k >= 1) ? ". Od poprzedniego: " + (distance(k)/1000).toFixed(3) + "km":"."),
 			flat: false
