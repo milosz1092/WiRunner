@@ -45,13 +45,20 @@ map: mapa
 });
 
 var dys = 0;
+var obr;
 for(k=0;k<i;k++)
 {
 	if(k>0)
 	dys += distance(k);
+
+
+	if(k==0) obr="./img/web/start_marker.png";
+	else if(k == i-1) obr="./img/web/meta_marker.png";
+	else obr="./img/web/red_marker.png";
+
 	marker = new google.maps.Marker(
 	   { 
-		icon: './img/web/red_marker.png',
+		icon: obr, 
 		position: wspolrzedne[k],
 		map: mapa,
 		title: "Pkt " + (k+1) + ((k >= 1) ? ". \nOd poprzedniego: " + (distance(k)/1000).toFixed(3) + "km"+"\nOd startu: "+(dys/1000).toFixed(3) + "km":"."),
