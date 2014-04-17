@@ -23,14 +23,15 @@ var wspolrzedne = [];
 var mojeUstawienia;
 var dystans;
 var mapa;
-var x;
 var dystans = 0;
 var obr;
+var res;
 		
 function inicjalizacja(x) { 
 
+if(x == 2) latlng = (wspolrzedne[res-1]);
  mojeUstawienia = {
-    zoom: 14, //!!zmienione powiekszenie!!										
+    zoom: 13, //!!zmienione powiekszenie!!										
     center: latlng, 								
     mapTypeId: google.maps.MapTypeId.ROADMAP 		
   };
@@ -41,65 +42,78 @@ function inicjalizacja(x) {
 
 	wspolrzedne[i] = event.latLng;  i++;
 	if(i>1) 
-	dystans += distance(i-1);	 
+		dystans += distance(i-1);	 
 
 	document.getElementsByTagName("div")['tekst'].innerHTML="Ilosc markerów na mapie: " + i +"<br>Planowany dystans: " + (dystans/1000).toFixed(3) + "km";
 
 	if(i==1) obr="./img/web/start_marker.png";
 	else obr="./img/web/red_marker.png";
 
-marker = new google.maps.Marker(
-{
-	icon: obr,
-	position: event.latLng, 
-	map: mapa,
-	draggable: false,
-	title: "Pkt " + i + ((i > 1) ? ". \nOd poprzedniego: " + (distance(i-1)/1000).toFixed(3) + "km"+"\nOd startu: "+(dystans/1000).toFixed(3) + "km":"."),
-	flat: false
-});
+	marker = new google.maps.Marker(
+	{
+		position: event.latLng, 
+		draggable: true,
+		icon: obr,
+		map: mapa,
+		title: "Pkt " + i + ((i > 1) ? ". \nOd poprzedniego: " + (distance(i-1)/1000).toFixed(3) + "km"+"\nOd startu: "+(dystans/1000).toFixed(3) + "km":"." + event.latLng),
+		flat: false
+	}); 
+google.maps.event.addListener(marker, 'dragend', function() 
+			{
+				var patt = new RegExp("[0-9]+");
+				var str = this.getTitle();
+				res = parseInt(patt.exec(str));
+				wspolrzedne[res-1] = (this.getPosition());
 
-var line = new google.maps.Polyline({
-	path: wspolrzedne,
-	strokeColor: '#0000FF',
-	strokeOpacity: 1.0,
-	strokeWeight: 3
-});
-         
- line.setMap(mapa);  
-    
+
+				inicjalizacja(2);
+			});
+
+new google.maps.Polyline({
+				path: wspolrzedne,
+				map: mapa,
+				strokeColor: '#0000FF',
+				strokeOpacity: 1.0,
+				strokeWeight: 3
+			});
 }); 
-  
-				
-		
-var line = new google.maps.Polyline({
-path: wspolrzedne,
-strokeColor: '#0000FF',
-strokeOpacity: 1.0,
-strokeWeight: 3	
-});
-line.setMap(mapa);
-          
-if (x!=1 ){
+	
+new google.maps.Polyline({
+				path: wspolrzedne,
+				map: mapa,
+				strokeColor: '#0000FF',
+				strokeOpacity: 1.0,
+				strokeWeight: 3
+			});
+ 
 var dys = 0;
-	for(k=0;k<i;k++)
-		{
-if(k>0)
-	dys += distance(k);
+for(k=0;k<i;k++)
+	{
+		if(k>0)
+			dys += distance(k);
+		if(x == 1) obr = 'none';
+		else if(k==0) obr="./img/web/start_marker.png";
+		else obr="./img/web/red_marker.png";
 
+		marker = new google.maps.Marker({ 
+				position: wspolrzedne[k],
+				draggable: true,
+				map: mapa,
+				icon: obr,
+				title: "Pkt " + (k+1) + ((k >= 1) ? ". \nOd poprzedniego: " + (distance(k)/1000).toFixed(3) + "km"+"\nOd startu: "+(dys/1000).toFixed(3) + "km":".")
+				});
+dystans = dys;
+	document.getElementsByTagName("div")['tekst'].innerHTML="Ilosc markerów na mapie: " + i +"<br>Planowany dystans: " + (dystans/1000).toFixed(3) + "km";
+ google.maps.event.addListener(marker, 'dragend', function() 
+	{
+		var patt = new RegExp("[0-9]+");
+		var str = this.getTitle();
+		res = parseInt(patt.exec(str));
 
-	if(k==0) obr="./img/web/start_marker.png";
-	else obr="./img/web/red_marker.png";
+		wspolrzedne[res-1] = (this.getPosition());
 
-		marker = new google.maps.Marker(
-		   { 
-			position: wspolrzedne[k],
-			map: mapa,
-			icon: obr,
-		title: "Pkt " + (k+1) + ((k >= 1) ? ". \nOd poprzedniego: " + (distance(k)/1000).toFixed(3) + "km"+"\nOd startu: "+(dys/1000).toFixed(3) + "km":"."),
-	//		title: "Pkt " + (k+1) + ((k >= 1) ? ". Od poprzedniego: " + (distance(k)/1000).toFixed(3) + "km":"."),
-			flat: false
-		   } );
-		}
+		inicjalizacja(2);
+	});
 	}
 }
 
