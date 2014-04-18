@@ -169,7 +169,7 @@ function distance(o) {	// zwraca ilość metrów od poprzedniego markera.
 function save(){
 	document.getElementsByTagName("div")['dodawanie_trasy'].innerHTML='\
 	<form method="post" action="">\
-		<span>Nazwa trasy: <input type="text" name="nazwa_trasy"></span>\
+		<span>Nazwa trasy: <input type="text" name="nazwa_trasy" required="required"></span>\
 		<span>Przebieg: <textarea name="przebieg_trasy"></textarea></span>\
 		<input type="hidden" name="punkty_trasy" value="'+wspolrzedne+'">\
 		<input type="hidden" name="dlugosc_trasy" value="'+dystans+'">\

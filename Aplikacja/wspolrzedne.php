@@ -52,8 +52,8 @@ new google.maps.Marker(
 
 	document.getElementsByTagName("div")['wspolrzedne'].innerHTML= 'Współrzedne punktu: <br>\
 		<form name="ustawianieWspolrzednych" method="post" action="">\
-			<input name="szerokosc" type="text" value="'+parseFloat(a[0]).toFixed(3)+'">\
-			<input name="dlugosc" type="text" value="'+parseFloat(a[1]).toFixed(3)+'">\
+			<input readonly name="szerokosc" type="text" value="'+parseFloat(a[0]).toFixed(5)+'">\
+			<input readonly name="dlugosc" type="text" value="'+parseFloat(a[1]).toFixed(5)+'">\
 			<input name="ustaw" type="submit" value="ustaw">\
 		</form>';
 
