@@ -46,7 +46,11 @@ if(x==1) { latlng = (wspolrzedne[res-1]);
 		document.getElementById("dyst_trasy").value = (dystans);
 } else if(x == 2) {
 document.getElementsByTagName("div")['kontrolki'].innerHTML= '\
-		<input type="button" onclick="inicjalizacja()" value="Pokaż markery"><br/>\
+		<input type="button" onclick="inicjalizacja(3)" value="Pokaż markery"><br/>\
+		<input type="button" onclick="editForm()" value="Edytuj trasę">';
+} else if(x == 3) {
+document.getElementsByTagName("div")['kontrolki'].innerHTML= '\
+		<input type="button" onclick="inicjalizacja(2)" value="schowaj markery" /><br/>\
 		<input type="button" onclick="editForm()" value="Edytuj trasę">';
 }
  mojeUstawienia = {
