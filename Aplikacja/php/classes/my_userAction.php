@@ -2,6 +2,7 @@
 	final class my_userAction extends my_connDb {
 		protected $pdo;
 
+// logowanie uzytkownika
 		function login($dane) {
 			if(!my_validDate::wymagane(array($dane['email'], $dane['haslo'])))
 				$bledy[] = 'Aby się zalogować podaj swój adres e-mail i hasło';
@@ -54,6 +55,7 @@
 				my_simpleMsg::show('Błedy logowania!', $bledy, 0);
 		}
 
+// rejestracja uzytkownika
 		function register($dane) {
 			if(!my_validDate::wymagane(array($dane['email'], $dane['haslo'], $dane['eqhaslo'])))
 				$bledy[] = 'Aby się zarejestrować wprowadź adres e-mail i hasło';
@@ -138,6 +140,7 @@ EOD;
 				my_simpleMsg::show('Błedy rejestracji!', $bledy, 0);
 		}
 
+// aktywacja konta po kliknieciu w link aktywacyjny
 		function activation($dane) {
 			try {
 				$stmt = $this -> pdo -> prepare('SELECT id_uzytkownika, email, haslo FROM uzytkownicy WHERE email LIKE BINARY :mail');
@@ -181,6 +184,70 @@ EOD;
 				}
 			}
 
+		}
+
+// rzadanie resetu hasla
+		function pass_reset($email) {
+			try {
+					$stmt = $this -> pdo -> prepare('INSERT INTO zadania_resetu_hasla(nr_uzytkownika, data_zadania) VALUES((SELECT id_uzytkownika FROM uzytkownicy WHERE email LIKE BINARY :mail), :data)');
+					$stmt -> bindValue(':mail', $email, PDO::PARAM_STR);
+					$stmt -> bindValue(':data', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+
+					$count = $stmt -> execute();
+					if ($count != 1)
+						$bledy[] = 'Podałeś nipoprawny adres e-mail!';
+						
+				$stmt -> closeCursor();
+				unset($stmt);
+			}
+			catch(PDOException $e) {
+				//echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				$bledy[] = 'Podałeś nipoprawny adres e-mail!'.$e;
+				//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
+			}
+			if (isset($bledy)) {
+				my_simpleMsg::show('Błedy podczas akcji resetu hasła!', $bledy, 0);
+				return 0;
+			}
+			else
+				return 1;
+			
+		}
+
+// reset hasla - zmiana hasla
+		function pass_resetNow($nowe, $mail) {
+			if(!my_validDate::specjalne(array($nowe)))
+				$bledy[] = 'Hasło może zawierać tylko litery i cyfry';
+
+			if(!my_validDate::dlugoscmin(array($nowe), 4))
+				$bledy[] = 'Minimalna długość hasła to cztery znaki';
+
+			if (!isset($bledy)) {
+				try {
+					$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET haslo = :haslo WHERE email LIKE BINARY :mail');
+					$stmt -> bindValue(':haslo', md5($nowe), PDO::PARAM_STR);
+					$stmt -> bindValue(':mail', $mail, PDO::PARAM_STR);
+					$count = $stmt -> execute();
+					
+					if ($count != 1)
+						$bledy[] = 'Nie posiadamy takiego konta w bazie';
+
+					$stmt -> closeCursor();
+					unset($stmt);
+				}
+				catch(PDOException $e) {
+					$bledy[] = 'Błąd bazy danych';
+				}
+
+			}
+			
+			if (!isset($bledy)) {
+				header("Location: login.php?msg=justReset");
+				return 1;
+			} else {
+				my_simpleMsg::show('Błedy podczas akcji resetu hasła!', $bledy, 0);
+				return 0;
+			}
 		}
 
 // pobieranaie domyślnych współrzędnych użytkownika
