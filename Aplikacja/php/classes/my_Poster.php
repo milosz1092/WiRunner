@@ -54,5 +54,24 @@
 				}
 
 		}
+
+		function showMsg($msgId) {
+				try {
+					$stmt = $this -> pdo -> prepare('SELECT * FROM wiadomosci WHERE id_wiadomosci LIKE BINARY :msgId');
+					$stmt -> bindValue(':msgId', $msgId, PDO::PARAM_INT);
+					$stmt -> execute();
+
+					$row = $stmt -> fetch();
+					$stmt -> closeCursor();
+					
+					unset($stmt);
+					return $row;
+				}
+				catch(PDOException $e) {
+					echo '<p>Wystąpił błąd biblioteki PDO1</p>';
+					//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
+				}
+
+		}
 	}
 ?>

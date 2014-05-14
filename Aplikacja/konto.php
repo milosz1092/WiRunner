@@ -63,7 +63,7 @@ if(!$my_userAction->get_coordinates(1))
 											<input type="text" name="FromUid_msg" value="<?php echo $_SESSION['WiRunner_log_id']; ?>" hidden />
 											<li>
 												<label style="width:60px;" for="to_msg">Adresat</label>
-												<input style="width:300px;" type="text" id="to_msg" name="to_msg" required="required" value="<?php echo $userInfo['imie'].' '.$userInfo['nazwisko']; ?>" disabled />
+												<input style="width:300px;" type="text" id="to_msg" name="to_msg" required="required" value="<?php if ($userInfo['imie'] == '' || $userInfo['nazwisko'] == '') echo $userInfo['email']; else echo $userInfo['imie'].' '.$userInfo['nazwisko'];?>" disabled />
 											</li>
 											<li>
 												<label style="width:60px;" for="title_msg">Tytuł</label>
@@ -83,11 +83,49 @@ if(!$my_userAction->get_coordinates(1))
 <?php
 								}
 							break;
+							case 'showMsg':
+								$row = $my_Poster->showMsg($_GET['msgId']);
+								
+								$userInfo = $my_simpleDbCheck->getUserInfo($row['nr_nadawcy']);
+
+								if ($userInfo['imie'] == '' || $userInfo['nazwisko'] == '')
+									$from = $userInfo['email'];
+								else
+									$from = $userInfo['imie'].' '.$userInfo['nazwisko'];
+									
+								echo '<div class="showMsg_windows">';
+									echo '<div class="showMsg_from"><a href="profil.php?uid='.$row['nr_nadawcy'].'">'.$from.'</a></div><div class="showMsg_title">'.$row['temat'].'</div>';
+									echo '<div class="showMsg_content">'.$row['tresc'].'</div>';
+								echo '</div>';
+								echo '<input type="button" value="Usuń" onclick="delMsg('.$row['id_wiadomosci'].')" />';
+								echo '<input type="button" value="Odpowiedz" onclick="document.location.href=\'konto.php?subPage=poczta&action=writeMsg&uid='.$row['nr_nadawcy'].'\'" />';
+							break;
 						}
 					} else {
 						// domyslny wyglad po wejsciu do poczty
+?>
+						<!--<div id="rowId" class="showMsg_row">
+							<div class="showMsg_from">OD:</div>
+							<div class="showMsg_title">TYTUŁ:</div>
+							<div class="showMsg_action"></div>
+						</div>-->
+<?php	
 						foreach($my_Poster->showInbox($_SESSION['WiRunner_log_id']) as $row)  {
-							echo $row['temat'].'<br />';
+							$userInfo = $my_simpleDbCheck->getUserInfo($row['nr_nadawcy']);
+
+							if ($userInfo['imie'] == '' || $userInfo['nazwisko'] == '')
+								$from = $userInfo['email'];
+							else
+								$from = $userInfo['imie'].' '.$userInfo['nazwisko'];
+
+							echo '<div id="row'.$row['id_wiadomosci'].'" class="showMsg_header_row">';
+								echo '<div class="showMsg_header_from"><a href="profil.php?uid='.$row['nr_nadawcy'].'">'.$from.'</a></div>';
+								echo '<div class="showMsg_header_title"><a href="konto.php?subPage=poczta&action=showMsg&msgId='.$row['id_wiadomosci'].'">'.$row['temat'].'</a></div>';
+								echo '<div class="showMsg_header_action">';
+									echo '<input type="button" value="Usuń" onclick="delMsg('.$row['id_wiadomosci'].')" />';
+									echo '<input type="button" value="Odpowiedz" onclick="document.location.href=\'konto.php?subPage=poczta&action=writeMsg&uid='.$row['nr_nadawcy'].'\'" />';
+								echo '</div>';
+							echo '</div>';
 						}
 					}
 ?>

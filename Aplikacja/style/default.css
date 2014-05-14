@@ -286,6 +286,53 @@ a.login_link {
 	border: 1px solid #c88686;
 	color:red;
 }
+.showMsg_header_row {
+	width:750px;
+	padding:20px;
+	border:1px solid #D2D2D2;
+	border-radius:3px;
+	margin-bottom:20px;
+}
+.showMsg_header_row div{
+	display:inline-block;
+}
+.showMsg_header_from {
+	width:250px;
+}
+.showMsg_header_title {
+	width:310px;
+}
+.showMsg_header_action {
+	width:180px;
+}
+.showMsg_windows {
+	width:750px;
+	border:1px solid #D2D2D2;
+	border-radius:3px;
+	margin-bottom:10px;
+}
+.showMsg_windows div {
+	padding:10px;
+}
+.showMsg_from {
+	width:300px;
+	display:inline-block;
+	text-align:center;
+	border-width:0 0 1px 0;
+	border-color:#D2D2D2;
+	border-style:solid;
+}
+.showMsg_title {
+	width:409px;
+	display:inline-block;
+	text-align:center;
+	border-width:0 0 1px 1px;
+	border-color:#D2D2D2;
+	border-style:solid;
+}
+.showMsg_content {
+	width:500px;
+}
 
 #kalkulator { float: left; width: 220px; padding: 10px; border: 1px solid; }
 #kalkulator input { width: 200px; border: 1px solid #000; text-align: center; }
