@@ -44,6 +44,56 @@ if(!$my_userAction->get_coordinates(1))
 				
 <?php
 				break;
+				case 'poczta':
+					if (isset($_GET['msg']) && $_GET['msg'] == 'justSendMsg')
+						echo '<div class="ok_msg">Twoja wiadomość została wysłana!</div>';
+					if (isset($_GET['action'])) {
+						switch($_GET['action']) {
+							case 'writeMsg':
+
+								if (isset($_POST['send_msg'])) {
+									$my_Poster->sendMsg($_POST);
+								}
+								else {
+									$userInfo = $my_simpleDbCheck->getUserInfo($_GET['uid']);
+?>
+									<form id="writeMsg" name="writeMsg" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+										<ul class="form_field">
+											<input type="text" name="ToUid_msg" value="<?php echo $_GET['uid']; ?>" hidden />
+											<input type="text" name="FromUid_msg" value="<?php echo $_SESSION['WiRunner_log_id']; ?>" hidden />
+											<li>
+												<label style="width:60px;" for="to_msg">Adresat</label>
+												<input style="width:300px;" type="text" id="to_msg" name="to_msg" required="required" value="<?php echo $userInfo['imie'].' '.$userInfo['nazwisko']; ?>" disabled />
+											</li>
+											<li>
+												<label style="width:60px;" for="title_msg">Tytuł</label>
+												<input style="width:300px;" type="text" id="title_msg" name="title_msg" required="required" />
+											</li>
+											<li style="height:250px;">
+												<textarea required="required" style="display:block;margin-bottom:10px;width:500px;height:200px;" name="content_msg" id="content_msg" rows="10" cols="80"></textarea>
+											</li>
+										</ul>
+										<ul>
+											<li><input style="margin-left:10px;" type="submit" name="send_msg" id="send_msg" value="Wyślij wiadomość"/></li>
+										</ul>			
+									</form>
+									<script>
+										$("#title_msg").focus();
+									</script>
+<?php
+								}
+							break;
+						}
+					} else {
+						// domyslny wyglad po wejsciu do poczty
+						foreach($my_Poster->showInbox($_SESSION['WiRunner_log_id']) as $row)  {
+							echo $row['temat'].'<br />';
+						}
+					}
+?>
+				
+<?php
+				break;
 			}
 		}
 ?>

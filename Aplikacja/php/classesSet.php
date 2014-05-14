@@ -13,6 +13,9 @@
 	
 	require('php/classes/my_simpleDbCheck.php');
 	$my_simpleDbCheck = new my_simpleDbCheck;
+
+	require('php/classes/my_Poster.php');
+	$my_Poster = new my_Poster;
 	
 	require('php/classes/my_eMail.php');
 	
