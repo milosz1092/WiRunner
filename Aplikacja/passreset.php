@@ -7,7 +7,7 @@
 			if (isset($_GET['action']) && $_GET['action'] == 'resetNow') {
 
 				if (isset($_POST['reset_haslo_send'])) {
-					$my_userAction->pass_resetNow($_POST['res_haslo_new'], $_GET['mail']);
+					$my_userAction->pass_resetNow($_POST['res_haslo_new'], $_GET['mail'], $_GET['code']);
 				}
 				else {
 ?>
@@ -55,7 +55,7 @@
 						if (isset($_POST['passreset_send'])) {
 $mail = $_POST['passreset_mail'];
 $link = 'http://wi.ourtrips.pl/passreset.php?action=resetNow&code='.md5($_POST['passreset_mail'].'zXdfcmKs35Dc').'&mail='.$_POST['passreset_mail'];
-echo $link.'<br />';
+
 $wiadomosc = <<<EOD
 <html>
 	<body>

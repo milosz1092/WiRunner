@@ -195,15 +195,13 @@ EOD;
 
 					$count = $stmt -> execute();
 					if ($count != 1)
-						$bledy[] = 'Podałeś nipoprawny adres e-mail!';
+						$bledy[] = 'Podałeś nipoprawny adres e-mail';
 						
 				$stmt -> closeCursor();
 				unset($stmt);
 			}
 			catch(PDOException $e) {
-				//echo '<p>Wystąpił błąd biblioteki PDO</p>';
-				$bledy[] = 'Podałeś nipoprawny adres e-mail!'.$e;
-				//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
+				$bledy[] = 'Podałeś nipoprawny adres e-mail';
 			}
 			if (isset($bledy)) {
 				my_simpleMsg::show('Błedy podczas akcji resetu hasła!', $bledy, 0);
@@ -215,12 +213,15 @@ EOD;
 		}
 
 // reset hasla - zmiana hasla
-		function pass_resetNow($nowe, $mail) {
+		function pass_resetNow($nowe, $mail, $kod) {
 			if(!my_validDate::specjalne(array($nowe)))
 				$bledy[] = 'Hasło może zawierać tylko litery i cyfry';
 
 			if(!my_validDate::dlugoscmin(array($nowe), 4))
 				$bledy[] = 'Minimalna długość hasła to cztery znaki';
+
+			if($kod != md5($mail.'zXdfcmKs35Dc'))
+				$bledy[] = 'Link resetujacy jest niepoprawny';
 
 			if (!isset($bledy)) {
 				try {
