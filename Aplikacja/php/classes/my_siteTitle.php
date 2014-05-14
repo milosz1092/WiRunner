@@ -6,6 +6,7 @@
 			$this -> titles = array(
 				'index.php'		=> 'Strona Główna',
 				'konto.php'		=> 'Moje konto',
+				'admin.php'		=> 'Administracja',
 				'kontakt.php'		=> 'Kontakt',
 				'register.php'		=> 'Rejestracja',
 				'login.php'		=> 'Logowanie',
