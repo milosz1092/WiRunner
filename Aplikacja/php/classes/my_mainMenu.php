@@ -17,7 +17,8 @@
 			$this -> links_online = array(
 				'php/logout.php'		=> 'Wyloguj',
 				'konto.php'			=> 'Moje konto',
-				'kalkulatortempa.php'		=> 'Kalkulator tempa'
+				'kalkulatortempa.php'		=> 'Kalkulator tempa',
+				'szukaj.php'			=> 'Wyszukiwarka'
 			);
 
 			$this -> links_admin = array(

@@ -107,6 +107,27 @@ textarea:focus {
 	width:1000px;
 	position:relative;
 }
+#big_contener {
+	width:1000px;
+}
+#left_contener {
+	display:inline-block;
+	width:200px;
+}
+#right_contener {
+	display:inline-block;
+	width:795px;
+}
+.left_menu h3 {
+	margin:0;
+	padding:0;
+}
+.left_menu a {
+	text-decoration:none;
+}
+.left_menu a.act {
+	text-decoration:underline;
+}
 .navi {
 	clear:both;
 	display:inline-block;
