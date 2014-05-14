@@ -268,7 +268,7 @@ EOD;
 				unset($stmt);
 			}
 			catch(PDOException $e) {
-				echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				//echo '<p>Wystąpił błąd biblioteki PDO</p>';
 				return 0;
 			}
 				
@@ -317,7 +317,7 @@ EOD;
 				unset($stmt);
 			}
 			catch(PDOException $e) {
-				echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				//echo '<p>Wystąpił błąd biblioteki PDO</p>';
 				return 0;
 			}
 				
