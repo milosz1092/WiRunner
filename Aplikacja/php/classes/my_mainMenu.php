@@ -17,7 +17,12 @@
 			$this -> links_online = array(
 				'php/logout.php'		=> 'Wyloguj',
 				'konto.php'			=> 'Moje konto',
-				'kalkulatortempa.php'		=> 'Kalkulator tempa'
+				'kalkulatortempa.php'		=> 'Kalkulator tempa',
+				'szukaj.php'			=> 'Wyszukiwarka'
+			);
+
+			$this -> links_admin = array(
+				'admin.php'	=>	'Administracja'
 			);
 		}
 
@@ -38,6 +43,12 @@
 			if($log_session > 0) {
 				foreach($this -> links_online as $link => $nazwa) {
 					echo '<a '; if(my_getFilename::normal() == $link) echo 'class="menu_act login_link" '; else echo 'class="login_link" '; echo 'href="'.$link.'">'.$nazwa.'</a>';
+				}
+
+				if ($_SESSION['WiRunner_policy'] == 1) {
+					foreach($this -> links_admin as $link => $nazwa) {
+						echo '<a '; if(my_getFilename::normal() == $link) echo 'class="menu_act login_link" '; else echo 'class="login_link" '; echo 'href="'.$link.'">'.$nazwa.'</a>';
+					}
 				}
 			}
 			

@@ -14,6 +14,11 @@
 						echo '<div class="ok_msg">Rejestracja zakończona powodzeniem!<br /><span style="font-size:13px;font-style:italic;">Wysłaliśmy link aktywacyjny, wiadomość może trafić do spamu.</span></div>';
 
 					}
+					if (isset($_GET['msg']) && $_GET['msg'] == 'justReset') {
+
+						echo '<div class="ok_msg">Twoje hasło zostało zresetowane!<br /><span style="font-size:13px;font-style:italic;">Zaloguj się przy użyciu nowego hasła.</span></div>';
+
+					}
 
 					// akcja przy uzyciu linku aktywacyjnego (przy gosciu)
 					if(isset($_GET['action']) && $_GET['action'] == 'accountActiv' && isset($_GET['code']) && !empty($_GET['code']) && isset($_GET['mail']) && !empty($_GET['mail'])) {
