@@ -77,7 +77,7 @@
 			$id_userow['1st'] > $id_userow['2nd'] ? list($id_userow['1st'],$id_userow['2nd']) = array($id_userow['2nd'], $id_userow['1st']) : "";
 			try {
 $stmt = $this -> pdo -> prepare('SELECT id_relacji FROM rodzaje_relacji WHERE relacja LIKE BINARY :relacja');
-				$stmt -> bindValue(':relacja', $id_userow['1st'], PDO::PARAM_STR);
+				$stmt -> bindValue(':relacja', $relacja, PDO::PARAM_STR);
 				$stmt -> execute();
 				if($stmt -> rowCount() != 1) {
 					 return -1;
@@ -89,20 +89,16 @@ $stmt = $this -> pdo -> prepare('SELECT id_relacji FROM rodzaje_relacji WHERE re
 				$stmt -> closeCursor();
 				unset($stmt);
 		
-				$stmt = $this -> pdo -> prepare('INSERT INTO relacje_uzytkownikow VALUES (:nr_pierwszego,:nr_drugiego,:rodzaj,:data) ON DUPLICATE KEY UPDATE nr_rodzaju=:rodzaj, data=:data');
+				$stmt = $this -> pdo -> prepare('INSERT INTO relacje_uzytkownikow VALUES (:nr_pierwszego,:nr_drugiego,:rodzaj,:data) ON DUPLICATE KEY UPDATE nr_rodzaju=:rodzaj, data_dodania=:data');
 				$stmt -> bindValue(':nr_pierwszego', $id_userow['1st'], PDO::PARAM_INT);
 				$stmt -> bindValue(':nr_drugiego', $id_userow['2nd'], PDO::PARAM_STR);
-				$stmt -> bindValue(':rodzaj', $relacja, PDO::PARAM_STR);
+				$stmt -> bindValue(':rodzaj', $rodzaj, PDO::PARAM_STR);
 				$stmt -> bindValue(':data', date("Y-m-d H:i:s"), PDO::PARAM_STR);
 				$stmt -> execute();
-				if($stmt -> rowCount() != 1) {
-					// return 0;
-				}
-				else {
-					$row = $stmt -> fetch();
-				}
+				
 				$stmt -> closeCursor();
 				unset($stmt);
+				return 1;
 			}
 			catch(PDOException $e) {
 				//echo '<p>Wystąpił błąd biblioteki PDO</p>';

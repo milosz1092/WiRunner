@@ -5,7 +5,11 @@
 		header("Location: szukaj.php");
 
 	$userInfo = $my_simpleDbCheck->getUserInfo($_GET['uid']);
-	
+	if(!empty($_GET['relacja'])) {
+		$res = $my_usersRelations->ustaw_relacje(array('1st'=>$_SESSION['WiRunner_log_id'], '2nd'=> $_GET['uid']), ucfirst($_GET['relacja']));
+		if($res == 1)
+		 echo '<div class="ok_msg">Relacja pomyślnie zakutalizowana!</div>';
+	}
 	
 	//$my_simpleDbCheck->userIssetFromId($_GET['uid']);	
 ?>
@@ -26,14 +30,15 @@
 							if ($_GET['uid'] != $_SESSION['WiRunner_log_id']) {
 						
 								$rodzaj = $my_usersRelations->zwroc_typ(array('1st'=>$_SESSION['WiRunner_log_id'], '2nd'=> $_GET['uid']));
+								if($rodzaj)
 								echo "Wasza relacja: ". $rodzaj . "<br/>";
 								if($rodzaj === 0)
-									echo '<input type="button" value="Zablokuj" onclick="blockUser('.$_SESSION['WiRunner_log_id'].', '.$_GET['uid'] .' )" />';
+									echo '<input type="button" value="Zablokuj" onclick="document.location.href=\'profil.php?uid='.$_GET['uid'].'&relacja=wróg\'" />';
 								if($rodzaj !== "Wróg")
 									echo '<input type="button" value="Prywatna wiadomość" onclick="document.location.href=\'konto.php?subPage=poczta&action=writeMsg&uid='.$_GET['uid'].'\'" />';
 
 								if($rodzaj === 0)
-									echo '<input type="button" value="Dodaj znajomego" onclick="sendInvite('.$_SESSION['WiRunner_log_id'].', '.$_GET['uid'].')" />';
+									echo '<input type="button" value="Dodaj znajomego" onclick="document.location.href=\'profil.php?uid='.$_GET['uid'].'&relacja=przyjaciel\'" />';
 						
 							}
 						?>
