@@ -1,3 +1,4 @@
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -87,15 +88,15 @@ CREATE TABLE IF NOT EXISTS `rodzaje_relacji` (
   `id_relacji` int(1) unsigned NOT NULL AUTO_INCREMENT,
   `relacja` varchar(20) NOT NULL,
   PRIMARY KEY (`id_relacji`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 CREATE TABLE IF NOT EXISTS `rywalizacje` (
   `id_rywalizacji` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `nazwa_rywalizacji` varchar(45) NOT NULL,
   `opis_rywalizacji` varchar(1445) DEFAULT NULL,
   `nr_sportu` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `data_startu` date NOT NULL,
-  `data_konca` date NOT NULL,
+  `data_startu` datetime NOT NULL,
+  `data_konca` datetime NOT NULL,
   `data_dodania` datetime NOT NULL,
   PRIMARY KEY (`id_rywalizacji`),
   KEY `nr_sportu_idx` (`nr_sportu`)
@@ -117,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `trasy` (
   `data_dodania` datetime NOT NULL,
   PRIMARY KEY (`id_trasy`),
   KEY `nr_uzytkownika_idx` (`nr_uzytkownika`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 CREATE TABLE IF NOT EXISTS `uzytkownicy` (
   `id_uzytkownika` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -136,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `uzytkownicy` (
   `potwierdzony_mail` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id_uzytkownika`),
   KEY `nr_rangi_idx` (`nr_rangi`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 CREATE TABLE IF NOT EXISTS `wiadomosci` (
   `id_wiadomosci` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -149,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `wiadomosci` (
   PRIMARY KEY (`id_wiadomosci`),
   KEY `nr_nadawcy_idx` (`nr_nadawcy`),
   KEY `nr_odbiorcy_idx` (`nr_adresata`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 CREATE TABLE IF NOT EXISTS `wspolrzedne` (
   `nr_usera` int(10) unsigned NOT NULL,
@@ -178,6 +179,7 @@ CREATE TABLE IF NOT EXISTS `zgloszenia_do_rywalizacji` (
 
 ALTER TABLE `wspolrzedne`
   ADD CONSTRAINT `nr_usera` FOREIGN KEY (`nr_usera`) REFERENCES `uzytkownicy` (`id_uzytkownika`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
