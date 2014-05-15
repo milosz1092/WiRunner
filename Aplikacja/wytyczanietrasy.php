@@ -27,6 +27,17 @@ var dystans = 0;
 var obr;
 var res;
 		
+function dlugoscTrasy(){
+	dystans = 0;
+	for(var k=0;k<i;k++)
+		{
+			if(k>0)
+				dystans += distance(k);
+		}
+
+	document.getElementsByTagName("div")['tekst'].innerHTML="Ilosc markerów na mapie: " + i +"<br>Planowany dystans: " + (dystans/1000).toFixed(3) + "km";
+}
+
 function inicjalizacja(x) { 
 
 if(x == 2) latlng = (wspolrzedne[res-1]);
@@ -36,13 +47,19 @@ if(x == 2) latlng = (wspolrzedne[res-1]);
     mapTypeId: google.maps.MapTypeId.ROADMAP 		
   };
   mapa = new google.maps.Map(document.getElementById("obszar_mapy"), mojeUstawienia);
-	document.getElementsByTagName("div")['tekst'].innerHTML="Ilosc markerów na mapie: " + i +"<br>Planowany dystans: " + (dystans/1000).toFixed(3) + "km";
+  trasa = new google.maps.Polyline({
+				map: mapa,
+				strokeColor: '#0000FF',
+				strokeOpacity: 1.0,
+				strokeWeight: 3
+			});
+	dlugoscTrasy();
             
 	google.maps.event.addListener(mapa, 'click', function(event) {
 
 	wspolrzedne[i] = event.latLng;  i++;
 	if(i>1) 
-		dystans += distance(i-1);	 
+		dystans += distance(i-1);
 
 	document.getElementsByTagName("div")['tekst'].innerHTML="Ilosc markerów na mapie: " + i +"<br>Planowany dystans: " + (dystans/1000).toFixed(3) + "km";
 
@@ -64,27 +81,14 @@ google.maps.event.addListener(marker, 'dragend', function()
 				var str = this.getTitle();
 				res = parseInt(patt.exec(str));
 				wspolrzedne[res-1] = (this.getPosition());
-
-
-				inicjalizacja(2);
+				trasa.setPath(wspolrzedne);
+				dlugoscTrasy();
 			});
 
-new google.maps.Polyline({
-				path: wspolrzedne,
-				map: mapa,
-				strokeColor: '#0000FF',
-				strokeOpacity: 1.0,
-				strokeWeight: 3
-			});
+	trasa.setPath(wspolrzedne);
 }); 
 	
-new google.maps.Polyline({
-				path: wspolrzedne,
-				map: mapa,
-				strokeColor: '#0000FF',
-				strokeOpacity: 1.0,
-				strokeWeight: 3
-			});
+	trasa.setPath(wspolrzedne);
  
 var dys = 0;
 for(k=0;k<i;k++)
@@ -111,8 +115,8 @@ dystans = dys;
 		res = parseInt(patt.exec(str));
 
 		wspolrzedne[res-1] = (this.getPosition());
+		trasa.setPath(wspolrzedne);
 
-		inicjalizacja(2);
 	});
 	}
 }
@@ -130,7 +134,7 @@ function DelMark()
 		i = 0;
 	}
 		
-
+	    dlugoscTrasy();
             inicjalizacja();
      } 
  
