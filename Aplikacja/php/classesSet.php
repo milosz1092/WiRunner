@@ -16,6 +16,9 @@
 
 	require('php/classes/my_Poster.php');
 	$my_Poster = new my_Poster;
+
+	require('php/classes/my_Rivalry.php');
+	$my_Rivalry = new my_Rivalry;
 	
 	require('php/classes/my_eMail.php');
 	

@@ -425,7 +425,9 @@ EOD;
 					return 0;
 				}
 				else {
-					echo "<strong>Twoje trasy:</strong>
+					echo "<header class=\"entry-header\">
+							<h1 class=\"entry-title\">Twoje trasy</h1>
+						</header>
 						<ul>";
 						
 						while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -482,7 +484,9 @@ EOD;
 
 			
 
-			echo '<h1 style="margin-bottom:20px;">Edytuj dane</h1>
+			echo '<header class="entry-header">
+					<h1 class="entry-title">Edytuj dane</h1>
+			</header>
 				<form action="" method="post">
 				<ul class="form_field">';
 				foreach($pola as $ele)

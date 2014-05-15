@@ -150,6 +150,9 @@ $przyjaciele = $my_usersRelations->znajdz_userow_w_relacji($_SESSION['WiRunner_l
 							<div class="showMsg_title">TYTUŁ:</div>
 							<div class="showMsg_action"></div>
 						</div>-->
+						<header class="entry-header">
+							<h1 class="entry-title">Skrzynka odbiorcza</h1>
+						</header>
 <?php	
 						if (isset($_GET['msg']) && $_GET['msg'] == 'justDelMsg') {
 
