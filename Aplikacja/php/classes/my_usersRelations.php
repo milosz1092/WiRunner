@@ -77,7 +77,7 @@
 			$id_userow['1st'] > $id_userow['2nd'] ? list($id_userow['1st'],$id_userow['2nd']) = array($id_userow['2nd'], $id_userow['1st']) : "";
 			try {
 
-if($relacja == "Odblokuj") {
+if($relacja == "Odblokuj" || $relacja == "Usun_znajomego") {
 				$stmt = $this -> pdo -> prepare('DELETE FROM relacje_uzytkownikow WHERE nr_pierwszego LIKE BINARY :nr_usera AND nr_drugiego LIKE BINARY :nr_drugiego');
 				$stmt -> bindValue(':nr_usera', $id_userow['1st'], PDO::PARAM_STR);
 				$stmt -> bindValue(':nr_drugiego', $id_userow['2nd'], PDO::PARAM_STR);
@@ -85,8 +85,8 @@ if($relacja == "Odblokuj") {
 
 				$stmt -> closeCursor();
 				unset($stmt);				
-		
-				return 2;
+				if($relacja == "Odblokuj")	return 2;
+				else return 3;
 }
 
 

@@ -11,6 +11,8 @@
 		 echo '<div class="ok_msg">Relacja pomyślnie zakutalizowana!</div>';
 		else if($res == 2)
 		 echo '<div class="ok_msg">Użytkownik odblokowany!</div>';
+		else if($res == 3)
+		 echo '<div class="ok_msg">Użytkownik został usunięty z listy znajomych!</div>';
 	}
 	
 	//$my_simpleDbCheck->userIssetFromId($_GET['uid']);	
@@ -39,6 +41,9 @@
 								if($rodzaj !== "Wróg")
 									echo '<input type="button" value="Prywatna wiadomość" onclick="document.location.href=\'konto.php?subPage=poczta&action=writeMsg&uid='.$_GET['uid'].'\'" />';
 								else    echo '<input type="button" value="Odblokuj" onclick="document.location.href=\'profil.php?uid='.$_GET['uid'].'&relacja=odblokuj\'" />';
+
+								if($rodzaj === "Przyjaciel")
+									echo '<input type="button" value="Usuń znajomego" onclick="document.location.href=\'profil.php?uid='.$_GET['uid'].'&relacja=usun_znajomego\'" />';
 
 								if($rodzaj === 0)
 									echo '<input type="button" value="Dodaj znajomego" onclick="document.location.href=\'profil.php?uid='.$_GET['uid'].'&relacja=przyjaciel\'" />';
