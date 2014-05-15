@@ -23,14 +23,17 @@
 			);
 
 			$this -> konto_links = array(
-				'edytujprofil'	=>		'Edytuj swoje dane',
-				'trasy'		=>		'Trasy',
-				'poczta'	=>		'Poczta'
+				'edytujprofil'	=>	array('Edytuj swoje dane', NULL),
+				'trasy'			=>	array ('Trasy', NULL),
+				'poczta'		=>	array ('Poczta', NULL),
 			);
 
 			$this -> admin_links = array(
-				'rywalizacje'	=>		'Rywalizacje'
+				'rywalizacje'	=>	array ('Rywalizacje', array(
+					'add'			=>		'dodaj'
+				)),
 			);
+			
 		}
 
 

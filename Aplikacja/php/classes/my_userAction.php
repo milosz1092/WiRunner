@@ -482,7 +482,7 @@ EOD;
 
 			
 
-			echo '<h1 style="margin-bottom:20px;">Edytuj swoje dane.</h1>
+			echo '<h1 style="margin-bottom:20px;">Edytuj dane</h1>
 				<form action="" method="post">
 				<ul class="form_field">';
 				foreach($pola as $ele)

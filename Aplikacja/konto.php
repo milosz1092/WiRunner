@@ -19,13 +19,24 @@ if(!$my_userAction->get_coordinates(1))
 	<div id="left_contener">
 		<div class="left_menu">
 			<h3>Moje konto</h3>
-			<ul>
+			<ul class="subLinks">
 <?php
-				foreach ($my_siteTitle->konto_links() as $link => $title) {
+				foreach ($my_siteTitle->konto_links() as $link => $pack) {
 					echo '<li><a ';
 					if (isset($_GET['subPage']) && $link == $_GET['subPage'])
 						echo 'class="act" ';
-					echo 'href="'.my_getFilename::normal().'?subPage='.$link.'">'.$title.'</a></li>';
+					echo 'href="'.my_getFilename::normal().'?subPage='.$link.'">'.$pack[0].'</a></li>';
+
+					if ($pack[1] != NULL) {
+						echo '<ul class="actionLinks">';
+						foreach ($pack[1] as $actionLink => $actionName) {
+							echo '<li><a ';
+							if (isset($_GET['action']) && $actionLink == $_GET['action'])
+								echo 'class="act" ';
+							echo 'href="'.my_getFilename::normal().'?subPage='.$link.'&action='.$actionLink.'">'.$actionName.'</a></li>';
+						}
+						echo '</ul>';
+					}
 				}
 ?>
 			</ul>
@@ -50,7 +61,8 @@ if(!$my_userAction->get_coordinates(1))
 						if($my_userAction->profile_update($dane) == -1){
 							$my_userAction->profil_edit($dane);
 							break;
-						} else echo "Pomyślnie zaktualizowano dane!";
+						} else
+							echo '<div class="ok_msg">Pomyślnie zaktualizowano dane!</div>';
 					}
 
 					$userInfo = $my_simpleDbCheck->getUserInfo($_SESSION['WiRunner_log_id']);
@@ -120,7 +132,7 @@ if(!$my_userAction->get_coordinates(1))
 									echo '<div class="showMsg_from"><a href="profil.php?uid='.$row['nr_nadawcy'].'">'.$from.'</a></div><div class="showMsg_title">'.$row['temat'].'</div>';
 									echo '<div class="showMsg_content">'.$row['tresc'].'</div>';
 								echo '</div>';
-								echo '<input type="button" value="Usuń" onclick="delMsg('.$row['id_wiadomosci'].')" />';
+								echo '<input type="button" value="Usuń" onclick="delMsg('.$row['id_wiadomosci'].', '.$_SESSION['WiRunner_log_id'].', \'show\')" />';
 								echo '<input type="button" value="Odpowiedz" onclick="document.location.href=\'konto.php?subPage=poczta&action=writeMsg&uid='.$row['nr_nadawcy'].'\'" />';
 							break;
 						}
@@ -133,6 +145,12 @@ if(!$my_userAction->get_coordinates(1))
 							<div class="showMsg_action"></div>
 						</div>-->
 <?php	
+						if (isset($_GET['msg']) && $_GET['msg'] == 'justDelMsg') {
+
+							echo '<div class="ok_msg">Wiadomość została usunięta!</div>';
+
+						}
+						
 						foreach($my_Poster->showInbox($_SESSION['WiRunner_log_id']) as $row)  {
 							$userInfo = $my_simpleDbCheck->getUserInfo($row['nr_nadawcy']);
 
@@ -145,7 +163,7 @@ if(!$my_userAction->get_coordinates(1))
 								echo '<div class="showMsg_header_from"><a href="profil.php?uid='.$row['nr_nadawcy'].'">'.$from.'</a></div>';
 								echo '<div class="showMsg_header_title"><a href="konto.php?subPage=poczta&action=showMsg&msgId='.$row['id_wiadomosci'].'">'.$row['temat'].'</a></div>';
 								echo '<div class="showMsg_header_action">';
-									echo '<input type="button" value="Usuń" onclick="delMsg('.$row['id_wiadomosci'].')" />';
+									echo '<input type="button" value="Usuń" onclick="delMsg('.$row['id_wiadomosci'].', '.$_SESSION['WiRunner_log_id'].', \'header\')" />';
 									echo '<input type="button" value="Odpowiedz" onclick="document.location.href=\'konto.php?subPage=poczta&action=writeMsg&uid='.$row['nr_nadawcy'].'\'" />';
 								echo '</div>';
 							echo '</div>';
