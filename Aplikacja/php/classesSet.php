@@ -27,4 +27,7 @@
 
 	require('php/classes/my_usersRelations.php');
 	$my_usersRelations = new my_usersRelations;
+
+	require('php/classes/my_activities.php');
+	$my_activities = new my_activities;
 ?>
