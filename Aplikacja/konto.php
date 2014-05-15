@@ -13,12 +13,12 @@
 if(!$my_userAction->get_coordinates(1))
 	echo '<a href="./wspolrzedne.php">Ustaw swoje współrzędne na mapie!</a><br/>';
 
+/*
 $przyjaciele = $my_usersRelations->znajdz_userow_w_relacji($_SESSION['WiRunner_log_id'], "Przyjaciel");
-foreach($przyjaciele as $ele){
+	foreach($przyjaciele as $ele){
+		echo $ele . " ";
 
-	echo $ele . " ";
-	
-}
+}*/
 ?>
 <div id="big_contener">
 	<div id="left_contener">
@@ -55,7 +55,7 @@ foreach($przyjaciele as $ele){
 						if($my_userAction->profile_update($dane) == -1){
 							$my_userAction->profil_edit($dane);
 							break;
-						} else echo "Pomyślnie zaktualizowano dane!";
+						} else echo '<div class="ok_msg">Pomyślnie zaktualizowano dane!</div>';
 					}
 
 					$userInfo = $my_simpleDbCheck->getUserInfo($_SESSION['WiRunner_log_id']);
