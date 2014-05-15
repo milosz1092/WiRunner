@@ -21,4 +21,7 @@
 	
 	require('php/classes/my_userAction.php');
 	$my_userAction = new my_userAction;
+	
+	require('php/classes/my_usersRelations.php');
+	$my_usersRelations = new my_usersRelations;
 ?>

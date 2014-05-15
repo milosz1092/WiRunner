@@ -241,7 +241,7 @@ echo '<div id="kontrolki" style="margin-left: 440px;"><input type="button" oncli
 			Długość: <b><?php echo $dane['dlugosc_trasy']; ?>km</b><br/>
 			Data dodania: <b><?php echo $dane['data_dodania']; ?></b><br/>
 		</div>
-<? } ?>
+<?php } ?>
 	</section>
 </article>
 <?php
