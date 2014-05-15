@@ -37,7 +37,43 @@
 				catch(PDOException $e) {
 					echo '<p>Wystąpił błąd biblioteki PDO</p>';
 				}
+		}
 
+		
+
+		function znajdz_userow_w_relacji($uid, $relacja)
+		{
+			// Zwraca w tablicy id użytkowników spełniających podane kryterium.
+
+			try {
+				$stmt = $this -> pdo -> prepare('SELECT nr_pierwszego, nr_drugiego FROM relacje_uzytkownikow, rodzaje_relacji WHERE relacja LIKE BINARY :relacja AND (nr_pierwszego LIKE BINARY :nr_usera OR nr_drugiego LIKE BINARY :nr_usera)');
+		
+				$stmt -> bindValue(':nr_usera', $uid, PDO::PARAM_STR);
+				$stmt -> bindValue(':relacja', $relacja, PDO::PARAM_STR);
+				$stmt -> execute();
+				if($stmt -> rowCount() == 0) {
+					return 0;
+				}
+				else {
+					$wyn = array();
+						
+						while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+							array_push($wyn, $row['nr_pierwszego'] == $uid ? $row['nr_drugiego']: $row['nr_pierwszego']);
+						}
+
+					return $wyn;
+				}
+				$stmt -> closeCursor();
+				unset($stmt);
+				}
+				catch(PDOException $e) {
+					echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				}			
+		}
+
+	
+		function ustaw_relacje($id_userow, $relacja)
+		{
 
 		}
 

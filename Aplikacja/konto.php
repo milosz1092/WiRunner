@@ -13,7 +13,12 @@
 if(!$my_userAction->get_coordinates(1))
 	echo '<a href="./wspolrzedne.php">Ustaw swoje współrzędne na mapie!</a><br/>';
 
+$przyjaciele = $my_usersRelations->znajdz_userow_w_relacji($_SESSION['WiRunner_log_id'], "Przyjaciel");
+foreach($przyjaciele as $ele){
 
+	echo $ele . " ";
+	
+}
 ?>
 <div id="big_contener">
 	<div id="left_contener">
