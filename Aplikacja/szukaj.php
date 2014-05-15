@@ -1,6 +1,10 @@
 <?php
 	include('php/top.php');
-
+?>
+	<header class="entry-header">
+		<h1 class="entry-title">Szukaj znajomych</h1>
+	</header>
+<?php
 $daneUserow = $my_simpleDbCheck->getUsersInfo();
 $fp = fopen("php/users.txt",'w');
 foreach($daneUserow as $ele){
@@ -31,9 +35,12 @@ fclose($fp);
 					</script>
 
 					<form name="wyszukiwarka">
-						Szukaj: <input  autocomplete="off" name="fraza" type="text" maxlength="30">
+						Szukaj: <input  autocomplete="off" id="fraza" name="fraza" type="text" maxlength="30">
 						<div style="margin-top: 10px; padding: 5px; border:1px solid; width: 300px; min-height: 20px;" id="podpowiedzi">Znajdź swoich znajomych!</div>
 					</form>
+					<script>
+						$("#fraza").focus();
+					</script>
 			</section>
 		</article>
 <?php

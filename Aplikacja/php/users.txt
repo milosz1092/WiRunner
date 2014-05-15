@@ -1,2 +1,1 @@
-25|Łukasz|Staniszczak|Szczecin
-26|Łukasz|Wiśniewski|Szczecin
+﻿

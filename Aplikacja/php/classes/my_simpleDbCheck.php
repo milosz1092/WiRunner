@@ -93,5 +93,23 @@
 	
 		}
 
+		function getSports() {
+			try {
+				$stmt = $this -> pdo -> prepare('SELECT * FROM sporty');
+				$stmt -> execute();
+
+				$row = $stmt -> fetchAll();;
+				
+				$stmt -> closeCursor();
+				unset($stmt);
+				
+				return $row;
+			}
+			catch(PDOException $e) {
+				//echo '<p>Wystąpił błąd biblioteki PDO1</p>';
+				//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
+			}
+		}
+
 	}
 ?>

@@ -2,10 +2,13 @@
 	include('php/top.php');
 ?>
 
+<header class="entry-header">
+	<h1 class="entry-title">Kalkulator tempa</h1>
+</header>
+
 <article>
 	<section>
 	<div id="kalkulator">
-		<h2>Kalkulator Tempa</h2>
 			<span id="dystans" >Dystans: <input required="required" name="dystans" type="number" maxlength="6" value="0.00" id="Fd"> km</span>
 			<span id="czas">Planowany czas:<br/>
 							<input required="required" type="number" maxlength="2" min="0" max="99" name="godz" value="0"  id="Fh"> h
