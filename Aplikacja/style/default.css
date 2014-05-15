@@ -82,7 +82,7 @@ input[type="button"]:focus, input[type="reset"]:focus, input[type="submit"]:focu
 	border:none;
 	padding:6px 9px 6px 9px;
 }
-input[type="text"], input[type="password"], input[type="email"], input[type="date"] {
+input[type="text"], input[type="password"], input[type="email"], input[type="date"], input[type="number"] {
 	border:1px solid #D2D2D2;
 	border-radius:3px;
 	font-size:14px;

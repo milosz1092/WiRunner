@@ -482,7 +482,7 @@ EOD;
 
 			
 
-			echo '<h1>Edytuj swoje dane.</h1>
+			echo '<h1 style="margin-bottom:20px;">Edytuj swoje dane.</h1>
 				<form action="" method="post">
 				<ul class="form_field">';
 				foreach($pola as $ele)
@@ -494,7 +494,10 @@ EOD;
 					else	echo	'<textarea id="'.$ele[0].'" name="'.$ele[0].'" maxlength="'.$ele[3].'"/>'.$userInfo[$ele[0]].'</textarea>';
 					    	echo '</li>';
 				}
-			echo '<input style="margin: 20px 0px 0px 140px;" type="submit" value="akutalizuj dane" name="edytujDane"></ul></form>';
+			echo '<input style="margin: 20px 0px 0px 140px;" type="submit" value="Akutalizuj dane" name="edytujDane"></ul></form>';
+			echo '<script>';
+				echo '$("#imie").focus();';
+			echo '</script>';
 		}
 
 		function profile_update($dane){

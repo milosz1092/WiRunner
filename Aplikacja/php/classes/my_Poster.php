@@ -62,9 +62,18 @@
 					$stmt -> execute();
 
 					$row = $stmt -> fetch();
-					$stmt -> closeCursor();
+
+					if ($row['data_przeczytania'] == NULL) {
+						// data odebrania wiadomosci
+						$stmt = $this -> pdo -> prepare('UPDATE wiadomosci SET data_przeczytania = :data WHERE id_wiadomosci LIKE BINARY :msgId');
+						$stmt -> bindValue(':data', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+						$stmt -> bindValue(':msgId', $msgId, PDO::PARAM_INT);
+						$stmt -> execute();
+					}
 					
+					$stmt -> closeCursor();
 					unset($stmt);
+					
 					return $row;
 				}
 				catch(PDOException $e) {
