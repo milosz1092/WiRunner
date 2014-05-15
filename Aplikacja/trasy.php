@@ -25,23 +25,22 @@ $wsp = explode("),", $dane['punkty_trasy']);
 echo '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&v=3"></script>
       <script type="text/javascript">
         var latlng = new google.maps.LatLng'.substr($dane['punkty_trasy'], 0, strpos($dane['punkty_trasy'], ")")+1).';
-	var wspolrzedne = [];
+	var wspolrzedne =new Array();
 	var dystans = '.($dane['dlugosc_trasy']*1000).';
 	var i = '.sizeof($wsp).';';
 	foreach($wsp as $key => $punkt)
 		echo 'wspolrzedne['.$key.'] =  new google.maps.LatLng'.$punkt.($key+1 != sizeof($wsp)?')':'').';';
 ?>
+	
 var marker;
 var mojeUstawienia;
 var mapa;
 var trasa;
 var czyPrzesuwany;
 var res=1; // ostatnio przesuwany marker
-
-function inicjalizacja(x=0) {
+function inicjalizacja(x) {
 czyPrzesuwany=(x==1? true : false );
 if(x==1) { latlng = (wspolrzedne[res-1]);
-
 		document.getElementById("pkty_trasy").value = (wspolrzedne);
 		document.getElementById("dyst_trasy").value = (dystans);
 } else if(x == 2) {
@@ -224,6 +223,7 @@ document.getElementsByTagName("div")['kontrolki'].innerHTML= '\
 		<input type="button" onclick="DelMark()" value="usuń ostatni marker" />';
 inicjalizacja(1);
 }
+
 window.onload=inicjalizacja;
 </script>
 
