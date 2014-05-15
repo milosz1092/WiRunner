@@ -82,5 +82,26 @@
 				}
 
 		}
+
+		function delMsg($msgId, $usrId) {
+				try {
+					$stmt = $this -> pdo -> prepare('DELETE FROM wiadomosci WHERE id_wiadomosci = :msgId AND (nr_nadawcy = :usrId OR nr_adresata = :usrId)');
+					$stmt -> bindValue(':msgId', $msgId, PDO::PARAM_INT);
+					$stmt -> bindValue(':usrId', $usrId, PDO::PARAM_INT);
+					$count = $stmt -> execute();
+					
+					$stmt -> closeCursor();
+					unset($stmt);
+				}
+				catch(PDOException $e) {
+					return 0;
+				}
+
+				if ($count == 1)
+					return $msgId;
+				else
+					return 0;
+
+		}
 	}
 ?>
