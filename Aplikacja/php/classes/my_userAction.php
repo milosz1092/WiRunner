@@ -468,5 +468,92 @@ EOD;
 			return $row;
 
 		}	
+
+//	formularz edycji swoich danych
+		function profil_edit($userInfo) {
+			$pola = array(
+					array('imie','Imię','text','36','req'),
+				      	array('nazwisko','Nazwisko','text','45','req'),
+				     	array('waga','Waga','number','3'),
+					array('wzrost','Wzrost','number','3'),
+					array('miejscowosc','Miejscowość','text','45','req'),
+					array('motto','Motto','textarea','245')
+					);
+
+			
+
+			echo '<h1>Edytuj swoje dane.</h1>
+				<form action="" method="post">
+				<ul class="form_field">';
+				foreach($pola as $ele)
+				{
+					echo '<li>
+						<label for="'.$ele[0].'" style="text-align: right; padding-right: 10px;">'.$ele[1].':</label>';
+					if($ele[2] != "textarea")
+						echo	'<input type="'.$ele[2].'" id="'.$ele[0].'" name="'.$ele[0].'" value="'.$userInfo[$ele[0]].'" maxlength="'.$ele[3].'" '.(isset($ele[4])? 'required="required"':"").'/>';
+					else	echo	'<textarea id="'.$ele[0].'" name="'.$ele[0].'" maxlength="'.$ele[3].'"/>'.$userInfo[$ele[0]].'</textarea>';
+					    	echo '</li>';
+				}
+			echo '<input style="margin: 20px 0px 0px 140px;" type="submit" value="akutalizuj dane" name="edytujDane"></ul></form>';
+		}
+
+		function profile_update($dane){
+			// najpierw prosta walidacja
+			if(!isset($_SESSION['WiRunner_log_id']))
+							$bledy[] = 'Musisz być zalogowany!';
+
+						if(!isset($dane['imie']) || !isset($dane['nazwisko']) || !isset($dane['miejscowosc']))	$bledy[] = 'Pola imię, nazwisko i miejscowość są wymagane!';
+					else
+						{
+							if(strlen($dane['imie']) < 3 || strlen($dane['imie']) > 36)
+								$bledy[] = 'Imię powinno mieć od 3 do 36 znaków!';
+
+							if(strlen($dane['nazwisko']) < 2 || strlen($dane['nazwisko']) > 45)
+								$bledy[] = 'Nazwisko powinno mieć od 3 do 45 znaków!';
+
+							if(strlen($dane['miejscowosc']) < 3 || strlen($dane['miejscowosc']) > 45)
+								$bledy[] = 'Nazwa miejscowości powinna mieć od 3 do 45 znaków!';
+						}
+
+						if(!empty($dane['wiek'])){
+							if(!intval($dane['wiek']) || $dane['wiek'] < 13 || $dane['wiek'] > 120)
+								$bledy[] = 'Minimalny wiek użytkownika to 13 lat, max 120!!';
+}
+						if(!empty($dane['wzrost'])){
+							if(!intval($dane['wzrost']) || $dane['wzrost'] < 130 || $dane['wzrost'] > 240)
+								$bledy[] = 'Minimalny wzrost użytkownika to 130cm, max 240!!';
+}
+						if(!empty($dane['motto'])){
+							if(strlen($dane['motto']) < 5 || strlen($dane['nazwisko']) > 245)
+								$bledy[] = 'Motto powinno mieć od 5 do 245 znaków!';
+
+}
+		
+						if(isset($bledy) && count($bledy) > 0){
+							my_simpleMsg::show('Błedy danych!', $bledy, 0);
+							return -1;			
+						}	
+			
+						try {
+							$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET imie=:imie, nazwisko=:nazwisko, waga=:waga, wzrost=:wzrost, miejscowosc=:miejscowosc, motto=:motto WHERE id_uzytkownika=:id_uzytkownika');
+
+							$stmt -> bindValue(':id_uzytkownika', $_SESSION['WiRunner_log_id'], PDO::PARAM_INT);
+							$stmt -> bindValue(':imie', ucfirst($dane['imie']), PDO::PARAM_STR);
+							$stmt -> bindValue(':nazwisko', ucwords($dane['nazwisko']), PDO::PARAM_STR);
+							$stmt -> bindValue(':waga', $dane['waga'], PDO::PARAM_INT);
+							$stmt -> bindValue(':wzrost', $dane['wzrost'], PDO::PARAM_INT);
+							$stmt -> bindValue(':miejscowosc', ucwords($dane['miejscowosc']), PDO::PARAM_STR);
+							$stmt -> bindValue(':motto', $dane['motto'], PDO::PARAM_STR);
+							$stmt -> execute();
+
+				
+							$stmt -> closeCursor();
+							unset($stmt);
+						}
+						catch(PDOException $e) {
+							//echo '<p>Wystąpił błąd biblioteki PDO</p>';
+							return 0;
+						}
+		}
 	}
 ?>

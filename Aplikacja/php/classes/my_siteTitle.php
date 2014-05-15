@@ -23,6 +23,7 @@
 			);
 
 			$this -> konto_links = array(
+				'edytujprofil'	=>		'Edytuj swoje dane',
 				'trasy'		=>		'Trasy',
 				'poczta'	=>		'Poczta'
 			);

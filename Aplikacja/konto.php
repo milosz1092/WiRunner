@@ -11,7 +11,7 @@
 
 // sprawdzenie, czy współrzędne nie są już czasem ustawione;
 if(!$my_userAction->get_coordinates(1))
-	echo '<a href="./wspolrzedne.php">Ustaw swoje współrzędne na mapie!</a>';
+	echo '<a href="./wspolrzedne.php">Ustaw swoje współrzędne na mapie!</a><br/>';
 
 
 ?>
@@ -35,6 +35,29 @@ if(!$my_userAction->get_coordinates(1))
 <?php
 		if (isset($_GET['subPage'])) {
 			switch($_GET['subPage']) {
+				case 'edytujprofil':
+					if(isset($_POST['edytujDane'])) {
+					$dane = array(
+							'imie' => $_POST['imie'], 
+							'nazwisko' => $_POST['nazwisko'], 
+							'wzrost' => $_POST['wzrost'], 
+							'waga' => $_POST['waga'], 
+							'miejscowosc' => $_POST['miejscowosc'], 
+							'motto' => $_POST['motto']
+
+							);
+
+						if($my_userAction->profile_update($dane) == -1){
+							$my_userAction->profil_edit($dane);
+							break;
+						} else echo "Pomyślnie zaktualizowano dane!";
+					}
+
+					$userInfo = $my_simpleDbCheck->getUserInfo($_SESSION['WiRunner_log_id']);
+					$my_userAction->profil_edit($userInfo);
+				break;
+
+
 				case 'trasy':
 					// pobranie tras użytkownika, jeżeli takowe istnieją
 					if ($my_userAction->get_tracks() == 0) {

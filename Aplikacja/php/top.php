@@ -50,7 +50,14 @@
 								echo 'Witaj nieznajomy!';
 							}
 							else {
-								echo 'Witaj '.$_SESSION['WiRunner_login'].'!';
+								$temp = $my_simpleDbCheck->getUserInfo($_SESSION['WiRunner_log_id']);
+								if(empty($temp['imie'])){
+									echo 'Witaj '.$_SESSION['WiRunner_login'].'!';
+									echo '<br/><a href="./konto.php?subPage=edytujprofil"><span style="color:red; font-style: italic;">Uzupełnij swoje dane!</span></a><br/>';
+								}
+								else
+									echo 'Jesteś zalogowany jako '.$temp['imie'].' '.$temp['nazwisko'].'!';
+								unset($temp);
 							}
 						?>
 						</div>
