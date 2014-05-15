@@ -545,7 +545,7 @@ EOD;
 							$stmt -> bindValue(':nazwisko', ucwords($dane['nazwisko']), PDO::PARAM_STR);
 							$stmt -> bindValue(':waga', $dane['waga'], PDO::PARAM_INT);
 							$stmt -> bindValue(':wzrost', $dane['wzrost'], PDO::PARAM_INT);
-							$stmt -> bindValue(':miejscowosc',  ucwords(strtolower($dane['miejscowosc'])), PDO::PARAM_STR);
+							$stmt -> bindValue(':miejscowosc', ucwords($dane['miejscowosc']), PDO::PARAM_STR);
 							$stmt -> bindValue(':motto', $dane['motto'], PDO::PARAM_STR);
 							$stmt -> execute();
 

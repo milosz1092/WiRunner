@@ -348,8 +348,3 @@ a.login_link {
 
 #edycjaTrasy input, textarea { width: 240px; }
 #kontrolki input { width: 160px; }
-
-.kwadracik { float: left; width: 10px; height: 10px; border: 1px solid; margin-right: 20px; margin-top: 5px; }
-.rekord { margin: 4px; height: 20px; }
-.rekord a { text-decoration: none; }
-.rekord a:hover { font-style: italic; }

@@ -38,7 +38,7 @@
 							case 'add':
 ?>
 							<h1 style="margin-bottom:20px;">Utwórz rywalizację</h1>
-						
+							
 <?php
 							break;
 						}
