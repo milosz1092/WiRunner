@@ -6,20 +6,21 @@
 
 		function __construct () {
 			$this -> titles = array(
-				'index.php'				=> 'Strona Główna',
-				'konto.php'				=> 'Moje konto',
-				'profil.php'			=> 'Profil',
-				'admin.php'				=> 'Administracja',
-				'kontakt.php'			=> 'Kontakt',
-				'register.php'			=> 'Rejestracja',
-				'login.php'				=> 'Logowanie',
-				'regulamin.php'			=> 'Regulamin',
-				'passreset.php'			=> 'Reset hasła',
+				'index.php'		=> 'Strona Główna',
+				'konto.php'		=> 'Moje konto',
+				'profil.php'		=> 'Profil',
+				'admin.php'		=> 'Administracja',
+				'kontakt.php'		=> 'Kontakt',
+				'register.php'		=> 'Rejestracja',
+				'login.php'		=> 'Logowanie',
+				'regulamin.php'		=> 'Regulamin',
+				'passreset.php'		=> 'Reset hasła',
 				'kalkulatortempa.php'	=> 'Kalkulator tempa',
-				'szukaj.php'			=> 'Wyszukiwarka',
-				'wspolrzedne.php'		=> 'Ustawianie startu tworzenia trasy',
-				'trasy.php'				=> 'Przeglądaj trasy',
-				'wytyczanietrasy.php'	=> 'Wyznacz trasę dla swoich aktywności'
+				'szukaj.php'		=> 'Wyszukiwarka',
+				'wspolrzedne.php'	=> 'Ustawianie startu tworzenia trasy',
+				'trasy.php'		=> 'Przeglądaj trasy',
+				'wytyczanietrasy.php'	=> 'Wyznacz trasę dla swoich aktywności',
+				'dodajaktywnosc.php'	=> 'Dodaj aktywność'
 			);
 
 			$this -> konto_links = array(

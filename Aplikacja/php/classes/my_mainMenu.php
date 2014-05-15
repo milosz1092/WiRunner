@@ -18,7 +18,8 @@
 				'php/logout.php'		=> 'Wyloguj',
 				'konto.php'			=> 'Moje konto',
 				'kalkulatortempa.php'		=> 'Kalkulator tempa',
-				'szukaj.php'			=> 'Wyszukiwarka'
+				'szukaj.php'			=> 'Wyszukiwarka',
+				'dodajaktywnosc.php'		=> 'Dodaj aktywność'
 			);
 
 			$this -> links_admin = array(

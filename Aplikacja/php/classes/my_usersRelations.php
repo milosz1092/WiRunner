@@ -76,6 +76,21 @@
 		{
 			$id_userow['1st'] > $id_userow['2nd'] ? list($id_userow['1st'],$id_userow['2nd']) = array($id_userow['2nd'], $id_userow['1st']) : "";
 			try {
+
+if($relacja == "Odblokuj") {
+				$stmt = $this -> pdo -> prepare('DELETE FROM relacje_uzytkownikow WHERE nr_pierwszego LIKE BINARY :nr_usera AND nr_drugiego LIKE BINARY :nr_drugiego');
+				$stmt -> bindValue(':nr_usera', $id_userow['1st'], PDO::PARAM_STR);
+				$stmt -> bindValue(':nr_drugiego', $id_userow['2nd'], PDO::PARAM_STR);
+				$stmt -> execute();
+
+				$stmt -> closeCursor();
+				unset($stmt);				
+		
+				return 2;
+}
+
+
+
 $stmt = $this -> pdo -> prepare('SELECT id_relacji FROM rodzaje_relacji WHERE relacja LIKE BINARY :relacja');
 				$stmt -> bindValue(':relacja', $relacja, PDO::PARAM_STR);
 				$stmt -> execute();
@@ -88,7 +103,7 @@ $stmt = $this -> pdo -> prepare('SELECT id_relacji FROM rodzaje_relacji WHERE re
 				}
 				$stmt -> closeCursor();
 				unset($stmt);
-		
+
 				$stmt = $this -> pdo -> prepare('INSERT INTO relacje_uzytkownikow VALUES (:nr_pierwszego,:nr_drugiego,:rodzaj,:data) ON DUPLICATE KEY UPDATE nr_rodzaju=:rodzaj, data_dodania=:data');
 				$stmt -> bindValue(':nr_pierwszego', $id_userow['1st'], PDO::PARAM_INT);
 				$stmt -> bindValue(':nr_drugiego', $id_userow['2nd'], PDO::PARAM_STR);
