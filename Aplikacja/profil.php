@@ -24,11 +24,17 @@
 						
 						<?php
 							if ($_GET['uid'] != $_SESSION['WiRunner_log_id']) {
-						?>
-								<input type="button" value="Zablokuj" onclick="blockUser(<?php echo $_SESSION['WiRunner_log_id'].', '.$_GET['uid']; ?>)" />
-								<input type="button" value="Prywatna wiadomość" onclick="document.location.href='konto.php?subPage=poczta&action=writeMsg&uid=<?php echo $_GET['uid']; ?>';" />
-								<input type="button" value="Dodaj znajomego" onclick="sendInvite(<?php echo $_SESSION['WiRunner_log_id'].', '.$_GET['uid']; ?>)" />
-						<?php
+						
+								$rodzaj = $my_usersRelations->zwroc_typ(array('1st'=>$_SESSION['WiRunner_log_id'], '2nd'=> $_GET['uid']));
+								echo "Wasza relacja: ". $rodzaj . "<br/>";
+								if($rodzaj === 0)
+									echo '<input type="button" value="Zablokuj" onclick="blockUser('.$_SESSION['WiRunner_log_id'].', '.$_GET['uid'] .' )" />';
+								if($rodzaj !== "Wróg")
+									echo '<input type="button" value="Prywatna wiadomość" onclick="document.location.href=\'konto.php?subPage=poczta&action=writeMsg&uid='.$_GET['uid'].'\'" />';
+
+								if($rodzaj === 0)
+									echo '<input type="button" value="Dodaj znajomego" onclick="sendInvite('.$_SESSION['WiRunner_log_id'].', '.$_GET['uid'].')" />';
+						
 							}
 						?>
 					</div>
