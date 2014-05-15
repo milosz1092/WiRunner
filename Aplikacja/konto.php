@@ -17,13 +17,9 @@ if(!$my_userAction->get_coordinates(1))
 $przyjaciele = $my_usersRelations->znajdz_userow_w_relacji($_SESSION['WiRunner_log_id'], "Przyjaciel");
 	foreach($przyjaciele as $ele){
 		echo $ele . " ";
-<<<<<<< HEAD
+
 
 }*/
-=======
-*/
-}
->>>>>>> 1fc9c59487f427fd8b763c610a27962bc3830375
 ?>
 <div id="big_contener">
 	<div id="left_contener">
@@ -71,16 +67,8 @@ $przyjaciele = $my_usersRelations->znajdz_userow_w_relacji($_SESSION['WiRunner_l
 						if($my_userAction->profile_update($dane) == -1){
 							$my_userAction->profil_edit($dane);
 							break;
-<<<<<<< HEAD
+
 						} else echo '<div class="ok_msg">Pomyślnie zaktualizowano dane!</div>';
-=======
-<<<<<<< HEAD
-						} else
-							echo '<div class="ok_msg">Pomyślnie zaktualizowano dane!</div>';
-=======
-						} else echo '<div class="ok_msg">Pomyślnie zaktualizowano dane!</div>';
->>>>>>> 41a1c88e340db1007ff1437ca97b68ef6a608d67
->>>>>>> 1fc9c59487f427fd8b763c610a27962bc3830375
 					}
 
 					$userInfo = $my_simpleDbCheck->getUserInfo($_SESSION['WiRunner_log_id']);
