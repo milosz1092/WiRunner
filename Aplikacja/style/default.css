@@ -111,7 +111,7 @@ input[type="checkbox"], input[type="radio"] {
 	padding:0;
 	outline:0;
 }
-input[type="text"]:disabled {
+input[type="text"]:disabled, [type="date"]:disabled, [type="time"]:disabled, textarea:disabled {
 	background-color: white;
 }
 textarea:focus {
@@ -347,6 +347,13 @@ a.login_link {
 .showMsg_content {
 	width:500px;
 
+}
+.rywRow_header {
+	width:300px;
+	padding:20px;
+	border:1px solid #D2D2D2;
+	border-radius:3px;
+	margin-bottom:20px;
 }
 
 #kalkulator { float: left; width: 220px; padding: 10px; border: 1px solid; }

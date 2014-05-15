@@ -31,6 +31,7 @@
 		<script src="js/jquery-2.0.0.min.js"></script>
 		<script src="js/default.js"></script>
 		<script src="js/Poster.js"></script>
+		<script src="js/Rivalry.js"></script>
 	<?php  if (my_getFilename::normal() != 'kalkulatorTempa.php') echo '<script src="js/kalkulatorTempa.js"></script>'; ?>
 	</head>
 	<body>
