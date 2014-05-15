@@ -27,6 +27,7 @@
 		function userIssetFromId($id) {
 			try {
 				$stmt = $this -> pdo -> prepare('SELECT id_uzytkownika FROM uzytkownicy WHERE id_uzytkownika LIKE BINARY :id');
+
 				$stmt -> bindValue(':id', $id, PDO::PARAM_INT);
 				$stmt -> execute();
 				if($stmt -> rowCount() == 1) {
@@ -44,6 +45,32 @@
 				//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
 				return 0;
 			}
+		}
+
+		function getUsersInfo() {
+			try {
+				$stmt = $this -> pdo -> prepare('SELECT id_uzytkownika, imie, nazwisko, miejscowosc FROM uzytkownicy WHERE imie IS NOT NULL');
+				$stmt -> execute();		
+				if($stmt -> rowCount() == 0) {
+					return 0;
+				}
+				else {
+					$wyn = array();
+				while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+					array_push($wyn, array('id_usera'=>$row['id_uzytkownika'], 'imie'=>$row['imie'], 'nazwisko'=>$row['nazwisko'], 'miejscowosc'=>$row['miejscowosc']));
+				}
+				
+				$stmt -> closeCursor();
+				unset($stmt);
+				return $wyn;
+			}
+			}
+			catch(PDOException $e) {
+				echo '<p>Wystąpił błąd biblioteki PDO1</p>';
+				//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
+				return 0;
+			}
+	
 		}
 
 		function getUserInfo($id) {
