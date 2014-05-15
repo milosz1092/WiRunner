@@ -417,8 +417,8 @@ EOD;
 		function get_tracks($user_id=0) {
 			if($user_id == 0) $user_id = $_SESSION['WiRunner_log_id'];
 			try {
-				$stmt = $this -> pdo -> prepare('SELECT id_trasy, nazwa_trasy, dlugosc_trasy FROM trasy WHERE nr_uzytkownika=:numer_usera');
-				$stmt -> bindValue(':numer_usera', $user_id, PDO::PARAM_STR);
+				$stmt = $this -> pdo -> prepare('SELECT id_trasy, nazwa_trasy, dlugosc_trasy FROM trasy WHERE nr_uzytkownika LIKE BINARY :numer_usera');
+				$stmt -> bindValue(':numer_usera', $user_id, PDO::PARAM_INT);
 				$stmt -> execute();
 								
 				if($stmt -> rowCount() == 0) {
