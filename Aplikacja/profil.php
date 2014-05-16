@@ -15,6 +15,15 @@
 		 echo '<div class="ok_msg">Użytkownik został usunięty z listy znajomych!</div>';
 	}
 	
+	if(isset($_POST['dodajKomentarz'])){
+
+	$resDodawania = $my_comments->dodajKoment(
+								array(
+									'id' => $_POST['id'],
+								      	'komentarz' => $_POST['komentarz'],
+								     	'rodzaj' => $_POST['rodzaj']
+									));
+	}
 	//$my_simpleDbCheck->userIssetFromId($_GET['uid']);	
 ?>
 		<article>
@@ -52,6 +61,14 @@
 						?>
 					</div>
 				</div>
+
+			<?php
+					if(isset($resDodawania) && is_array($resDodawania))
+					my_simpleMsg::show('Błedy danych!', $resDodawania, 0);
+					echo $my_comments->formularzDodawania("doProfilu",$_GET['uid']);
+	
+					$my_comments->printComments("doProfilu", $_GET['uid']);		
+			?>
 			</section>
 		</article>
 <?php

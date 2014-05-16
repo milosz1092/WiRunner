@@ -6,7 +6,7 @@ array_push($przyjaciele, $_SESSION['WiRunner_log_id']);
 sort($przyjaciele);
 
 $p = implode(",", $przyjaciele);
-
+echo $p;
 	$id_aktywnosci_przyjaciol = $my_activities->zwrocNajnowszeId($p);
 	if(!empty($id_aktywnosci_przyjaciol)){
 		echo "<h1>Najnowsze aktywności twoje i twoich znajomych</h1>";

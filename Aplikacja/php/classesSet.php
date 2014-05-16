@@ -30,4 +30,7 @@
 
 	require('php/classes/my_activities.php');
 	$my_activities = new my_activities;
+
+	require('php/classes/my_comments.php');
+	$my_comments = new my_comments;
 ?>

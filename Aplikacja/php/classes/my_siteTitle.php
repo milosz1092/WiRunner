@@ -20,7 +20,8 @@
 				'wspolrzedne.php'	=> 'Ustawianie startu tworzenia trasy',
 				'trasy.php'		=> 'Przeglądaj trasy',
 				'wytyczanietrasy.php'	=> 'Wyznacz trasę dla swoich aktywności',
-				'dodajaktywnosc.php'	=> 'Dodaj aktywność'
+				'dodajaktywnosc.php'	=> 'Dodaj aktywność',
+				'aktywnosc.php'		=> 'Przeglądanie aktywności'
 			);
 
 			$this -> konto_links = array(

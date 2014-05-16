@@ -172,7 +172,8 @@
 			$min = intval(($czas - $godz * 3600) / 60);
 			$sec = $czas % 60;
 			echo 'Przebył '. $dane['dystans'] . 'km w ' . $godz .'g:'.$min.'m:'.$sec.'s.
-				<span style="padding-top: 40px; clear: both; float: right; text-align: right;">'.$dane['data_dodania'].'</span></div>';
+				<span style="padding-top: 20px; float: left; width: 40px;"><a href="aktywnosc.php?id='.$id.'">więcej...</a></span>
+				<span style="padding-top: 30px; clear: both; float: right; text-align: right;">'.$dane['data_dodania'].'</span></div>';
 		}
 
 		function zwrocNajnowszeId($idZrodla)
