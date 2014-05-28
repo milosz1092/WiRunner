@@ -5,13 +5,14 @@
 		{
 			if($typ === 0 || $id === 0) return -2;
 			if(($typ != "doProfilu" && $typ != "doAktywnosci")) return -1;
- 		
+ 			echo '<div style="margin-top:5px;">';
 			echo '<form action="" method="post">
-				<input style="width: 220px;" type="text" id="komentarz" name="komentarz" value="Napisz komentarz" maxlength="245" required="required"/>
-				<br/><input style=" font-decoration: bold; margin-left: 70px;" type="submit" value="DODAJ KOMENTARZ" name="dodajKomentarz">
-				<input type="hidden" name="rodzaj" value="'.$typ.'">
-				<input type="hidden" name="id" value="'.$id.'"></form>';
-			
+					<input style="width: 220px;" type="text" id="komentarz" name="komentarz" placeholder="Napisz komentarz" maxlength="245" required="required"/>
+					<br/><input style=" font-decoration: bold; margin-left: 70px;" type="submit" value="DODAJ KOMENTARZ" name="dodajKomentarz">
+					<input type="hidden" name="rodzaj" value="'.$typ.'">
+					<input type="hidden" name="id" value="'.$id.'">
+				</form>
+			</div>';
 		}
 
 		function dodajKoment($dane)
@@ -110,7 +111,7 @@
 			if(($typ != "doProfilu" && $typ != "doAktywnosci")) return -1;
 
 			$dane = $this->getCommentsById($typ, $id);
-			
+			echo '<div style="display:block;float:none;clear:both;padding-top:10px;">';
 			foreach($dane as $ele)
 			{
 				$user_info = $this->getUserInfo($ele['nr_uzytkownika']);
@@ -121,6 +122,7 @@
 	<a href="profil.php?uid='.$ele['nr_uzytkownika'].'"><b>'.(isset($user_info['imie'])?$user_info['imie'] . ' ' . $user_info['nazwisko'] : $user_info['email']) . '</b></a> '.$ele['data_dodania'].' napisał:';
 				echo '<span style="padding-top: 40px; clear: both; float: left;">'.$ele['tresc'].'</span></div>';
 			}
+			echo '</div>';
 		}
 	}
 

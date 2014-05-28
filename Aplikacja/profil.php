@@ -44,7 +44,7 @@
 						
 								$rodzaj = $my_usersRelations->zwroc_typ(array('1st'=>$_SESSION['WiRunner_log_id'], '2nd'=> $_GET['uid']));
 								if($rodzaj)
-								echo "Wasza relacja: ". $rodzaj . "<br/>";
+								//echo "Wasza relacja: ". $rodzaj . "<br/>";
 								if($rodzaj === 0)
 									echo '<input type="button" value="Zablokuj" onclick="document.location.href=\'profil.php?uid='.$_GET['uid'].'&relacja=wróg\'" />';
 								if($rodzaj !== "Wróg")

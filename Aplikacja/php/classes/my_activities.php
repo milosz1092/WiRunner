@@ -22,7 +22,7 @@
 
 			echo '<form action="" method="post">
 				<ul class="form_field">
-				<label for="sport_id" style="text-align: right; padding-right: 10px;">Sport :</label>
+				<label for="sport_id" style="text-align: right; padding-right: 10px;">Sport:</label>
 					<select id="sport_id" name="sport_id">
 					<option value="0">>>Wybierz sport</option>';
 
