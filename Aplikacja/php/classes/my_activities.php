@@ -157,6 +157,11 @@
 				//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
 			}
 		}
+		
+		function formatujCzas($czas)
+		{
+			return intval($czas / 3600).'g:'.intval(($czas - intval($czas / 3600) * 3600) / 60).'min:'.($czas % 60).'s';
+		}
 
 		function printActivity($id)
 		{
@@ -168,10 +173,10 @@
 
 <a href="profil.php?uid='.$dane['nr_uzytkownika'].'"><b>'.(isset($user_info['imie'])?$user_info['imie'] . ' ' . $user_info['nazwisko'] : $user_info['email']) . '</b></a> uprawiał <u>' . $this->getSport($dane['nr_sportu']) . '</u>. ';
 			$czas = (3600 * $dane['dystans']) / $dane['tempo'];
-			$godz = intval($czas / 3600);
-			$min = intval(($czas - $godz * 3600) / 60);
-			$sec = $czas % 60;
-			echo 'Przebył '. $dane['dystans'] . 'km w ' . $godz .'g:'.$min.'m:'.$sec.'s.
+//			$godz = intval($czas / 3600);
+//			$min = intval(($czas - $godz * 3600) / 60);
+//			$sec = $czas % 60;
+			echo 'Przebył '. $dane['dystans'] . 'km w ' . $this->formatujCzas($czas) .'.
 				<span style="padding-top: 20px; float: left; width: 40px;"><a href="aktywnosc.php?id='.$id.'">więcej...</a></span>
 				<span style="padding-top: 30px; clear: both; float: right; text-align: right;">'.$dane['data_dodania'].'</span></div>';
 		}

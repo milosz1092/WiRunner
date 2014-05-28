@@ -5,16 +5,16 @@
 		function zwroc_typ($id_userow)
 		{
 			// Zwraca albo nazwę relacji, albo 0 w przypadku braku.
-			// Przyjeliśmy, że użytkownicy są w stosunku do siebie zawsze w tej samej relacji i nie wymagają one potwierdzenia dwórch stron.
-			// W tabeli nr_pierwszego musi być zawsze mniejszy od nr_drugiego.
 			// Rodzaje relacji muszą zostać dodane do bazy, wymagane relacje to:
 			// Przyjaciel, Wróg, Rodzina 
-
-			$id_userow['1st'] > $id_userow['2nd'] ? list($id_userow['1st'],$id_userow['2nd']) = array($id_userow['2nd'], $id_userow['1st']) : ""; 
-			
 			
 			try {
-				$stmt = $this -> pdo -> prepare('SELECT relacja FROM relacje_uzytkownikow, rodzaje_relacji WHERE id_relacji LIKE BINARY  nr_rodzaju AND nr_pierwszego LIKE BINARY nr_pierwszego AND nr_drugiego LIKE BINARY nr_drugiego');
+				$stmt = $this -> pdo -> prepare('
+									SELECT relacja FROM relacje_uzytkownikow, rodzaje_relacji 
+									WHERE	id_relacji LIKE BINARY  nr_rodzaju AND 
+										nr_pierwszego LIKE BINARY :nr_pierwszego AND 
+										nr_drugiego LIKE BINARY :nr_drugiego'
+								);
 				$stmt -> bindValue(':nr_pierwszego', $id_userow['1st'], PDO::PARAM_STR);
 				$stmt -> bindValue(':nr_drugiego', $id_userow['2nd'], PDO::PARAM_STR);
 				$stmt -> execute();
@@ -41,34 +41,96 @@
 
 		
 
-		function znajdz_userow_w_relacji($uid, $relacja)
+		function znajdz_userow_w_relacji($id_uzytkownika, $relacja)
 		{
 			// Zwraca w tablicy id użytkowników spełniających podane kryterium.
+			// W przypadku nie braku rekordów spełniających dane kryterium zwracane jest zero.
+	
+			// Prawidłowe wartości zmiennej $relacja to:
+			$obslugiwaneRelacje = array("Przyjaciel", "Zaproszony", "Zaproszeni", "Zablokowani", "Wrog");
 
+			// Przyjaciel - wzajemna przyjaźń
+			// Zaproszony - osoby, które zaprosiły użytkownika o id $id_uzytkownika
+			// Zaproszeni - osoby zaproszone przez $id_uzytkownika
+			// Zablokowani - osoby ustawione jako wróg przez $id_uzytkownika, bez odwzajemnienia
+			// Wrog - wzajemna blokada
+
+			if(!in_array($relacja, $obslugiwaneRelacje)) return 0;
+
+			$szukanaRelacja = in_array($relacja, array("Przyjaciel", "Zaproszony", "Zaproszeni"))? "Przyjaciel" : "Wróg";
+			
 			try {
-				$stmt = $this -> pdo -> prepare('SELECT nr_pierwszego, nr_drugiego FROM relacje_uzytkownikow, rodzaje_relacji WHERE relacja LIKE BINARY :relacja AND (nr_pierwszego LIKE BINARY :nr_usera OR nr_drugiego LIKE BINARY :nr_usera)');
-		
-				$stmt -> bindValue(':nr_usera', $uid, PDO::PARAM_STR);
-				$stmt -> bindValue(':relacja', $relacja, PDO::PARAM_STR);
-				$stmt -> execute();
-				if($stmt -> rowCount() == 0) {
-					return 0;
-				}
-				else {
-					$wyn = array();
-						
-						while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-							array_push($wyn, $row['nr_pierwszego'] == $uid ? $row['nr_drugiego']: $row['nr_pierwszego']);
-						}
 
-					return $wyn;
+			// wzajemne relacje, więc Przyjaciele i wrogowie
+			if($relacja == "Przyjaciel" || $relacja == "Wrog")
+				$stmt = $this -> pdo -> prepare('
+								SELECT rel2.`nr_drugiego`
+								FROM 	relacje_uzytkownikow AS rel1
+								RIGHT JOIN relacje_uzytkownikow AS rel2 
+								ON 	rel1.`nr_pierwszego` = rel2.`nr_drugiego`
+								WHERE 	rel1.`nr_pierwszego` = rel2.`nr_drugiego` AND 
+									rel1.`nr_drugiego` = rel2.`nr_pierwszego` AND 
+									rel1.`nr_pierwszego` NOT LIKE BINARY :nr_usera AND 
+									rel1.nr_rodzaju = (SELECT id_relacji
+										FROM rodzaje_relacji
+										WHERE relacja LIKE BINARY :relacja)
+								');
+			else if($relacja == "Zaproszeni" || $relacja == "Zablokowani")
+				$stmt = $this -> pdo -> prepare('
+								SELECT rel.nr_drugiego FROM relacje_uzytkownikow AS rel
+								WHERE  rel.nr_rodzaju = (SELECT id_relacji
+												FROM rodzaje_relacji
+												WHERE relacja LIKE BINARY :relacja) AND
+									rel.nr_pierwszego LIKE BINARY :nr_usera AND 
+									rel.nr_drugiego NOT IN 
+										(SELECT rel2.nr_pierwszego 
+										FROM 	relacje_uzytkownikow AS rel2
+										WHERE   rel.nr_rodzaju = (SELECT id_relacji
+												FROM rodzaje_relacji
+												WHERE relacja LIKE BINARY :relacja) AND
+											rel2.nr_drugiego = rel.nr_pierwszego           
+									)
+								');
+
+			else if($relacja == "Zaproszony")
+				$stmt = $this -> pdo -> prepare('
+								SELECT rel.nr_pierwszego FROM relacje_uzytkownikow AS rel
+								WHERE  rel.nr_rodzaju = (SELECT id_relacji
+												FROM rodzaje_relacji
+												WHERE relacja LIKE BINARY :relacja) AND
+									rel.nr_drugiego LIKE BINARY :nr_usera AND 
+									rel.nr_drugiego NOT IN 
+										(SELECT rel2.nr_pierwszego 
+										FROM 	relacje_uzytkownikow AS rel2
+										WHERE   rel.nr_rodzaju = (SELECT id_relacji
+												FROM rodzaje_relacji
+												WHERE relacja LIKE BINARY :relacja) AND
+											rel2.nr_drugiego = rel.nr_pierwszego    ) 
+										)');
+
+		
+				$stmt -> bindValue(':nr_usera', $id_uzytkownika, PDO::PARAM_STR);
+				$stmt -> bindValue(':relacja', $szukanaRelacja, PDO::PARAM_STR);
+				$stmt -> execute();
+				
+				if($stmt -> rowCount() == 0) {
+					 return 0;
 				}
+					
+				$wyn = array();	
+				while($row = $stmt->fetch(PDO::FETCH_NUM))
+					array_push($wyn, $row[0]);
+
+
 				$stmt -> closeCursor();
 				unset($stmt);
+
+				return $wyn;
+
 				}
-				catch(PDOException $e) {
-					echo '<p>Wystąpił błąd biblioteki PDO</p>';
-				}			
+			catch(PDOException $e) {
+				echo '<p>Wystąpił błąd biblioteki PDO</p>';
+			}			
 		}
 
 	
