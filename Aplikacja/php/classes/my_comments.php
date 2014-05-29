@@ -193,6 +193,74 @@
 				return 0;
 			}
 		}
+
+		function czyJestJuzPolubione($id=0)
+		{
+			if($id === 0) return -1;
+			
+				try {
+					$stmt = $this -> pdo -> prepare('SELECT * FROM polubienia WHERE  nr_uzytkownika LIKE BINARY :user_id AND nr_aktywnosci LIKE BINARY :nr_id');
+
+							$stmt -> bindValue(':nr_id', $id, PDO::PARAM_STR);
+							$stmt -> bindValue(':user_id', $_SESSION['WiRunner_log_id'], PDO::PARAM_STR);					
+							$stmt -> execute();
+							if($stmt -> rowCount() == 0)
+							return 0;
+
+							$stmt -> closeCursor();
+							unset($stmt);
+							return 1;
+						}
+						catch(PDOException $e) {
+							//echo '<p>Wystąpił błąd biblioteki PDO</p>';
+							return 2;
+						}
+		}
+
+
+		function dodajPolubienie($id=0)
+		{
+			if($id === 0) return -1;
+			
+				try {
+					$stmt = $this -> pdo -> prepare('INSERT INTO  polubienia(nr_uzytkownika, nr_aktywnosci, data_polubienia) VALUES(:nr_uzytkownika, :nr_id, :data_dodania)');
+				
+
+							$stmt -> bindValue(':nr_id', $id, PDO::PARAM_STR);
+							$stmt -> bindValue(':nr_uzytkownika', $_SESSION['WiRunner_log_id'], PDO::PARAM_STR);					
+							$stmt -> bindValue(':data_dodania', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+							$stmt -> execute();
+
+							$stmt -> closeCursor();
+							unset($stmt);
+							return 1;
+						}
+						catch(PDOException $e) {
+							//echo '<p>Wystąpił błąd biblioteki PDO</p>';
+							return 0;
+						}
+		}
+
+		function idPolubionych($id=0)
+		{
+			if($id === 0) return -1;
+			
+				try {
+					$stmt = $this -> pdo -> prepare('SELECT * FROM polubienia WHERE nr_uzytkownika LIKE BINARY :id');
+				
+					$stmt -> bindValue(':id', $id, PDO::PARAM_STR);
+					$stmt -> execute();
+					$row = $stmt -> fetchAll();
+
+					$stmt -> closeCursor();
+					unset($stmt);
+					return $row;
+				}
+				catch(PDOException $e) {
+					//echo '<p>Wystąpił błąd biblioteki PDO</p>';
+					return 0;
+				}
+		}
 	}
 
 ?>

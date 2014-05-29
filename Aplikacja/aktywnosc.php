@@ -33,6 +33,16 @@
 		 echo '<div class="wrong_msg">Usuwanie zakończone niepowodzeniem!</div>';
 		else if($res == -1)
 		 echo '<div class="wrong_msg">Nie masz uprawnień!</div>';
+	}else if(isset($_GET['action']) && $_GET['action'] == "polub")
+	{
+		$res = $my_comments->dodajPolubienie($_GET['id']);
+
+		if($res == 1)
+			echo '<div class="ok_msg">Polubienie pomyślnie dodane!</div>';
+		else if($res == 0)
+		 echo '<div class="wrong_msg">Polubianie zakończone niepowodzeniem!</div>';
+		else if($res == -1)
+		 echo '<div class="wrong_msg">Nie masz uprawnień!</div>';
 	}
 
 
@@ -45,6 +55,12 @@ $czas = (3600 * $dane['dystans']) / $dane['tempo'];
 <a href="profil.php?uid='.$dane['nr_uzytkownika'].'"><b>'.(isset($user_info['imie'])?$user_info['imie'] . ' ' . $user_info['nazwisko'] : $user_info['email']) . '</b></a> uprawiał <u>' . $my_activities->getSport($dane['nr_sportu']) . '</u>. ';
 			
 	echo 'Przebył '. $dane['dystans'] . 'km w ' . $my_activities->formatujCzas($czas) .'.<br/><br/>';
+
+	if($my_comments->czyJestJuzPolubione($_GET['id']) == 0)
+		echo '<a href="'.my_getFilename::normal().'?id='.$_GET['id'].'&action=polub">Lubię to!</a><br/><br/>';
+	
+
+
 	echo 'Data treningu: '.$dane['data_treningu'].'<br/>
 		Nazwa treningu: <b>'.$dane['nazwa_treningu'].'</b><br/>
 		Opis: '.$dane['opis'].'<br/><br/>

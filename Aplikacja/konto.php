@@ -224,6 +224,22 @@ if(!$my_userAction->get_coordinates(1))
 					}
 					echo "</ul>";
 				break;	
+				case 'polubione':
+					if(($id_polubionych = $my_comments->idPolubionych($_SESSION['WiRunner_log_id'])) == 0)
+					echo 'Brak polubień!';
+					else
+					{
+						echo "<h2>Twoje polubione aktywności</h2>";
+						echo "<ul>";
+						foreach($id_polubionych as $ele)
+						{
+							if(($aktywnosc = $my_activities->getActivityById($ele['nr_aktywnosci'])) == 0)
+								continue;
+							echo '<li><a href="./aktywnosc.php?id='.$ele['nr_aktywnosci'].'">'.$aktywnosc['nazwa_treningu'] . '</a></li>';					
+						}
+						echo '</ul>';
+					}
+				break;
 			}
 		}
 ?>

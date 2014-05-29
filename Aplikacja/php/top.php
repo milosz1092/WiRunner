@@ -58,7 +58,7 @@
 									echo '<br/><a href="./konto.php?subPage=edytujprofil"><span style="color:red; font-style: italic;">Uzupełnij swoje dane!</span></a><br/>';
 								}
 								else
-									echo 'Jesteś zalogowany jako '.$temp['imie'].' '.$temp['nazwisko'].'!';
+									echo 'Jesteś zalogowany jako <a href="./profil.php?uid='.$_SESSION['WiRunner_log_id'].'">'.$temp['imie'].' '.$temp['nazwisko'].'</a>!';
 								unset($temp);
 							}
 						?>

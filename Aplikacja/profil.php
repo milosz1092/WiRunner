@@ -50,7 +50,7 @@ if ($_GET['uid'] != $_SESSION['WiRunner_log_id']){
 ?>
 		<article>
 			<section>
-				<div id="userHeader">
+				<div style="float: left; width: 440px;" id="userHeader">
 					<img style="display:inline-block;float:left;margin-right:20px;" src="img/web/unknow.jpg" alt="avatar" />
 					<h2><?php
 					if ($userInfo['imie'] == '' || $userInfo['nazwisko'] == '')
@@ -83,7 +83,7 @@ if ($_GET['uid'] != $_SESSION['WiRunner_log_id']){
 							
 						?>
 					</div>
-				</div>
+				
 
 			<?php
 					if(isset($resDodawania) && is_array($resDodawania))
@@ -92,6 +92,24 @@ if ($_GET['uid'] != $_SESSION['WiRunner_log_id']){
 	
 					$my_comments->printComments("doProfilu", $_GET['uid']);		
 			?>
+			</div>
+			<div style="float: right; width: 300px;">
+			<?
+			$id_aktywnosci = $my_activities->zwrocNajnowszeId($_GET['uid']);
+			if(!empty($id_aktywnosci)){
+				echo "<h1>Najnowsze aktywności:</h1>";
+			} else {
+				echo "Jak narazie brak aktywności!!";
+			}
+
+			foreach($id_aktywnosci as $id)
+			{
+				$my_activities->printActivity($id['id_aktywnosci']);
+			}
+
+			?>
+			</div>
+
 			</section>
 		</article>
 <?php

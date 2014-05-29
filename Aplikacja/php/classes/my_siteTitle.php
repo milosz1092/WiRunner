@@ -30,6 +30,7 @@
 				'poczta'		=>	array ('Poczta', NULL),
 				'przyjaciele'		=>	array ('Przyjaciele', NULL),
 				'zaproszenia'		=>	array ('Zaproszenia', NULL),
+				'polubione'		=>	array ('Polubione', NULL),
 			);
 
 			$this -> admin_links = array(
