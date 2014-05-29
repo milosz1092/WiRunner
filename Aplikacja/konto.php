@@ -26,7 +26,7 @@ if(!$my_userAction->get_coordinates(1))
 					echo '<li><a ';
 					if (isset($_GET['subPage']) && $link == $_GET['subPage'])
 						echo 'class="act" ';
-					echo 'href="'.my_getFilename::normal().'?subPage='.$link.'">'.$pack[0].'</a></li>';
+					echo 'href="'.my_getFilename::normal().'?subPage='.$link.'">'.$pack[0].'</a> '.(($link=="zaproszenia")?'('.$my_usersRelations->ileZaproszenPrzychodzacych().')':'').'</li>';
 
 					if ($pack[1] != NULL) {
 						echo '<ul class="actionLinks">';
@@ -76,9 +76,7 @@ if(!$my_userAction->get_coordinates(1))
 					if ($my_userAction->get_tracks() == 0) {
 						echo '<p>Nie posiadasz zapisanych tras...</p>';
 					}
-?>
-				
-<?php
+
 				break;
 				case 'poczta':
 					if (isset($_GET['msg']) && $_GET['msg'] == 'justSendMsg')
@@ -177,6 +175,42 @@ if(!$my_userAction->get_coordinates(1))
 				
 <?php
 				break;
+				case 'przyjaciele':
+					$przyjaciele = $my_usersRelations->znajdz_userow_w_relacji($_SESSION['WiRunner_log_id'], "Przyjaciel");
+					if (!$przyjaciele) {
+						echo 'Nie masz jeszcze żadnych przyjaciół!'; 
+						break; 
+					}
+			
+					echo "<ul>";				
+					foreach($przyjaciele as $uid)
+					{
+						$user_info = $my_comments->getUserInfo($uid);
+						echo '<li><a href="profil.php?uid='.$uid.'">'.((isset($user_info['imie']))? $user_info['imie'] . ' ' . $user_info['nazwisko'] : $user_info['email']) . '</a></li>';
+					}
+					echo "</ul>";
+
+				break;
+				case 'zaproszenia':
+				$zaproszenia = $my_usersRelations->znajdz_userow_w_relacji($_SESSION['WiRunner_log_id'], "Zaproszony");
+					if (!$zaproszenia) {
+						echo 'Nie masz przychodzących zaproszeń!'; 
+						break; 
+					}
+			
+					echo "<ul>";				
+					foreach($zaproszenia as $uid)
+					{
+						$user_info = $my_comments->getUserInfo($uid);
+						echo '<li><a href="profil.php?uid='.$uid.'">'.((isset($user_info['imie']))? $user_info['imie'] . ' ' . $user_info['nazwisko'] : $user_info['email']) . '</a>';
+								
+						echo '<a href="profil.php?uid='.$uid.'&relacja=przyjaciel">Akceptuj zaproszenie</a> / <a href="profil.php?uid='.$uid.'&relacja=odrzuc_zaproszenie">Odrzuć zaproszenie</a>';
+						
+
+						echo '</li>';
+					}
+					echo "</ul>";
+				break;	
 			}
 		}
 ?>

@@ -28,6 +28,8 @@
 				'edytujprofil'	=>	array('Edytuj swoje dane', NULL),
 				'trasy'			=>	array ('Trasy', NULL),
 				'poczta'		=>	array ('Poczta', NULL),
+				'przyjaciele'		=>	array ('Przyjaciele', NULL),
+				'zaproszenia'		=>	array ('Zaproszenia', NULL),
 			);
 
 			$this -> admin_links = array(

@@ -18,9 +18,11 @@ CREATE TABLE IF NOT EXISTS `aktywnosci` (
   `dystans` decimal(6,3) DEFAULT NULL,
   `data_treningu` date NOT NULL,
   `data_dodania` datetime NOT NULL,
+  `nr_trasy` INT UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (`id_aktywnosci`),
   KEY `nr_uzytkownika_idx` (`nr_uzytkownika`),
-  KEY `nr_sportu_idx` (`nr_sportu`)
+  KEY `nr_sportu_idx` (`nr_sportu`),
+  KEY `nr_trasy_idx` (`nr_trasy`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `cele` (
