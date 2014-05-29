@@ -162,8 +162,15 @@
 		{
 			if($typ === 0 || $id === 0) return -1;
 			$comment = $this->getCommentById($typ,$id);
+			if($typ == "doAktywnosci")
+			{
+				$stmt = $this -> pdo -> prepare('SELECT * FROM aktywnosci WHERE id_aktywnosci LIKE BINARY :id');
+				$stmt -> bindValue(':id', $id, PDO::PARAM_STR);
+				$stmt -> execute();
+				$row = $stmt -> fetch();
 
-			if($comment && ($comment['nr_uzytkownika'] != $_SESSION['WiRunner_log_id']/* czy admin */))
+			}
+			if(!$comment || ($comment['nr_uzytkownika'] != $_SESSION['WiRunner_log_id'] && (($typ == "doProfilu" && $comment['nr_profilu'] != $_SESSION['WiRunner_log_id']) || ($typ == "doAktywnosci" && $row['nr_uzytkownika'] != $_SESSION['WiRunner_log_id']))))
 				return -1;
 
 			try {
