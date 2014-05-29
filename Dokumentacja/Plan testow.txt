@@ -7,7 +7,7 @@ Plan testów:
 6. Utwórz Rywalizacje 
 7. Edytuj Rywalizacje 
 8. Usuñ Rywalizacje 
-9. Blokowanie \ Odblokowanie  Konto u¿ytkownika przez moderatora 
+9. Blokowanie \ Odblokowanie konta u¿ytkownika przez moderatora 
 10. Usuwanie  aktywnoœci przez moderatora 
 11. Kalkulator tempa 
 12. Dodawanie komentarzy 
