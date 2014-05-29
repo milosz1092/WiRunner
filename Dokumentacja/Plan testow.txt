@@ -1,0 +1,21 @@
+Plan testów:
+1. Rejestracja do systemu
+2. Logowanie do systemu 
+3. Resetowanie has³a cz.1
+4. Resetowanie has³a cz.2 
+5. Wyszukiwanie przyjació³ 
+6. Utwórz Rywalizacje 
+7. Edytuj Rywalizacje 
+8. Usuñ Rywalizacje 
+9. Blokowanie \ Odblokowanie  Konto u¿ytkownika przez moderatora 
+10. Usuwanie  Rywalizacji przez moderatora 
+11. Kalkulator tempa 
+12. Dodawanie komentarzy 
+13. Planowanie trasy swoich aktywnoœci
+14. Planowanie swoich aktywnoœci
+15. Edytowanie swoich aktywnoœci
+16. Wys³anie wiadomoœci
+17. Blokowanie u¿ytkownika
+18. Odblokowanie u¿ytkownika 
+19. Usuwanie znajomego
+20. Odczytanie wiadomoœci 
