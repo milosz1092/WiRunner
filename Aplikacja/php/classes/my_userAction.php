@@ -479,6 +479,7 @@ EOD;
 				     	array('waga','Waga','number','3'),
 					array('wzrost','Wzrost','number','3'),
 					array('miejscowosc','Miejscowość','text','45','req'),
+					array('data_urodzenia','Data urodzenia','date',''),
 					array('motto','Motto','textarea','245')
 					);
 
@@ -498,6 +499,13 @@ EOD;
 					else	echo	'<textarea id="'.$ele[0].'" name="'.$ele[0].'" maxlength="'.$ele[3].'"/>'.$userInfo[$ele[0]].'</textarea>';
 					    	echo '</li>';
 				}
+			echo '<br/><li style="margin: 2px;">
+				<label for="prywatnosc" style="text-align: right; padding-right: 10px;">Prywatność :</label>
+				<select name="widoczny_dla_gosci">
+					<option value="1" '.($userInfo['widoczny_dla_gosci']==1?'selected':'').'>profil widoczny dla gości</option>
+					<option value="0" '.($userInfo['widoczny_dla_gosci']==0?'selected':'').'>profil niewidoczny dla gości</option>
+				</select></li>';
+
 			echo '<input style="margin: 20px 0px 0px 140px;" type="submit" value="Akutalizuj dane" name="edytujDane"></ul></form>';
 			echo '<script>';
 				echo '$("#imie").focus();';
@@ -522,9 +530,9 @@ EOD;
 								$bledy[] = 'Nazwa miejscowości powinna mieć od 3 do 45 znaków!';
 						}
 
-						if(!empty($dane['wiek'])){
-							if(!intval($dane['wiek']) || $dane['wiek'] < 13 || $dane['wiek'] > 120)
-								$bledy[] = 'Minimalny wiek użytkownika to 13 lat, max 120!!';
+						if(!empty($dane['waga'])){
+							if(!intval($dane['waga']) || $dane['waga'] < 40 || $dane['waga'] > 220)
+								$bledy[] = 'Minimalna waga użytkownika to 40kg, max 220!!';
 }
 						if(!empty($dane['wzrost'])){
 							if(!intval($dane['wzrost']) || $dane['wzrost'] < 130 || $dane['wzrost'] > 240)
@@ -542,7 +550,7 @@ EOD;
 						}	
 			
 						try {
-							$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET imie=:imie, nazwisko=:nazwisko, waga=:waga, wzrost=:wzrost, miejscowosc=:miejscowosc, motto=:motto WHERE id_uzytkownika=:id_uzytkownika');
+							$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET imie=:imie, nazwisko=:nazwisko, waga=:waga, wzrost=:wzrost, miejscowosc=:miejscowosc, motto=:motto, widoczny_dla_gosci=:widoczny_dla_gosci, data_urodzenia=:data_urodzenia WHERE id_uzytkownika=:id_uzytkownika');
 
 							$stmt -> bindValue(':id_uzytkownika', $_SESSION['WiRunner_log_id'], PDO::PARAM_INT);
 							$stmt -> bindValue(':imie', ucfirst($dane['imie']), PDO::PARAM_STR);
@@ -551,6 +559,8 @@ EOD;
 							$stmt -> bindValue(':wzrost', $dane['wzrost'], PDO::PARAM_INT);
 							$stmt -> bindValue(':miejscowosc', ucwords($dane['miejscowosc']), PDO::PARAM_STR);
 							$stmt -> bindValue(':motto', $dane['motto'], PDO::PARAM_STR);
+							$stmt -> bindValue(':widoczny_dla_gosci', $dane['widoczny_dla_gosci'], PDO::PARAM_STR);
+							$stmt -> bindValue(':data_urodzenia', $dane['data_urodzenia'], PDO::PARAM_STR);
 							$stmt -> execute();
 
 				

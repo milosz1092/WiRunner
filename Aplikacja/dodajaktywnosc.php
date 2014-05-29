@@ -16,7 +16,9 @@
 								     	'tempo' => $_POST['tempo'],
 									'dystans' => $_POST['dystans'],
 									'sport_id' => $_POST['sport_id'],
-									'data_treningu' => $_POST['data_treningu']
+									'data_treningu' => $_POST['data_treningu'],
+									'widoczny_dla_gosci' => $_POST['widoczny_dla_gosci'],
+									'data_urodzenia' => $_POST['data_urodzenia']
 									));
 
 					if($resDodawania == -1) $my_activities->formularzDodawania($my_simpleDbCheck->getSports(), 
@@ -26,7 +28,9 @@
 								     	'tempo' => $_POST['tempo'],
 									'dystans' => $_POST['dystans'],
 									'sport_id' => $_POST['sport_id'],
-									'data_treningu' => $_POST['data_treningu']
+									'data_treningu' => $_POST['data_treningu'],
+									'widoczny_dla_gosci' => $_POST['widoczny_dla_gosci'],
+									'data_urodzenia' => $_POST['data_urodzenia']
 									));
 
 					elseif($resDodawania == 1) {

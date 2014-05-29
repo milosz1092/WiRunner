@@ -6,6 +6,9 @@
 
 	$userInfo = $my_simpleDbCheck->getUserInfo($_GET['uid']);
 
+	if($_SESSION['WiRunner_log_id'] == 0 && $userInfo['widoczny_dla_gosci'] == 0)
+		header("Location: login.php");
+
 	if(!empty($_GET['relacja'])) {
 		$res = $my_usersRelations->ustaw_relacje(array('1st'=>$_SESSION['WiRunner_log_id'], '2nd'=> $_GET['uid']), ucfirst($_GET['relacja']));
 		if($res == 1)

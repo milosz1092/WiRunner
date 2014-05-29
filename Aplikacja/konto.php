@@ -55,7 +55,9 @@ if(!$my_userAction->get_coordinates(1))
 							'wzrost' => $_POST['wzrost'], 
 							'waga' => $_POST['waga'], 
 							'miejscowosc' => $_POST['miejscowosc'], 
-							'motto' => $_POST['motto']
+							'motto' => $_POST['motto'], 
+							'widoczny_dla_gosci' => $_POST['widoczny_dla_gosci'], 
+							'data_urodzenia' => $_POST['data_urodzenia']
 
 							);
 

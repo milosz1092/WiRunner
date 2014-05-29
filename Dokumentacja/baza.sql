@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `aktywnosci` (
   `data_treningu` date NOT NULL,
   `data_dodania` datetime NOT NULL,
   `nr_trasy` INT UNSIGNED NULL DEFAULT 0,
+  `widoczna_dla_gosci` BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (`id_aktywnosci`),
   KEY `nr_uzytkownika_idx` (`nr_uzytkownika`),
   KEY `nr_sportu_idx` (`nr_sportu`),
@@ -137,6 +138,8 @@ CREATE TABLE IF NOT EXISTS `uzytkownicy` (
   `motto` varchar(245) DEFAULT NULL,
   `ostatnie_logowanie` datetime DEFAULT NULL,
   `potwierdzony_mail` bit(1) NOT NULL DEFAULT b'0',
+  `widoczny_dla_gosci` BOOLEAN NOT NULL DEFAULT FALSE,
+  `data_urodzenia` date NULL,
   PRIMARY KEY (`id_uzytkownika`),
   KEY `nr_rangi_idx` (`nr_rangi`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;

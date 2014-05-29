@@ -19,8 +19,8 @@
 					array('dystans','Dystans','text','6','req'),
 					array('data_treningu','Data treningu','date','10','req')
 			);
-
-			echo '<form action="" method="post">
+			
+			echo '<div style="float:left; width: 400px;"><form action="" method="post">
 				<ul class="form_field">
 				<label for="sport_id" style="text-align: right; padding-right: 10px;">Sport:</label>
 					<select id="sport_id" name="sport_id">
@@ -41,10 +41,30 @@
 
 					    	echo '</li>';
 				}
+
+		echo '<li style="margin: 2px;">
+			<label for="prywatnosc" style="text-align: right; padding-right: 10px;">Prywatność :</label>
+			<select name="prywatnosc">
+				<option value="1">widoczna dla gości</option>
+				<option value="0">niewidoczna dla gości</option>
+			</select>';
+			
+			
+echo '
+<script type="text/javascript">
+function wybierzTrase(){
+	$("#prawaStrona").load(\'wytyczanieTrasy.php\');
+	}
+	</script>';
+
+
+			echo '<div onclick="wybierzTrase()">Chcesz zaznaczyć trasę aktywności na mapie?</div></br>';
+
 			echo '<input style="margin: 20px 0px 0px 140px;" type="submit" value="Dodaj aktywność" name="dodajAktywnosc"></ul></form>';
 			echo '<script>';
 				echo '$("#sport_id").focus();';
 			echo '</script>';
+			echo '</div><div id="prawaStrona" style="float: left; width: 500px; height: 400px; background-color: red;"></div>';
 		}
 
 		function dodajAktywnosc($dane)
@@ -78,7 +98,7 @@
 						}	
 			
 						try {
-							$stmt = $this -> pdo -> prepare('INSERT INTO aktywnosci(nr_sportu, nr_uzytkownika, nazwa_treningu, opis, tempo, dystans, data_treningu, data_dodania) VALUES(:nr_sportu, :nr_uzytkownika, :nazwa_treningu, :opis, :tempo, :dystans, :data_treningu, :data_dodania)');
+							$stmt = $this -> pdo -> prepare('INSERT INTO aktywnosci(nr_sportu, nr_uzytkownika, nazwa_treningu, opis, tempo, dystans, data_treningu, data_dodania, widoczna_dla_gosci) VALUES(:nr_sportu, :nr_uzytkownika, :nazwa_treningu, :opis, :tempo, :dystans, :data_treningu, :data_dodania, :prywatnosc)');
 							$stmt -> bindValue(':nr_sportu', $dane['sport_id'], PDO::PARAM_STR);
 							$stmt -> bindValue(':nr_uzytkownika', $_SESSION['WiRunner_log_id'], PDO::PARAM_STR);					
 							$stmt -> bindValue(':nazwa_treningu', $dane['nazwa_treningu'], PDO::PARAM_STR);
@@ -87,6 +107,7 @@
 							$stmt -> bindValue(':dystans', $dane['dystans'], PDO::PARAM_STR);
 							$stmt -> bindValue(':data_treningu', $dane['data_treningu'], PDO::PARAM_STR);
 							$stmt -> bindValue(':data_dodania', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+							$stmt -> bindValue(':prywatnosc', $dane['prywatnosc'], PDO::PARAM_STR);
 							$stmt -> execute();
 
 				

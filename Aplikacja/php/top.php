@@ -12,7 +12,7 @@
 	if(!isset($_SESSION['WiRunner_login']))
 		$_SESSION['WiRunner_login'] = '';
 
-	if (($_SESSION['WiRunner_log_id'] == 0 && my_getFilename::normal() != 'login.php') && my_getFilename::normal() != 'register.php' && my_getFilename::normal() != 'regulamin.php' && my_getFilename::normal() != 'kontakt.php' && my_getFilename::normal() != 'passreset.php' && my_getFilename::normal() != 'wytyczanietrasy.php') {
+	if (($_SESSION['WiRunner_log_id'] == 0 && my_getFilename::normal() != 'login.php') && my_getFilename::normal() != 'register.php' && my_getFilename::normal() != 'regulamin.php' && my_getFilename::normal() != 'kontakt.php' && my_getFilename::normal() != 'passreset.php' && my_getFilename::normal() != 'wytyczanietrasy.php' && my_getFilename::normal() != 'aktywnosc.php' && my_getFilename::normal() != 'profil.php') {
 		header("Location: login.php");
 	}
 
