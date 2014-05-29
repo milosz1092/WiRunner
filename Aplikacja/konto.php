@@ -83,13 +83,31 @@ if(!$my_userAction->get_coordinates(1))
 							 echo '<div class="wrong_msg">Błąd, trasa nie usunięta!</div>';
 							else if($res == 1)
 							 echo '<div class="ok_msg">Trasa pomyślnie usunięta!</div>';
-						}
-
+					} else if(isset($_GET['action']) && $_GET['action'] == "kopiuj" && isset($_GET['id']) && intval($_GET['id'])){
+							
+							$res = $my_userAction->copyTrack($_GET['id']);
+		 
+							if($res == -1)
+							 echo '<div class="wrong_msg">Nie masz wymaganych uprawnień!</div>';
+							else if($res == 0)
+							 echo '<div class="wrong_msg">Błąd, trasa nie skopiowana!</div>';
+							else if($res == 1)
+							 echo '<div class="ok_msg">Trasa pomyślnie skopiowana!</div>';
+					}
+					echo "<h2>Twoje trasy</h2>";
 					// pobranie tras użytkownika, jeżeli takowe istnieją
 					if ($my_userAction->get_tracks() == 0) {
 						echo '<p>Nie posiadasz zapisanych tras...</p>';
 					}
-
+					if(($przyjaciele = $my_usersRelations->znajdz_userow_w_relacji($_SESSION['WiRunner_log_id'], "Przyjaciel")) != 0){
+					echo "Trasy znajomych: <br/>"; $straznik = false;
+					foreach($przyjaciele as $id)
+						{
+							 if(($my_userAction->get_tracks($id)) != 0)
+								$straznik = true;
+						}
+					if(!$straznik) echo "póki co brak tras..";
+					}
 				break;
 				case 'poczta':
 					if (isset($_GET['msg']) && $_GET['msg'] == 'justSendMsg')

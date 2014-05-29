@@ -428,19 +428,16 @@ EOD;
 					return 0;
 				}
 				else {
-					echo "<header class=\"entry-header\">
-
-							<h1 class=\"entry-title\">Twoje trasy</h1>
-						</header>
-						<ul>";
+					echo "<ul>";
 						
 
 						while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 							echo '<li style="width: 340px;"><a href="./trasy.php?id='.$row['id_trasy'].'">'.$row['nazwa_trasy'].'</a> (dystans '.$row['dlugosc_trasy'].'km)';
 
 
-					if($user_id == $_SESSION['WiRunner_log_id']) echo '<span style="font-size: 10px; float: right;"><a href="'.my_getFilename::normal().'?subPage=trasy&action=usun&id='.$row['id_trasy'].'">usuń trasę</a></span>';		
-	
+					if($user_id == $_SESSION['WiRunner_log_id']) echo '<span style="font-size: 10px; float: right;"><a href="'.my_getFilename::normal().'?subPage=trasy&action=usun&id='.$row['id_trasy'].'">usuń trasę</a></span>';
+					else  echo '<span style="font-size: 10px; float: right;"><a href="'.my_getFilename::normal().'?subPage=trasy&action=kopiuj&id='.$row['id_trasy'].'">kopiuj trasę</a></span>';		
+					
 					echo '</li>';
 						}
 					echo 	"</ul>";
@@ -519,7 +516,6 @@ function getTracks($user_id=0) {
 			$trasa = $this->get_track($id_trasy);
 			if($trasa && $trasa['nr_uzytkownika'] != $_SESSION['WiRunner_log_id'] /* && niezalogowany jako admin/moderator */)
 				return -1;
-
 			try {
 				$stmt = $this -> pdo -> prepare('DELETE FROM trasy WHERE id_trasy=:id_trasy');
 				$stmt -> bindValue(':id_trasy', $id_trasy, PDO::PARAM_STR);
@@ -527,6 +523,45 @@ function getTracks($user_id=0) {
 
 				$stmt -> closeCursor();
 				unset($stmt);
+				return 1;
+			}
+			catch(PDOException $e) {
+				//echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				return 0;
+			}
+		 }
+		
+		function copyTrack($id_trasy)
+		{
+			$trasa = $this->get_track($id_trasy);
+			if(!$trasa || $trasa['nr_uzytkownika'] == $_SESSION['WiRunner_log_id']/* && niezalogowany jako admin/moderator */)
+				return -1;
+			/* jeszcze można sprawdzić, czy ktoś nie próbuje kopiować trasy osoby, która go blokuje ;) */
+
+			try {
+				$stmt = $this -> pdo -> prepare('SELECT * FROM trasy WHERE id_trasy=:id_trasy');
+				$stmt -> bindValue(':id_trasy', $id_trasy, PDO::PARAM_STR);
+				$stmt -> execute();
+
+				$dane = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+				$stmt -> closeCursor();
+				unset($stmt);
+
+				$stmt = $this -> pdo -> prepare('INSERT INTO trasy VALUES   (0, :nr_usera,:nazwa,:dlugosc,:przebieg,:punkty, :data)');
+
+				$stmt -> bindValue(':nr_usera', $_SESSION['WiRunner_log_id'], PDO::PARAM_INT);
+				$stmt -> bindValue(':nazwa', $dane['nazwa_trasy'], PDO::PARAM_STR);
+				$stmt -> bindValue(':dlugosc', $dane['dlugosc_trasy'], PDO::PARAM_STR);
+				$stmt -> bindValue(':przebieg', $dane['przebieg_trasy'], PDO::PARAM_STR);
+				$stmt -> bindValue(':punkty', $dane['punkty_trasy'], PDO::PARAM_STR);
+				$stmt -> bindValue(':data', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+				$stmt -> execute();
+
+				
+				$stmt -> closeCursor();
+				unset($stmt);
+
 				return 1;
 			}
 			catch(PDOException $e) {
