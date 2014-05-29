@@ -74,6 +74,17 @@ if(!$my_userAction->get_coordinates(1))
 
 
 				case 'trasy':
+					if(isset($_GET['action']) && $_GET['action'] == "usun" && isset($_GET['id']) && intval($_GET['id'])){
+							$res = $my_userAction->removeTrack($_GET['id']);
+		 
+							if($res == -1)
+							 echo '<div class="wrong_msg">Nie masz uprawnień do usunięcia tej trasy!</div>';
+							else if($res == 0)
+							 echo '<div class="wrong_msg">Błąd, trasa nie usunięta!</div>';
+							else if($res == 1)
+							 echo '<div class="ok_msg">Trasa pomyślnie usunięta!</div>';
+						}
+
 					// pobranie tras użytkownika, jeżeli takowe istnieją
 					if ($my_userAction->get_tracks() == 0) {
 						echo '<p>Nie posiadasz zapisanych tras...</p>';

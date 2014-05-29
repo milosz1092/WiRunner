@@ -413,6 +413,7 @@ EOD;
 				
 			return 1;
 		}
+		
 // pobieranie listy tras użytkownika
 		function get_tracks($user_id=0) {
 			if($user_id == 0) $user_id = $_SESSION['WiRunner_log_id'];
@@ -431,7 +432,11 @@ EOD;
 						<ul>";
 						
 						while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-							echo '<li><a href="./trasy.php?id='.$row['id_trasy'].'">'.$row['nazwa_trasy'].'</a> (dystans '.$row['dlugosc_trasy'].'km)</li>';
+							echo '<li style="width: 260px;"><a href="./trasy.php?id='.$row['id_trasy'].'">'.$row['nazwa_trasy'].'</a> (dystans '.$row['dlugosc_trasy'].'km)';
+
+					if($user_id == $_SESSION['WiRunner_log_id']) echo '<span style="font-size: 10px; float: right;"><a href="'.my_getFilename::normal().'?subPage=trasy&action=usun&id='.$row['id_trasy'].'">usuń trasę</a></span>';		
+	
+					echo '</li>';
 						}
 					echo 	"</ul>";
 				}
@@ -470,6 +475,28 @@ EOD;
 			return $row;
 
 		}	
+
+		function removeTrack($id_trasy)
+		{
+			$trasa = $this->get_track($id_trasy);
+			if($trasa['nr_uzytkownika'] != $_SESSION['WiRunner_log_id'] /* && niezalogowany jako admin/moderator */)
+				return -1;
+
+			try {
+				$stmt = $this -> pdo -> prepare('DELETE FROM trasy WHERE id_trasy=:id_trasy');
+				$stmt -> bindValue(':id_trasy', $id_trasy, PDO::PARAM_STR);
+				$stmt -> execute();
+
+				$stmt -> closeCursor();
+				unset($stmt);
+				return 1;
+			}
+			catch(PDOException $e) {
+				//echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				return 0;
+			}
+		 
+		}
 
 //	formularz edycji swoich danych
 		function profil_edit($userInfo) {
