@@ -103,6 +103,38 @@
 				return 0;
 			}
 		}
+
+		function getCommentById($typ=0, $id=0)
+		{
+			if($typ === 0 || $id === 0) return -1;
+			if(($typ != "doProfilu" && $typ != "doAktywnosci")) return -1;
+
+			try {
+			if($typ == "doProfilu")
+				$stmt = $this -> pdo -> prepare('SELECT * FROM komentarze_do_profilu WHERE id_komentarza LIKE BINARY :id');
+			else if($typ == "doAktywnosci")
+				$stmt = $this -> pdo -> prepare('SELECT * FROM komentarze_do_aktywnosci WHERE id_komentarza LIKE BINARY :id');
+
+				$stmt -> bindValue(':id', $id, PDO::PARAM_INT);
+				$stmt -> execute();
+				
+				if($stmt -> rowCount() == 0) {
+					$stmt -> closeCursor();
+					unset($stmt);
+					return 0;
+				}
+				$row = $stmt -> fetch();
+				
+				$stmt -> closeCursor();
+				unset($stmt);
+				return $row;
+			}
+			catch(PDOException $e) {
+				echo '<p>Wystąpił błąd biblioteki PDO1</p>';
+				//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
+				return 0;
+			}
+		}
 	
 
 		function printComments($typ=0, $id=0)
@@ -116,13 +148,40 @@
 			{
 				$user_info = $this->getUserInfo($ele['nr_uzytkownika']);
 
-				echo '<div class="aktywnosc">
+				echo '<div class="komentarz">
 					<img style="display:inline-block;float:left;margin-right:10px;" width="20" height="20" src="img/web/unknow.jpg" alt="avatar" />
 
 	<a href="profil.php?uid='.$ele['nr_uzytkownika'].'"><b>'.(isset($user_info['imie'])?$user_info['imie'] . ' ' . $user_info['nazwisko'] : $user_info['email']) . '</b></a> '.$ele['data_dodania'].' napisał:';
-				echo '<span style="padding-top: 40px; clear: both; float: left;">'.$ele['tresc'].'</span></div>';
+				echo '<span style="padding-top: 40px; clear: both; float: left;">'.$ele['tresc'].'</span>';
+				echo '<span style="padding-left: 120px;"><a href="'.my_getFilename::normal().'?'.($typ=="doProfilu"?'u':'').'id='.$id.'&action=usun_komentarz&koment_id='.$ele['id_komentarza'].'">usuń</a></span></div>';
 			}
 			echo '</div>';
+		}
+
+		function removeComment($typ=0, $id=0)
+		{
+			if($typ === 0 || $id === 0) return -1;
+			$comment = $this->getCommentById($typ,$id);
+
+			if($comment && ($comment['nr_uzytkownika'] != $_SESSION['WiRunner_log_id']/* czy admin */))
+				return -1;
+
+			try {
+				if($typ == "doProfilu")
+				$stmt = $this -> pdo -> prepare('DELETE FROM komentarze_do_profilu WHERE id_komentarza LIKE BINARY :id');
+			else if($typ == "doAktywnosci")
+				$stmt = $this -> pdo -> prepare('DELETE FROM komentarze_do_aktywnosci WHERE id_komentarza LIKE BINARY :id');
+				$stmt -> bindValue(':id', $id, PDO::PARAM_STR);
+				$stmt -> execute();
+
+				$stmt -> closeCursor();
+				unset($stmt);
+				return 1;
+			}
+			catch(PDOException $e) {
+				//echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				return 0;
+			}
 		}
 	}
 

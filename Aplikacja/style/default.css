@@ -376,6 +376,9 @@ a.login_link {
 .rekord a { text-decoration: none; }
 .rekord a:hover { font-style: italic; }
 
+.komentarz { width: 320px;  min-height: 100px; border: 1px solid; margin: 10px; padding: 10px; }
+.komentarz a:link { text-decoration: none; }
+ 
 .aktywnosc { width: 320px; height: 100px; border: 1px solid; margin: 10px; padding: 10px; }
 .aktywnosc a:link { text-decoration: none; }
  

@@ -29,6 +29,16 @@
 								      	'komentarz' => $_POST['komentarz'],
 								     	'rodzaj' => $_POST['rodzaj']
 									));
+	}else if(isset($_GET['action']) && $_GET['action'] == "usun_komentarz" && isset($_GET['koment_id']) && intval($_GET['koment_id']) )
+	{
+		$res = $my_comments->removeComment("doProfilu", $_GET['koment_id']);
+
+		if($res == 1)
+			echo '<div class="ok_msg">Komentarz pomyślnie usunięty!</div>';
+		else if($res == 0)
+		 echo '<div class="wrong_msg">Usuwanie zakończone niepowodzeniem!</div>';
+		else if($res == -1)
+		 echo '<div class="wrong_msg">Nie masz uprawnień!</div>';
 	}
 
 if ($_GET['uid'] != $_SESSION['WiRunner_log_id']){
