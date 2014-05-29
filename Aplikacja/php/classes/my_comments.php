@@ -164,12 +164,15 @@
 			$comment = $this->getCommentById($typ,$id);
 			if($typ == "doAktywnosci")
 			{
-				$stmt = $this -> pdo -> prepare('SELECT * FROM aktywnosci WHERE id_aktywnosci LIKE BINARY :id');
-				$stmt -> bindValue(':id', $id, PDO::PARAM_STR);
+				$stmt = $this -> pdo -> prepare('SELECT * FROM aktywnosci WHERE id_aktywnosci =:id');
+				$stmt -> bindValue(':id', $comment['nr_aktywnosci'], PDO::PARAM_STR);
 				$stmt -> execute();
-				$row = $stmt -> fetch();
+				$row = $stmt -> fetch(PDO::FETCH_ASSOC);
 
+				$stmt -> closeCursor();
+				unset($stmt);
 			}
+	
 			if(!$comment || ($comment['nr_uzytkownika'] != $_SESSION['WiRunner_log_id'] && (($typ == "doProfilu" && $comment['nr_profilu'] != $_SESSION['WiRunner_log_id']) || ($typ == "doAktywnosci" && $row['nr_uzytkownika'] != $_SESSION['WiRunner_log_id']))))
 				return -1;
 
