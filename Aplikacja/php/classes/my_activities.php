@@ -8,7 +8,7 @@
 		    return $d && $d->format($format) == $date;
 		}
 
-		function formularzDodawania($sporty, $dane=NULL)
+		function formularzDodawania($sporty, $trasyUsera, $dane=NULL)
 		{
 			if(empty($sporty)) return -1;
 
@@ -20,7 +20,7 @@
 					array('data_treningu','Data treningu','date','10','req')
 			);
 			
-			echo '<div style="float:left; width: 400px;"><form action="" method="post">
+			echo '<form action="" method="post">
 				<ul class="form_field">
 				<label for="sport_id" style="text-align: right; padding-right: 10px;">Sport:</label>
 					<select id="sport_id" name="sport_id">
@@ -43,28 +43,29 @@
 				}
 
 		echo '<li style="margin: 2px;">
-			<label for="prywatnosc" style="text-align: right; padding-right: 10px;">Prywatność :</label>
+			<label for="prywatnosc" style="text-align: right; padding-right: 10px;">Prywatność:</label>
 			<select name="prywatnosc">
 				<option value="1">widoczna dla gości</option>
 				<option value="0">niewidoczna dla gości</option>
-			</select>';
+			</select></li>';
 			
-			
-echo '
-<script type="text/javascript">
-function wybierzTrase(){
-	$("#prawaStrona").load(\'wytyczanieTrasy.php\');
-	}
-	</script>';
 
+			echo '<li style="margin: 2px;">
+				<label for="track_id" style="text-align: right; padding-right: 10px;">Trasa:</label>
 
-			echo '<div onclick="wybierzTrase()">Chcesz zaznaczyć trasę aktywności na mapie?</div></br>';
+			<select name="track_id">
+				<option value="0">>>Bez trasy</option>';
+			if($trasyUsera)
+				foreach($trasyUsera as $track)
+				{
+					echo '<option value="'.$track['id_trasy'].'">'.$track['nazwa_trasy'].'</option>';
+				}
+			echo '</select></li>';
 
-			echo '<input style="margin: 20px 0px 0px 140px;" type="submit" value="Dodaj aktywność" name="dodajAktywnosc"></ul></form>';
+			echo '<li><input style="margin: 20px 0px 0px 140px;" type="submit" value="Dodaj aktywność" name="dodajAktywnosc"></li></ul></form>';
 			echo '<script>';
 				echo '$("#sport_id").focus();';
 			echo '</script>';
-			echo '</div><div id="prawaStrona" style="float: left; width: 500px; height: 400px; background-color: red;"></div>';
 		}
 
 		function dodajAktywnosc($dane)
@@ -98,8 +99,9 @@ function wybierzTrase(){
 						}	
 			
 						try {
-							$stmt = $this -> pdo -> prepare('INSERT INTO aktywnosci(nr_sportu, nr_uzytkownika, nazwa_treningu, opis, tempo, dystans, data_treningu, data_dodania, widoczna_dla_gosci) VALUES(:nr_sportu, :nr_uzytkownika, :nazwa_treningu, :opis, :tempo, :dystans, :data_treningu, :data_dodania, :prywatnosc)');
+							$stmt = $this -> pdo -> prepare('INSERT INTO aktywnosci(nr_sportu, nr_uzytkownika, nazwa_treningu, opis, tempo, dystans, data_treningu, data_dodania, widoczna_dla_gosci, nr_trasy) VALUES(:nr_sportu, :nr_uzytkownika, :nazwa_treningu, :opis, :tempo, :dystans, :data_treningu, :data_dodania, :prywatnosc, :track_id)');
 							$stmt -> bindValue(':nr_sportu', $dane['sport_id'], PDO::PARAM_STR);
+							$stmt -> bindValue(':track_id', $dane['track_id'], PDO::PARAM_STR);
 							$stmt -> bindValue(':nr_uzytkownika', $_SESSION['WiRunner_log_id'], PDO::PARAM_STR);					
 							$stmt -> bindValue(':nazwa_treningu', $dane['nazwa_treningu'], PDO::PARAM_STR);
 							$stmt -> bindValue(':opis', $dane['opis'], PDO::PARAM_STR);

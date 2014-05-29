@@ -418,37 +418,75 @@ EOD;
 		function get_tracks($user_id=0) {
 			if($user_id == 0) $user_id = $_SESSION['WiRunner_log_id'];
 			try {
+
 				$stmt = $this -> pdo -> prepare('SELECT id_trasy, nazwa_trasy, dlugosc_trasy FROM trasy WHERE nr_uzytkownika LIKE BINARY :numer_usera');
 				$stmt -> bindValue(':numer_usera', $user_id, PDO::PARAM_INT);
 				$stmt -> execute();
 								
 				if($stmt -> rowCount() == 0) {
+
 					return 0;
 				}
 				else {
 					echo "<header class=\"entry-header\">
+
 							<h1 class=\"entry-title\">Twoje trasy</h1>
 						</header>
 						<ul>";
 						
+
 						while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-							echo '<li style="width: 260px;"><a href="./trasy.php?id='.$row['id_trasy'].'">'.$row['nazwa_trasy'].'</a> (dystans '.$row['dlugosc_trasy'].'km)';
+							echo '<li style="width: 340px;"><a href="./trasy.php?id='.$row['id_trasy'].'">'.$row['nazwa_trasy'].'</a> (dystans '.$row['dlugosc_trasy'].'km)';
+
 
 					if($user_id == $_SESSION['WiRunner_log_id']) echo '<span style="font-size: 10px; float: right;"><a href="'.my_getFilename::normal().'?subPage=trasy&action=usun&id='.$row['id_trasy'].'">usuń trasę</a></span>';		
 	
 					echo '</li>';
 						}
 					echo 	"</ul>";
+
 				}
 				$stmt -> closeCursor();
 				unset($stmt);
 			}
 			catch(PDOException $e) {
+
 				//echo '<p>Wystąpił błąd biblioteki PDO</p>';
 				return 0;
 			}
 				
 			return 1;
+
+
+		}
+// get_tracks w wersji zwracającej tablicę wyników
+function getTracks($user_id=0) {
+			if($user_id == 0) $user_id = $_SESSION['WiRunner_log_id'];
+			try {
+
+				$stmt = $this -> pdo -> prepare('SELECT id_trasy, nazwa_trasy, dlugosc_trasy FROM trasy WHERE nr_uzytkownika LIKE BINARY :numer_usera');
+				$stmt -> bindValue(':numer_usera', $user_id, PDO::PARAM_INT);
+				$stmt -> execute();
+								
+				if($stmt -> rowCount() == 0) {
+
+					return 0;
+				}
+				
+				$row = $stmt->fetchAll();
+
+				$stmt -> closeCursor();
+				unset($stmt);
+				return $row;
+			}
+			catch(PDOException $e) {
+
+				//echo '<p>Wystąpił błąd biblioteki PDO</p>';
+				return 0;
+			}
+				
+			return 1;
+
 
 		}
 		function get_track($track_id) {
@@ -479,7 +517,7 @@ EOD;
 		function removeTrack($id_trasy)
 		{
 			$trasa = $this->get_track($id_trasy);
-			if($trasa['nr_uzytkownika'] != $_SESSION['WiRunner_log_id'] /* && niezalogowany jako admin/moderator */)
+			if($trasa && $trasa['nr_uzytkownika'] != $_SESSION['WiRunner_log_id'] /* && niezalogowany jako admin/moderator */)
 				return -1;
 
 			try {
