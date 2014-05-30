@@ -76,7 +76,7 @@
 				}
 
 				
-				return 0;
+				return "0";
 				
 				}
 				catch(PDOException $e) {
