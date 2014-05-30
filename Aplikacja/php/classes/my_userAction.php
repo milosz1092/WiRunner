@@ -195,7 +195,7 @@ EOD;
 
 					$count = $stmt -> execute();
 					if ($count != 1)
-						$bledy[] = 'Podałeś nipoprawny adres e-mail';
+						$bledy[] = 'Podałeś niepoprawny adres e-mail';
 						
 				$stmt -> closeCursor();
 				unset($stmt);
@@ -228,7 +228,8 @@ EOD;
 					$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET haslo = :haslo WHERE email LIKE BINARY :mail');
 					$stmt -> bindValue(':haslo', md5($nowe), PDO::PARAM_STR);
 					$stmt -> bindValue(':mail', $mail, PDO::PARAM_STR);
-					$count = $stmt -> execute();
+					$stmt -> execute();
+					$count = $stmt -> rowCount();
 					
 					if ($count != 1)
 						$bledy[] = 'Nie posiadamy takiego konta w bazie';
@@ -251,6 +252,71 @@ EOD;
 			}
 		}
 
+// zmiana hasla
+	function passChange($dane, $user) {
+		if(!my_validDate::wymagane(array($dane['ch_haslo_cur'], $dane['ch_haslo_new'], $dane['ch_eq_haslo_new'])))
+			$bledy[] = 'Podaj aktualne i nowe hasło';
+
+		if(!my_validDate::specjalne(array($dane['ch_haslo_new'])))
+			$bledy[] = 'Hasło może zawierać tylko litery i cyfry';
+
+		if(!my_validDate::dlugoscmin(array($dane['ch_haslo_new']), 4))
+			$bledy[] = 'Minimalna długość hasła to cztery znaki';
+
+		if($dane['ch_haslo_new'] != $dane['ch_eq_haslo_new'])
+			$bledy[] = 'Podane hasła nie zgadzają się';
+	
+		if(!isset($bledy)) {
+			$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET haslo = :new_haslo WHERE id_uzytkownika LIKE BINARY :logid AND haslo LIKE BINARY :akt_haslo');
+			$stmt -> bindValue(':new_haslo', md5($dane['ch_haslo_new']), PDO::PARAM_STR);
+			$stmt -> bindValue(':akt_haslo', md5($dane['ch_haslo_cur']), PDO::PARAM_STR);
+			$stmt -> bindValue(':logid', $user, PDO::PARAM_INT);
+			$stmt -> execute();
+			$count = $stmt -> rowCount();
+			$stmt -> closeCursor();
+			unset($stmt);
+
+			if ($count != 1) {
+				$bledy[] = 'Podałeś niepoprawne dane';
+			}
+		}
+		
+		if (isset($bledy)) {
+			my_simpleMsg::show('Nie udało się zmienić hasła!', $bledy, 0);
+			return 0;
+		}
+		else
+			return 1;
+	}
+
+// usuwanie konta
+	function delAcount($dane, $user) {
+		$count = 0;
+		try {
+			$stmt = $this -> pdo -> prepare('DELETE FROM uzytkownicy WHERE id_uzytkownika LIKE BINARY :logid AND haslo LIKE BINARY :akt_haslo');
+			$stmt -> bindValue(':logid', $user, PDO::PARAM_INT);
+			$stmt -> bindValue(':akt_haslo', md5($dane['delaco_haslo_cur']), PDO::PARAM_STR);
+			$stmt -> execute();
+			$count = $stmt->rowCount();
+			$stmt -> closeCursor();
+			unset($stmt);
+		}
+		catch(PDOException $e) {
+			$bledy[] = 'Podałeś niepoprawne dane';
+		}
+
+		if ($count != 1)
+			$bledy[] = 'Podałeś niepoprawne dane';
+			
+		if (isset($bledy)) {
+			my_simpleMsg::show('Nie udało się usunąć konta!', $bledy, 0);
+			return 0;
+		}
+		else
+			return 1;
+	}
+		
+		
 // pobieranaie domyślnych współrzędnych użytkownika
 		function get_coordinates($p = 0) {
 			try {

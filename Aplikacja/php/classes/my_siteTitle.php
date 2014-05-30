@@ -31,6 +31,8 @@
 				'przyjaciele'		=>	array ('Przyjaciele', NULL),
 				'zaproszenia'		=>	array ('Zaproszenia', NULL),
 				'polubione'		=>	array ('Polubione', NULL),
+				'chpass'		=>	array ('Zmiana hasła', NULL),
+				'delacount'		=>	array ('Usuń konto', NULL),
 			);
 
 			$this -> admin_links = array(

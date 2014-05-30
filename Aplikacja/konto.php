@@ -109,6 +109,76 @@ if(!$my_userAction->get_coordinates(1))
 					if(!$straznik) echo "póki co brak tras..";
 					}
 				break;
+				case 'delacount':
+					if (isset($_POST['delaco_send'])) {
+						if ($my_userAction->delAcount($_POST, $_SESSION['WiRunner_log_id'])) {
+							$_SESSION['WiRunner_log_id'] = 0;
+							$_SESSION['WiRunner_policy'] = 0;
+							$_SESSION['WiRunner_login'] = '';
+							header("Location: register.php?msg=justDelAcount");
+						}
+					}
+?>
+					<header class="entry-header hr_bor">
+						<h1 class="entry-title">Usuwanie konta</h1>
+					</header>
+					<p style="margin-bottom:30px;">Aby usunąć swoje konto musisz podać hasło.</p>
+					<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" autocomplete="off">
+						<ul class="form_field">
+							<li>
+								<label for="delaco_haslo_cur">Aktualne hasło</label>
+								<input type="password" id="delaco_haslo_cur" name="delaco_haslo_cur" required="required" />
+							</li>
+						</ul>
+						<ul>
+							<li style="margin-top:20px;">
+								<input type="submit" name="delaco_send" value="Usuń konto" />
+							</li>
+						</ul>
+					</form>
+					<script>
+						$("#delaco_haslo_cur").focus();
+					</script>
+<?php
+				break;
+				case 'chpass':
+					if (isset($_POST['ch_haslo_send'])) {
+						if ($my_userAction->passChange($_POST, $_SESSION['WiRunner_log_id'])) {
+?>
+							<div class="ok_msg">Twoje hasło zostało zmienione!</div>
+<?php
+						}
+					}
+?>
+					<header class="entry-header hr_bor">
+						<h1 class="entry-title">Zmień hasło</h1>
+					</header>
+					<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" autocomplete="off">
+						<ul class="form_field">
+							<li>
+								<label for="ch_haslo_cur">Aktualne hasło</label>
+								<input type="password" id="ch_haslo_cur" name="ch_haslo_cur" required="required" />
+							</li>
+							<li>
+								<label for="ch_haslo_new">Nowe hasło</label>
+								<input type="password" id="ch_haslo_new" name="ch_haslo_new" required="required" />
+							</li>
+							<li>
+								<label for="ch_eq_haslo_new">Powtórz hasło</label>
+								<input type="password" id="ch_eq_haslo_new" name="ch_eq_haslo_new" required="required" />
+							</li>
+						</ul>
+						<ul>
+							<li style="margin-top:20px;">
+								<input type="submit" name="ch_haslo_send" value="Zmień" />
+							</li>
+						</ul>
+					</form>
+					<script>
+						$("#ch_haslo_cur").focus();
+					</script>
+<?php
+				break;
 				case 'poczta':
 					if (isset($_GET['msg']) && $_GET['msg'] == 'justSendMsg')
 						echo '<div class="ok_msg">Twoja wiadomość została wysłana!</div>';

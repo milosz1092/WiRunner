@@ -7,6 +7,13 @@
 ?>
 			<section>
 				<div class="left_part"  style="width:500px;margin-right:70px;">
+<?php
+				if (isset($_GET['msg']) && $_GET['msg'] == 'justDelAcount') {
+
+					echo '<div class="ok_msg">Twoje konto zostało usunięte!<br /><span style="font-size:13px;font-style:italic;">Wielka szkoda, że nas opuszczasz...</span></div>';
+
+				}
+?>
 					<header class="entry-header">
 						<h1 class="entry-title">Rejestracja</h1>
 					</header>
