@@ -1,13 +1,49 @@
 <?php
 	include('php/top.php');
 
-	// akcja przy uzyciu linku aktywacyjnego (przy zalogowanym uzytkowniku)
-	if(isset($_GET['action']) && $_GET['action'] == 'accountActiv' && isset($_GET['code']) && !empty($_GET['code']) && isset($_GET['mail']) && !empty($_GET['mail'])) {
-		if ($my_userAction->activation(array('code' => $_GET['code'], 'mail' => $_GET['mail'])))
-			echo '<div class="ok_msg">Twoje konto zostało aktywowane!</div>';
-		else
-			echo '<div class="wrong_msg">Błąd podczas aktywacji konta!</div>';
-	}
+	
+	if(isset($_GET['action']))
+	switch($_GET['action'])
+	{
+		case 'accountActiv':
+			// akcja przy uzyciu linku aktywacyjnego (przy zalogowanym uzytkowniku)
+			if(isset($_GET['code']) && !empty($_GET['code']) && isset($_GET['mail']) && !empty($_GET['mail'])) {
+				if ($my_userAction->activation(array('code' => $_GET['code'], 'mail' => $_GET['mail'])))
+					echo '<div class="ok_msg">Twoje konto zostało aktywowane!</div>';
+				else
+					echo '<div class="wrong_msg">Błąd podczas aktywacji konta!</div>';
+			}
+		break;
+		case 'join':
+			// użytkownik przyłączył do rywalizacji
+			if(empty($_GET['rId']) || !intval($_GET['rId'])) break;
+			$res = $my_Rivalry->join($_GET['rId']);
+			
+			switch($res)
+			{
+				case -3: echo '<div class="wrong_msg">Błąd podczas przyłączania do rywalizacji!</div>';		break;
+				case -2: echo '<div class="wrong_msg">Rywalizacja się już zakończyła!</div>';			break;
+				case -1: echo '<div class="wrong_msg">Bierzesz już udział w tej rywalizacji!</div>';     	break;
+				case 1:  echo '<div class="ok_msg">Zostałeś pomyślnie zapisany do rywalizacji!</div>';		break;
+			};
+		break;
+
+		case 'leave':
+			// użytkownik zrezygnował z rywalizacji
+			if(empty($_GET['rId']) || !intval($_GET['rId'])) break;
+			$res = $my_Rivalry->leave($_GET['rId']);
+			
+			switch($res)
+			{
+				case -2: echo '<div class="wrong_msg">Rywalizacja się już zakończyła!</div>';			break;
+				case -1: echo '<div class="wrong_msg">Nie jesteś zapisany do rywalizacji!</div>';     		break;
+				case 0:  echo '<div class="wrong_msg">Nastąpił błąd przy rezygnacji z rywalizacji!</div>';	break;
+				case 1:  echo '<div class="ok_msg">Zostałeś pomyślnie wypisany z rywalizacji!</div>';		break;
+			};
+
+		break;
+		
+	}	
 
 // sprawdzenie, czy współrzędne nie są już czasem ustawione;
 if(!$my_userAction->get_coordinates(1))
@@ -109,6 +145,123 @@ if(!$my_userAction->get_coordinates(1))
 					if(!$straznik) echo "póki co brak tras..";
 					}
 				break;
+
+				case 'urywalizacje':
+
+				$wypiszNag = true;
+				echo '<div style="float: left;">';
+				foreach($my_Rivalry->showAll(1) as $row)  {
+					if($wypiszNag) {
+						echo "<h2>Aktywne rywalizacje</h2>";
+						$wypiszNag = false;
+					}
+
+					$dane = $my_Rivalry->show($row['id_rywalizacji']);
+					$lUczestnikow = $my_Rivalry->ileUczestnikow($row['id_rywalizacji']);
+
+					echo '<div id="row'.$row['id_rywalizacji'].'" class="rywRow_header">';
+						echo '<div class="rywTitle_header"><b>'.$row['nazwa_rywalizacji'].'</b>';
+						echo '<div style="float:right; text-align: right; font-size: 12px; ">start: '.$dane['data_startu'].'<br/>koniec: '.$dane['data_konca'].'<br/>konkurencja: <b>'.$my_activities->getSport($dane['nr_sportu']).'</b><br/>zapisanych osób: <b>'.$lUczestnikow.'</b></div>';
+						echo '<span style="clear: both; display: block; margin: 10px 0px 10px 0px;">opis: '.$dane['opis_rywalizacji'].'</span></div>';
+
+				echo '<ul style="margin: 0px;padding: 0px; list-style-type: none;">';
+					foreach($my_Rivalry->ranking($row['id_rywalizacji']) as $k => $ele) {
+						if($k == 0) echo '&nbsp;&nbsp;&nbsp;&nbsp;imie / nazwisko <span style="float: right;"> km / l.akt</span>';
+						echo '<li>'.($k+1).'. <a href="./profil.php?uid='.$ele['nr_usera'].'">';
+						if(!empty($ele['imie'])) echo $ele['imie'].' '.$ele['nazwisko'];
+						else	echo substr($ele['email'],8) . '...';
+						echo '</a>		<span style="float: right;">'.$ele['SUM(dystans)'].' / '.$ele['COUNT(*)'].'</span>';
+						echo '</li>';
+					}
+				echo "</ul>";
+
+
+						echo '<div style="margin-top:10px;" class="rywAction_header">';
+
+		if($my_Rivalry->czyUzytkownikJestZapisany($row['id_rywalizacji']))
+			echo '<input type="button" value="Zrezygnuj z udziału" onclick="document.location.href=\'konto.php?subPage=urywalizacje&action=leave&rId='.$row['id_rywalizacji'].'\'" />';
+		else
+			echo '<input type="button" value="Przystąp" onclick="document.location.href=\'konto.php?subPage=urywalizacje&action=join&rId='.$row['id_rywalizacji'].'\'" />';
+						echo '</div>';
+					echo '</div>';
+				}
+				echo '</div>';
+
+				echo '<div style="float: right;">';
+				$wypiszNag = true;
+				foreach($my_Rivalry->showAll(3) as $row)  {
+					if($wypiszNag) {
+						echo "<h2>Nadchodzące rywalizacje</h2>";
+						$wypiszNag = false;
+					}
+
+					$dane = $my_Rivalry->show($row['id_rywalizacji']);
+					$lUczestnikow = $my_Rivalry->ileUczestnikow($row['id_rywalizacji']);
+
+					echo '<div id="row'.$row['id_rywalizacji'].'" class="rywRow_header">';
+						echo '<div class="rywTitle_header"><b>'.$row['nazwa_rywalizacji'].'</b>';
+						echo '<div style="float:right; text-align: right; font-size: 12px; ">start: '.$dane['data_startu'].'<br/>koniec: '.$dane['data_konca'].'<br/>konkurencja: <b>'.$my_activities->getSport($dane['nr_sportu']).'</b><br/>zapisanych osób: <b>'.$lUczestnikow.'</b></div>';
+						echo '<span style="clear: both; display: block; margin: 10px 0px 10px 0px;">opis: '.$dane['opis_rywalizacji'].'</span></div>';
+
+				echo '<ul style="margin: 0px;padding: 0px; list-style-type: none;">';
+					foreach($my_Rivalry->ranking($row['id_rywalizacji']) as $k => $ele) {
+						if($k == 0) echo '&nbsp;&nbsp;&nbsp;&nbsp;imie / nazwisko <span style="float: right;"> km / l.akt</span>';
+						echo '<li>'.($k+1).'. <a href="./profil.php?uid='.$ele['nr_usera'].'">';
+						if(!empty($ele['imie'])) echo $ele['imie'].' '.$ele['nazwisko'];
+						else	echo substr($ele['email'],8) . '...';
+						echo '</a>		<span style="float: right;">'.$ele['SUM(dystans)'].' / '.$ele['COUNT(*)'].'</span>';
+						echo '</li>';
+					}
+				echo "</ul>";
+						echo '<div style="margin-top:10px;" class="rywAction_header">';
+
+					if($my_Rivalry->czyUzytkownikJestZapisany($row['id_rywalizacji']))
+						echo '<input type="button" value="Zrezygnuj z udziału" onclick="document.location.href=\'konto.php?subPage=urywalizacje&action=leave&rId='.$row['id_rywalizacji'].'\'" />';
+					else
+						echo '<input type="button" value="Przystąp" onclick="document.location.href=\'konto.php?subPage=urywalizacje&action=join&rId='.$row['id_rywalizacji'].'\'" />';
+						echo '</div>';
+				}
+				
+
+				if(!$wypiszNag) {
+					echo '</div><div>';
+					$wypiszNag = true;
+				}
+
+				foreach($my_Rivalry->showAll(2) as $row)  {
+					if($wypiszNag) {
+						echo "<h2>Zakończone rywalizacje</h2>";
+						$wypiszNag = false;
+					}
+
+					$dane = $my_Rivalry->show($row['id_rywalizacji']);
+					$lUczestnikow = $my_Rivalry->ileUczestnikow($row['id_rywalizacji']);
+
+					echo '<div id="row'.$row['id_rywalizacji'].'" class="rywRow_header">';
+						echo '<div class="rywTitle_header"><b>'.$row['nazwa_rywalizacji'].'</b>';
+						echo '<div style="float:right; text-align: right; font-size: 12px; ">start: '.$dane['data_startu'].'<br/>koniec: '.$dane['data_konca'].'<br/>konkurencja: <b>'.$my_activities->getSport($dane['nr_sportu']).'</b><br/>zapisanych osób: <b>'.$lUczestnikow.'</b></div>';
+						echo '<span style="clear: both; display: block; margin: 10px 0px 10px 0px;">opis: '.$dane['opis_rywalizacji'].'</span></div>';
+
+				echo '<ul style="margin: 0px;padding: 0px; list-style-type: none;">';
+					foreach($my_Rivalry->ranking($row['id_rywalizacji']) as $k => $ele) {
+						if($k == 0) echo '&nbsp;&nbsp;&nbsp;&nbsp;imie / nazwisko <span style="float: right;"> km / l.akt</span>';
+						echo '<li>'.($k+1).'. <a href="./profil.php?uid='.$ele['nr_usera'].'">';
+						if(!empty($ele['imie'])) echo $ele['imie'].' '.$ele['nazwisko'];
+						else	echo substr($ele['email'],8) . '...';
+						echo '</a>		<span style="float: right;">'.$ele['SUM(dystans)'].' / '.$ele['COUNT(*)'].'</span>';
+						echo '</li>';
+					}
+				echo "</ul>";
+					echo '</div>';
+				}
+				echo '</div>';
+
+
+				break;
+
+
+
+
 				case 'delacount':
 					if (isset($_POST['delaco_send'])) {
 						if ($my_userAction->delAcount($_POST, $_SESSION['WiRunner_log_id'])) {

@@ -10,7 +10,7 @@
 
 		function formularzDodawania($sporty, $trasyUsera, $dane=NULL)
 		{
-			if(empty($sporty)) return -1;
+			if(empty($sporty)) return -2;
 
 			$pola = array(
 					array('nazwa_treningu','Nazwa treningu','text','45','req'),
@@ -23,7 +23,7 @@
 			echo '<form action="" method="post">
 				<ul class="form_field">
 				<label for="sport_id" style="text-align: right; padding-right: 10px;">Sport:</label>
-					<select id="sport_id" name="sport_id">
+					<select id="sport_id" name="sport_id" required="required">
 					<option value="0">>>Wybierz sport</option>';
 
 			foreach($sporty as $ele){
@@ -37,8 +37,8 @@
 				{
 					echo '<li style="margin: 2px;">
 						<label for="'.$ele[0].'" style="text-align: right; padding-right: 10px;">'.$ele[1].':</label>';
-						echo	'<input type="'.$ele[2].'" id="'.$ele[0].'" name="'.$ele[0].'" value="'.(isset($dane)? $dane[$ele[0]] : ($ele[0]=='data_treningu')?date("Y-m-d"):"").'" maxlength="'.$ele[3].'" '.(isset($ele[4])? 'required="required"':"").'/>';
-
+						echo	'<input type="'.$ele[2].'" id="'.$ele[0].'" name="'.$ele[0].'" value="'.(isset($dane[$ele[0]])? $dane[$ele[0]] : (($ele[0]=="data_treningu")?date("Y-m-d"):"")).'" maxlength="'.$ele[3].'" '.(isset($ele[4])? 'required="required"':"").'/>';
+	
 					    	echo '</li>';
 				}
 
@@ -80,7 +80,7 @@
 							if(strlen($dane['nazwa_treningu']) < 3 || strlen($dane['nazwa_treningu']) > 36)
 								$bledy[] = 'Nazwa treningu powinna mieć od 3 do 45 znaków!';
 
-							if(isset($dane['opis']) && (strlen($dane['opis']) < 3 || strlen($dane['opis']) > 45))
+							if(strlen($dane['opis']) < 3 || strlen($dane['opis']) > 45)
 								$bledy[] = 'Opis powinn mieć od 3 do 45 znaków!';
 
 							if(!floatval($dane['tempo']) || $dane['tempo'] < 0 || $dane['tempo'] > 50)

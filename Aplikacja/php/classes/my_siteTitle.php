@@ -27,6 +27,7 @@
 			$this -> konto_links = array(
 				'edytujprofil'	=>	array('Edytuj swoje dane', NULL),
 				'trasy'			=>	array ('Trasy', NULL),
+				'urywalizacje'		=>	array ('Rywalizacje', NULL),
 				'poczta'		=>	array ('Poczta', NULL),
 				'przyjaciele'		=>	array ('Przyjaciele', NULL),
 				'zaproszenia'		=>	array ('Zaproszenia', NULL),
