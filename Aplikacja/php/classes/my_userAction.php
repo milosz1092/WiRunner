@@ -144,8 +144,12 @@ EOD;
 				}
 			}
 
-			if(isset($bledy) && count($bledy) > 0)
-				my_simpleMsg::show('Błedy rejestracji!', $bledy, 0);
+			if(isset($bledy) && count($bledy) > 0){
+					my_simpleMsg::show('Błedy rejestracji!', $bledy, 0);
+					if(count($bledy) === 1 && $bledy[0] == 'Użytkownik o takim adresie e-mail już istnieje') return 0;
+					return -1;
+				}
+			return 0;
 		}
 
 // aktywacja konta po kliknieciu w link aktywacyjny
