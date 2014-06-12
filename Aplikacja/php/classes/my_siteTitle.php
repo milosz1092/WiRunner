@@ -42,7 +42,7 @@
 					'add'	=>		'dodaj'
 				)),
 
-				'statystki'	=>	array ('Statystki aktywności', NULL)
+				'statystki'	=>	array ('Statystki aktywności', NULL),
 				'uzytkownicy'	=>	array ('Użytkownicy', NULL),
 
 			);
