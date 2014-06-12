@@ -303,6 +303,8 @@
 												echo '<input type="button" value="Odblokuj" onclick="document.location.href=\'admin.php?subPage=uzytkownicy&action=unlock&uId='.$row['id_uzytkownika'].'\'" />';
 											else if ($row['blokada'] == 0)
 												echo '<input type="button" value="Zablokuj" onclick="document.location.href=\'admin.php?subPage=uzytkownicy&action=block&uId='.$row['id_uzytkownika'].'\'" />';
+
+											echo '<input style="margin-left:20px;" type="button" value="Przejdź" onclick="document.location.href=\'profil.php?uid='.$row['id_uzytkownika'].'\'" />';
 									echo '</div>';
 								}
 						break;
