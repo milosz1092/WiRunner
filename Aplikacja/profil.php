@@ -58,14 +58,14 @@ if ($_GET['uid'] != $_SESSION['WiRunner_log_id']){
 					else
 						echo $userInfo['imie'].' '.$userInfo['nazwisko'];
 					?></h2>
-					<? if(!empty($userInfo['motto'])) echo '<span style="margin-left: 1cm; font-style: italic; font-size: 12px;">'.$userInfo['motto'] .'</span>'; ?>
+					<?php if(!empty($userInfo['motto'])) echo '<span style="margin-left: 1cm; font-style: italic; font-size: 12px;">'.$userInfo['motto'] .'</span>'; ?>
 					<div style="margin-top:30px;">
 						
 						
 						<?php
 							if(isset($rodzajRelacji))
 							{
-								if($rodzajRelacji === 0)
+								if($rodzajRelacji === "0")
 									echo '<input type="button" value="Zablokuj" onclick="document.location.href=\'profil.php?uid='.$_GET['uid'].'&relacja=wróg\'" />';
 
 								if(!in_array($rodzajRelacji, array("Wróg","Blokowany")))
@@ -77,7 +77,7 @@ if ($_GET['uid'] != $_SESSION['WiRunner_log_id']){
 				
 								if($rodzajRelacji === "ZaproszenieWychodzace")
 								echo '<input type="button" value="Zaproszenie wysłane">';
-								else if(($rodzajRelacji === 0 || $rodzajRelacji === "ZaproszeniePrzychodzace"))
+								else if(($rodzajRelacji === "0" || $rodzajRelacji === "ZaproszeniePrzychodzace"))
 									echo '<input type="button" value="Dodaj znajomego" onclick="document.location.href=\'profil.php?uid='.$_GET['uid'].'&relacja=przyjaciel\'" />';
 							}
 							
@@ -94,7 +94,7 @@ if ($_GET['uid'] != $_SESSION['WiRunner_log_id']){
 			?>
 			</div>
 			<div style="float: right; width: 300px;">
-			<?
+			<?php
 			$id_aktywnosci = $my_activities->zwrocNajnowszeId($_GET['uid']);
 			if(!empty($id_aktywnosci)){
 				echo "<h1>Najnowsze aktywności:</h1>";
