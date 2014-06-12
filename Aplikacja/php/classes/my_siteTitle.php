@@ -39,10 +39,12 @@
 
 			$this -> admin_links = array(
 				'rywalizacje'	=>	array ('Rywalizacje', array(
-					'add'			=>		'dodaj'
+					'add'	=>		'dodaj'
 				)),
-				
-				'statystki'		=>	array ('Statystki aktywności', NULL)
+
+				'statystki'	=>	array ('Statystki aktywności', NULL)
+				'uzytkownicy'	=>	array ('Użytkownicy', NULL),
+
 			);
 			
 		}

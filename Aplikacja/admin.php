@@ -271,6 +271,41 @@
 		<?php
 							}
 						break;
+						case 'uzytkownicy':
+		?>
+								<header class="entry-header">
+									<h1 class="entry-title">Lista użytkowników</h1>
+								</header>
+		<?php
+								foreach($my_simpleDbCheck->getUsersList() as $row) {
+									if (isset($_GET['action'])) {
+										if ($_GET['action'] == 'block') {
+											$my_userAction->lockToggle(1, $_GET['uId']);
+											header("Location: admin.php?subPage=uzytkownicy");
+										}
+										else if ($_GET['action'] == 'unlock') {
+											$my_userAction->lockToggle(0, $_GET['uId']);
+											header("Location: admin.php?subPage=uzytkownicy");
+										}
+									}
+									
+									echo '<div class="user_op_box">';
+										echo '<img style="display:inline-block;float:left;margin-right:20px;height:55px;" src="img/web/unknow.jpg" alt="avatar" />';
+											if ($row['imie'] > '' && $row['nazwisko'] > '')
+												echo '<h4>'.$row['imie'].' '.$row['nazwisko'].'</h4>';
+											else
+												echo '<h4>'.$row['email'].'</h4>';
+
+											if ($row['miejscowosc'] > '')
+												echo '<p>'.$row['miejscowosc'].'</p>';
+
+											if ($row['blokada'] == 1)
+												echo '<input type="button" value="Odblokuj" onclick="document.location.href=\'admin.php?subPage=uzytkownicy&action=unlock&uId='.$row['id_uzytkownika'].'\'" />';
+											else if ($row['blokada'] == 0)
+												echo '<input type="button" value="Zablokuj" onclick="document.location.href=\'admin.php?subPage=uzytkownicy&action=block&uId='.$row['id_uzytkownika'].'\'" />';
+									echo '</div>';
+								}
+						break;
 					}
 				}
 		?>

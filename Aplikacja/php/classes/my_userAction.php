@@ -40,6 +40,9 @@
 					//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
 				}
 
+				if ($row['blokada'] == 1)
+					$bledy[] = 'Twoje konto zostało zablokowane przez administratora';
+
 				if(!isset($bledy)) {
 					// zmiana daty ostatniego logowania
 					$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET ostatnie_logowanie = :lastlogin WHERE id_uzytkownika LIKE BINARY :logid');
@@ -742,5 +745,27 @@ function getTracks($user_id=0) {
 							return 0;
 						}
 		}
+
+		function lockToggle($type, $uId) {
+			try {
+				$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET blokada = :toggle WHERE id_uzytkownika LIKE BINARY :id');
+				$stmt -> bindValue(':toggle', $type, PDO::PARAM_INT);
+				$stmt -> bindValue(':id', $uId, PDO::PARAM_INT);
+				$stmt -> execute();
+				$count = $stmt -> rowCount();
+
+				$stmt -> closeCursor();
+				unset($stmt);
+			}
+			catch(PDOException $e) {
+				//$bledy[] = 'Błąd bazy danych';
+			}
+
+			if ($count == 1)
+				return 1;
+			else
+				return 0;
+		}
+		
 	}
 ?>
