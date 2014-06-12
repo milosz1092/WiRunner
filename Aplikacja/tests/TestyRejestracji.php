@@ -2,7 +2,7 @@
 
 class TestyRejestracji extends PHPUnit_Framework_TestCase
 {
-/**  Te linijki musz¹ zawsze wyst¹piæ przed badan¹ funkcj¹.
+/**  Te linijki muszÄ… zawsze wystÄ…piÄ‡ przed badanÄ… funkcjÄ….
 * @backupGlobals disabled
 * @backupStaticAttributes disabled
 */

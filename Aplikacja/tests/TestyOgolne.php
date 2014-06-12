@@ -79,7 +79,7 @@ class TestyOgolne extends PHPUnit_Framework_TestCase
     {
     	$my_simpleDbCheck = new my_simpleDbCheck();
         $this->assertEquals(1, $my_simpleDbCheck->userIssetFromMail('miszewczyk@wi.zut.edu.pl'));
-        $this->assertEquals(1, $my_simpleDbCheck->userIssetFromMail('syntia.porwisz@gmail.com'));
+        $this->assertEquals(1, $my_simpleDbCheck->userIssetFromMail('tpietrzak@wi.zut.edu.pl'));
 		$this->assertEquals(0, $my_simpleDbCheck->userIssetFromMail('unknownuser@wp.pl'));
 		$this->assertEquals(0, $my_simpleDbCheck->userIssetFromMail('2324mdfsn@xs.en'));
     }
