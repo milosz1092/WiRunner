@@ -13,7 +13,6 @@
 						if (isset($_POST['send_msg'])) {
 							$my_Poster->sendMsg($_POST);
 						}
-						echo( $my_activities->validateDate("2014-04-04 23:23:23"));
 ?>
 						<form id="writeMsg" name="writeMsg" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 							<ul class="form_field">
