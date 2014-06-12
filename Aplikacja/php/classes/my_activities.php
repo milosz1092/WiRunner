@@ -226,5 +226,16 @@
 			}
 
 		}
+
+		
+		function kalkulatorTempa($dystans=0, $godzin=0, $minut=0, $sekund=0) {
+			if(is_numeric( $dystans ) && is_numeric( $godzin ) && is_numeric( $minut ) && is_numeric( $sekund ) && $dystans > 0 && $godzin >= 0 && $minut >= 0 && $sekund >= 0 && $minut < 60 && $sekund < 60 && ($godzin > 0 || $minut > 0 || $sekund > 0))
+			{
+				$tempo = (60*$dystans)/(60*$godzin+$minut+$sekund/60);
+				return ("Wymagane tempo: <b>". round($tempo,2) ."</b> km/h");
+			} 
+				else 
+					return ("Wprowadź prawidłowe wartości!");
+		}
 	}
 ?>
