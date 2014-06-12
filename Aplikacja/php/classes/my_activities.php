@@ -172,12 +172,14 @@
 				$row = $stmt->fetch(PDO::FETCH_ASSOC);
 				$stmt -> closeCursor();
 				unset($stmt);
-				
+				if(!empty($row['nazwa_sportu']));
 				return $row['nazwa_sportu'];
+				return 0;
 			}
 			catch(PDOException $e) {
 				//echo '<p>Wystąpił błąd biblioteki PDO1</p>';
 				//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
+				return -1;
 			}
 		}
 		
