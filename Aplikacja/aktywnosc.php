@@ -127,7 +127,7 @@ for(k=0;k<i;k++)
 
 }alert("ok");
 </script>
-<?
+<?php
 }
 	echo '</div>';
 
