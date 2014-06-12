@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="TestyRejestracji" file="C:\xampp\htdocs\wirunner\tests\TestyRejestracji.php" tests="6" assertions="6" failures="0" errors="0" time="0.074981">
+    <testcase name="testRejestracji_1_1" class="TestyRejestracji" file="C:\xampp\htdocs\wirunner\tests\TestyRejestracji.php" line="9" assertions="1" time="0.018150">
+      <system-out>&lt;header class="entry-header hr_bor"&gt;&lt;h1 class="entry-title"&gt;Błedy rejestracji!&lt;/h1&gt;&lt;/header&gt;&lt;ul&gt;&lt;li&gt;Użytkownik o takim adresie e-mail już istnieje&lt;/li&gt;&lt;/ul&gt;</system-out>
+    </testcase>
+    <testcase name="testRejestracji_1_2" class="TestyRejestracji" file="C:\xampp\htdocs\wirunner\tests\TestyRejestracji.php" line="19" assertions="1" time="0.011169">
+      <system-out>&lt;header class="entry-header hr_bor"&gt;&lt;h1 class="entry-title"&gt;Błedy rejestracji!&lt;/h1&gt;&lt;/header&gt;&lt;ul&gt;&lt;li&gt;Podano niepoprawny adres e-mail&lt;/li&gt;&lt;/ul&gt;</system-out>
+    </testcase>
+    <testcase name="testRejestracji_1_3" class="TestyRejestracji" file="C:\xampp\htdocs\wirunner\tests\TestyRejestracji.php" line="31" assertions="1" time="0.011534">
+      <system-out>&lt;header class="entry-header hr_bor"&gt;&lt;h1 class="entry-title"&gt;Błedy rejestracji!&lt;/h1&gt;&lt;/header&gt;&lt;ul&gt;&lt;li&gt;Podane hasła nie zgadzają się&lt;/li&gt;&lt;/ul&gt;</system-out>
+    </testcase>
+    <testcase name="testRejestracji_1_4" class="TestyRejestracji" file="C:\xampp\htdocs\wirunner\tests\TestyRejestracji.php" line="42" assertions="1" time="0.011381">
+      <system-out>&lt;header class="entry-header hr_bor"&gt;&lt;h1 class="entry-title"&gt;Błedy rejestracji!&lt;/h1&gt;&lt;/header&gt;&lt;ul&gt;&lt;li&gt;Hasło może zawierać tylko litery i cyfry&lt;/li&gt;&lt;li&gt;Podane hasła nie zgadzają się&lt;/li&gt;&lt;/ul&gt;</system-out>
+    </testcase>
+    <testcase name="testRejestracji_1_5" class="TestyRejestracji" file="C:\xampp\htdocs\wirunner\tests\TestyRejestracji.php" line="52" assertions="1" time="0.011378">
+      <system-out>&lt;header class="entry-header hr_bor"&gt;&lt;h1 class="entry-title"&gt;Błedy rejestracji!&lt;/h1&gt;&lt;/header&gt;&lt;ul&gt;&lt;li&gt;Hasło może zawierać tylko litery i cyfry&lt;/li&gt;&lt;li&gt;Podane hasła nie zgadzają się&lt;/li&gt;&lt;/ul&gt;</system-out>
+    </testcase>
+    <testcase name="testRejestracji_1_6" class="TestyRejestracji" file="C:\xampp\htdocs\wirunner\tests\TestyRejestracji.php" line="62" assertions="1" time="0.011369">
+      <system-out>&lt;header class="entry-header hr_bor"&gt;&lt;h1 class="entry-title"&gt;Błedy rejestracji!&lt;/h1&gt;&lt;/header&gt;&lt;ul&gt;&lt;li&gt;Podaj swoją płeć&lt;/li&gt;&lt;/ul&gt;</system-out>
+    </testcase>
+  </testsuite>
+</testsuites>
