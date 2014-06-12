@@ -68,20 +68,5 @@ class TestyKalkulatoraTempa extends PHPUnit_Framework_TestCase
 	    $this->assertEquals("WprowadŸ prawid³owe wartoœci!", $my_activities->kalkulatorTempa(10,    23 ,  23 ,"a1"));
 	    $this->assertEquals("WprowadŸ prawid³owe wartoœci!", $my_activities->kalkulatorTempa(22.45,  23, 2,"Ala ma kota"));
     }
-
-/** 
-* @backupGlobals disabled
-* @backupStaticAttributes disabled
-*/
-    public function test_kalkulatorTempa_11_4()
-    {
-	    $my_activities = new my_activities();
-		
-	    $this->assertEquals("WprowadŸ prawid³owe wartoœci!", $my_activities->kalkulatorTempa(42.195,  23, 23,"abvc"));
-	    $this->assertEquals("WprowadŸ prawid³owe wartoœci!", $my_activities->kalkulatorTempa(21.195, 23,  23 ,"1a"));
-	    $this->assertEquals("WprowadŸ prawid³owe wartoœci!", $my_activities->kalkulatorTempa(10,    23 ,  23 ,"a1"));
-	    $this->assertEquals("WprowadŸ prawid³owe wartoœci!", $my_activities->kalkulatorTempa(22.45,  23, 2,"Ala ma kota"));
-    }
-
 }
 ?>

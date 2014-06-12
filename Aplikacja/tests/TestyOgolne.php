@@ -1,5 +1,4 @@
-﻿<?php
-
+<?php
 class TestyOgolne extends PHPUnit_Framework_TestCase
 {
 /**  Te linijki muszą zawsze wystąpić przed badaną funkcją.
@@ -167,6 +166,5 @@ class TestyOgolne extends PHPUnit_Framework_TestCase
 	   		$this->assertEquals($user['imie'] . $user['nazwisko'] . $user['miejscowosc'] , $biezace['imie'] . $biezace['nazwisko'] . $biezace['miejscowosc']  );  
 		}
     }
-    
-
+}
 ?>
