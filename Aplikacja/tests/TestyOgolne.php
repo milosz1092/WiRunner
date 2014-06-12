@@ -8,20 +8,19 @@ class TestyOgolne extends PHPUnit_Framework_TestCase
 */
     public function testCzyWykrywaPolskieZnaki()
     {
-        $this->assertFalse(my_validDate::polskie(array("Śliwka")));
-        $this->assertFalse(my_validDate::polskie(array("żandarm")));
-        $this->assertFalse(my_validDate::polskie(array("śnieżka")));
-        $this->assertFalse(my_validDate::polskie(array("Gdańsk")));
-        $this->assertFalse(my_validDate::polskie(array("Łukassz")));
-        $this->assertFalse(my_validDate::polskie(array("Miłosz")));
-        $this->assertFalse(my_validDate::polskie(array("Jarosław")));
-        
-        $this->assertTrue(my_validDate::polskie(array("Polska")));
-        $this->assertTrue(my_validDate::polskie(array("Szczecin")));
-        $this->assertTrue(my_validDate::polskie(array("WiZUT")));
-        $this->assertTrue(my_validDate::polskie(array("Tomasz")));
-        $this->assertTrue(my_validDate::polskie(array("bieganie")));
-        $this->assertTrue(my_validDate::polskie(array("ultramaraton 147")));
+        $this->assertEquals(0, my_validDate::polskie(array("Śliwka")));
+        $this->assertEquals(0, my_validDate::polskie(array("żandarm")));
+        $this->assertEquals(0, my_validDate::polskie(array("śnieżka")));
+        $this->assertEquals(0, my_validDate::polskie(array("Gdańsk")));
+        $this->assertEquals(0, my_validDate::polskie(array("Łukassz")));
+        $this->assertEquals(0, my_validDate::polskie(array("Miłosz")));
+        $this->assertEquals(0, my_validDate::polskie(array("Jarosław")));
+        $this->assertEquals(1, my_validDate::polskie(array("Polska")));
+        $this->assertEquals(1, my_validDate::polskie(array("Szczecin")));
+        $this->assertEquals(1, my_validDate::polskie(array("WiZUT")));
+        $this->assertEquals(1, my_validDate::polskie(array("Tomasz")));
+        $this->assertEquals(1, my_validDate::polskie(array("bieganie")));
+        $this->assertEquals(1, my_validDate::polskie(array("ultramaraton 147")));
     }
     
 /**
@@ -30,12 +29,74 @@ class TestyOgolne extends PHPUnit_Framework_TestCase
 */
     public function testPoprawnosciEmaili()
     {
-        $this->assertFalse(my_validDate::email(array("Śliwka")));
-        $this->assertFalse(my_validDate::email(array("żandarm")));
-        $this->assertFalse(my_validDate::email(array("Śliwka")));
-        $this->assertTrue (my_validDate::email(array("lstaniszczak@wi.zut.edu.pl","mszewczyk@wi.zut.edu.pl","so2@zut.edu.pl")));
+        $this->assertEquals(0, my_validDate::email(array("Śliwka")));
+        $this->assertEquals(0, my_validDate::email(array("żandarm")));
+        $this->assertEquals(0, my_validDate::email(array("Śliwka")));
+        $this->assertEquals(0, my_validDate::email(array("ktow.wp.pl")));
+        $this->assertEquals(1, my_validDate::email(array("lstaniszczak@wi.zut.edu.pl","mszewczyk@wi.zut.edu.pl","so2@zut.edu.pl")));
     }
     
+/** Test wykrywanie znakow specjalnych.
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
+    public function test_specjalne()
+    {
+        $this->assertEquals(1, my_validDate::specjalne(array("miłoszszewczyk")));
+        $this->assertEquals(1, my_validDate::specjalne(array("Domowykot")));
+        $this->assertEquals(1, my_validDate::specjalne(array("takietamjakieś2141")));
+        $this->assertEquals(0, my_validDate::specjalne(array("f#gh", "ds3 f%s", "tekst ze spacjami")));
+    }
+
+/** Test porownywania ciagow znakow.
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
+    public function test_porownaj()
+    {
+        $this->assertEquals(1, my_validDate::porownaj(array("dfwcf2", "dfwcf2")));
+        $this->assertEquals(1, my_validDate::porownaj(array("takietam122", "takietam122")));
+        $this->assertEquals(0, my_validDate::porownaj(array("jakies123", "jaies123")));
+    	$this->assertEquals(0, my_validDate::porownaj(array("takie1", "2takie1")));
+    }
+
+/** Test minimalna dlugosc.
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
+    public function test_minDlugosc()
+    {
+        $this->assertEquals(1, my_validDate::dlugoscmin(array("sdfsd11"), 3));
+        $this->assertEquals(1, my_validDate::dlugoscmin(array("user3342"), 6));
+        $this->assertEquals(0, my_validDate::dlugoscmin(array("dfs3"), 6));
+    	$this->assertEquals(0, my_validDate::dlugoscmin(array("ciagznakow"), 12));
+    }
+
+/** Test czy uzytkownik jest w bazie danych (po e-mail'u).
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
+    public function test_userIssetMAIL()
+    {
+    	$my_simpleDbCheck = new my_simpleDbCheck();
+        $this->assertEquals(1, $my_simpleDbCheck->userIssetFromMail('miszewczyk@wi.zut.edu.pl'));
+        $this->assertEquals(1, $my_simpleDbCheck->userIssetFromMail('syntia.porwisz@gmail.com'));
+		$this->assertEquals(0, $my_simpleDbCheck->userIssetFromMail('unknownuser@wp.pl'));
+		$this->assertEquals(0, $my_simpleDbCheck->userIssetFromMail('2324mdfsn@xs.en'));
+    }
+
+/** Test czy uzytkownik jest w bazie danych (po id).
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
+    public function test_userIssetID()
+    {
+    	$my_simpleDbCheck = new my_simpleDbCheck();
+        $this->assertEquals(1, $my_simpleDbCheck->userIssetFromId(1));
+        $this->assertEquals(1, $my_simpleDbCheck->userIssetFromId(28));
+		$this->assertEquals(0, $my_simpleDbCheck->userIssetFromId(453));
+		$this->assertEquals(0, $my_simpleDbCheck->userIssetFromId(0));
+    }
         
 /**  Test, czy funkcja zwraca poprawne nazwy sportów dla danych id.
 * @backupGlobals disabled
@@ -53,6 +114,44 @@ class TestyOgolne extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $my_activities->getSport(-2));
         $this->assertEquals(0, $my_activities->getSport(55));
     }
+
+/**  Test, czy funkcja poprawnie blokuje i odblokowywyje uzytkownikow.
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
+    public function test_lockUnlock()
+    {
+    	$my_simpleDbCheck = new my_simpleDbCheck();
+	    $my_userAction = new my_userAction();
+
+	    foreach($my_simpleDbCheck->getUsersList() as $row){
+	    	if ($row['blokada'] == 0)
+	   			$this->assertEquals(1, $my_userAction->lockToggle(1, $row['id_uzytkownika']));
+			else if ($row['blokada'] == 1)
+				$this->assertEquals(1, $my_userAction->lockToggle(0, $row['id_uzytkownika']));
+		}
+
+	    foreach($my_simpleDbCheck->getUsersList() as $row){
+	    	if ($row['blokada'] == 0)
+	   			$this->assertEquals(1, $my_userAction->lockToggle(1, $row['id_uzytkownika']));
+			else if ($row['blokada'] == 1)
+				$this->assertEquals(1, $my_userAction->lockToggle(0, $row['id_uzytkownika']));
+		}
+    }
+
+/**  Test, czy nie jest mozliwe zalogowanie przy uzyciu hasel z bazy danych (zabezpieczenie hasel)
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
+    public function test_userLogin()
+    {
+    	$my_simpleDbCheck = new my_simpleDbCheck();
+	    $my_userAction = new my_userAction();
+
+	    foreach($my_simpleDbCheck->getUsersList() as $row){
+	   		$this->assertEquals(0, $my_userAction->login(array('email' => $row['email'], 'haslo' => $row['haslo'])));
+		}
+    }
     
     
 /**   Sprawdzamy, czy dane pobrane przez dwie różne funkcje są równe...
@@ -69,86 +168,5 @@ class TestyOgolne extends PHPUnit_Framework_TestCase
 		}
     }
     
-/** 
-* @backupGlobals disabled
-* @backupStaticAttributes disabled
-*/
-    public function test_kalkulatorTempa_11_0()
-    {
-	    $my_activities = new my_activities();
-		
-	    $this->assertNotEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(10, 0, 0, 1));
-	    $this->assertNotEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(500, 20, 10, 22));
-	    $this->assertNotEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(42.195, 3, 23, 30));
-	    $this->assertNotEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(21.195, 1, 32, 04));
-    }    
-    
-/** 
-* @backupGlobals disabled
-* @backupStaticAttributes disabled
-*/
-    public function test_kalkulatorTempa_11_1()
-    {
-	    $my_activities = new my_activities();
-		
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa("abvc", 10, 20, 20));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa("1a", 10, 20, 20));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa("a1", 10, 20, 20));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa("Ala ma kota", 10, 20, 20));
-    }
-/** 
-* @backupGlobals disabled
-* @backupStaticAttributes disabled
-*/
-    public function test_kalkulatorTempa_11_2()
-    {
-	    $my_activities = new my_activities();
-		
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(42.195, "abvc", 23, 23));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(21.195, "1a", 23, 23));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(10,    "a1", 23, 23));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(22.45, "Ala ma kota", 23, 23));
-    }
-/** 
-* @backupGlobals disabled
-* @backupStaticAttributes disabled
-*/
-    public function test_kalkulatorTempa_11_3()
-    {
-	    $my_activities = new my_activities();
-		
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(42.195,  23,"abvc", 23));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(21.195, 23 ,"1a",  23));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(10,    23  ,"a1",  23));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(22.45,  23,"Ala ma kota", 23));
-    }
-/** 
-* @backupGlobals disabled
-* @backupStaticAttributes disabled
-*/
-    public function test_kalkulatorTempa_11_4()
-    {
-	    $my_activities = new my_activities();
-		
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(42.195,  23, 23,"abvc"));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(21.195, 23,  23 ,"1a"));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(10,    23 ,  23 ,"a1"));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(22.45,  23, 2,"Ala ma kota"));
-    }
 
-/** 
-* @backupGlobals disabled
-* @backupStaticAttributes disabled
-*/
-    public function test_kalkulatorTempa_11_4()
-    {
-	    $my_activities = new my_activities();
-		
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(42.195,  23, 23,"abvc"));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(21.195, 23,  23 ,"1a"));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(10,    23 ,  23 ,"a1"));
-	    $this->assertEquals("Wprowadź prawidłowe wartości!", $my_activities->kalkulatorTempa(22.45,  23, 2,"Ala ma kota"));
-    }
-
-}
 ?>

@@ -20,30 +20,27 @@
 					$stmt -> bindValue(':mail', $dane['email'], PDO::PARAM_STR);
 					$stmt -> bindValue(':haslo', md5($dane['haslo']), PDO::PARAM_STR);
 					$stmt -> execute();
-					if($stmt -> rowCount() == 1) {
-						$row = $stmt -> fetch();
-						$_SESSION['WiRunner_log_id'] = $row['id_uzytkownika'];
-						$_SESSION['WiRunner_policy'] = $row['nr_rangi'];
-						$_SESSION['WiRunner_login'] = $row['email'];
-
-						header("Location: konto.php");
-					}
-					else {
-						$bledy[] = 'Podano niepoprawny login lub hasło';
-					}
-					
+					$count = $stmt -> rowCount();
+					$row = $stmt -> fetch();
 					$stmt -> closeCursor();
 					unset($stmt);
 				}
 				catch(PDOException $e) {
 					echo '<p>Wystąpił błąd biblioteki PDO</p>';
 					//echo '<p>Wystąpił błąd biblioteki PDO: ' . $e -> getMessage().'</p>';
+					return 0;
 				}
 
+			}
+
+			if($count == 1) {
 				if ($row['blokada'] == 1)
 					$bledy[] = 'Twoje konto zostało zablokowane przez administratora';
+				else {
+					$_SESSION['WiRunner_log_id'] = $row['id_uzytkownika'];
+					$_SESSION['WiRunner_policy'] = $row['nr_rangi'];
+					$_SESSION['WiRunner_login'] = $row['email'];
 
-				if(!isset($bledy)) {
 					// zmiana daty ostatniego logowania
 					$stmt = $this -> pdo -> prepare('UPDATE uzytkownicy SET ostatnie_logowanie = :lastlogin WHERE id_uzytkownika LIKE BINARY :logid');
 					$stmt -> bindValue(':lastlogin', date("Y-m-d H:i:s"), PDO::PARAM_STR);
@@ -51,11 +48,19 @@
 					$count = $stmt -> execute();
 					$stmt -> closeCursor();
 					unset($stmt);
+
+					header("Location: konto.php");
+					return 1;
 				}
 			}
+			else {
+				$bledy[] = 'Podano niepoprawny login lub hasło';
+			}
 
-			if(isset($bledy) && count($bledy) > 0)
+			if(isset($bledy) && count($bledy) > 0) {
 				my_simpleMsg::show('Błedy logowania!', $bledy, 0);
+				return 0;
+			}
 		}
 
 // rejestracja uzytkownika
@@ -139,12 +144,8 @@ EOD;
 				}
 			}
 
-			if(isset($bledy) && count($bledy) > 0){
-					my_simpleMsg::show('Błedy rejestracji!', $bledy, 0);
-					if(count($bledy) === 1 && $bledy[0] == 'Użytkownik o takim adresie e-mail już istnieje') return 0;
-					return -1;
-				}
-			return 0;
+			if(isset($bledy) && count($bledy) > 0)
+				my_simpleMsg::show('Błedy rejestracji!', $bledy, 0);
 		}
 
 // aktywacja konta po kliknieciu w link aktywacyjny
@@ -759,6 +760,7 @@ function getTracks($user_id=0) {
 			}
 			catch(PDOException $e) {
 				//$bledy[] = 'Błąd bazy danych';
+				return 0;
 			}
 
 			if ($count == 1)
