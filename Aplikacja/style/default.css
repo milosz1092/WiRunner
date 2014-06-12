@@ -384,4 +384,16 @@ a.login_link {
  
 .aktywnoscSzczegoly { width: 320px; min-height: 100px; float: left; border: 1px dotted; margin: 10px; padding: 10px; }
 .aktywnoscSzczegoly a:link { text-decoration: none; }
- 
+ .user_op_box {
+	display:block;
+	border-bottom:1px solid #eaeaea;
+	height:80px;
+	margin-bottom:5px;
+ }
+ .user_op_box h4 {
+	margin-bottom:3px;
+ }
+
+ .user_op_box input[type="button"] {
+	margin-left:200px;
+ }

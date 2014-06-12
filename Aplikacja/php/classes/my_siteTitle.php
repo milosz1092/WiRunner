@@ -40,6 +40,7 @@
 				'rywalizacje'	=>	array ('Rywalizacje', array(
 					'add'			=>		'dodaj'
 				)),
+				'uzytkownicy'	=>	array ('Użytkownicy', NULL),
 			);
 			
 		}
