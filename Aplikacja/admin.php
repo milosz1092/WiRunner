@@ -35,6 +35,18 @@
 		<?php
 				if (isset($_GET['subPage'])) {
 					switch($_GET['subPage']) {
+						case 'statystki':
+							$badaneDni = array(1,2,7,14,30,365);
+							echo "<h1>Statystyki aktywności</h1>
+								<h2>Użytkownicy logujący się w ciągu ostatnich</h2><ul>";
+							foreach($badaneDni as $dni) {
+								$res = $my_simpleDbCheck->getNumberOfUsersLogonSince($dni);
+								echo "<li>".$dni." dni: <b>".$res."</b></li>";
+							}
+							echo "</ul>";
+							
+							
+						break;
 						case 'rywalizacje':
 							if (isset($_GET['action'])) {
 								switch($_GET['action']) {

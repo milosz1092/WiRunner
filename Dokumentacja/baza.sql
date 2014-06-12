@@ -140,6 +140,7 @@ CREATE TABLE IF NOT EXISTS `uzytkownicy` (
   `potwierdzony_mail` bit(1) NOT NULL DEFAULT b'0',
   `widoczny_dla_gosci` BOOLEAN NOT NULL DEFAULT FALSE,
   `data_urodzenia` date NULL,
+  `blokada` BIT( 1 ) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id_uzytkownika`),
   KEY `nr_rangi_idx` (`nr_rangi`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;

@@ -98,7 +98,7 @@
 				$stmt = $this -> pdo -> prepare('SELECT * FROM sporty');
 				$stmt -> execute();
 
-				$row = $stmt -> fetchAll();;
+				$row = $stmt -> fetchAll();
 				
 				$stmt -> closeCursor();
 				unset($stmt);
@@ -111,7 +111,23 @@
 			}
 		}
 
-		
 
-	}
+		function getNumberOfUsersLogonSince($days) {
+			try {
+				$data  = date("Y-m-d H:i:s", time()- 86400*$days);
+				$stmt = $this -> pdo -> prepare('SELECT COUNT(*) FROM uzytkownicy WHERE "'.$data.'" < ostatnie_logowanie');
+				$stmt -> execute();
+
+				$result = $stmt -> fetch();
+				$stmt -> closeCursor();
+			
+				unset($stmt);
+				return $result[0];
+			}
+			catch(PDOException $e) {
+				return -1;
+			}		
+
+		}
+}
 ?>

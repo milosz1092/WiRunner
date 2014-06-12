@@ -108,6 +108,25 @@ if(!$my_userAction->get_coordinates(1))
 					$my_userAction->profil_edit($userInfo);
 				break;
 
+				case 'aktywnosci':
+					$typy_sortowania = array("0" => "data malejąco",
+								 "1" => "data rosnąco",
+								 "2" => "dystans malejąco",
+								 "3" => "dystans rosnąco");
+					$sort = (isset($_GET['sort']) && isset($typy_sortowania[$_GET['sort']]))? $_GET['sort'] : 0;
+
+					foreach($typy_sortowania as $id => $typ) {
+						echo '<a href="konto.php?subPage=aktywnosci&sort='.$id.'">'.(($id == $sort)?'<i>'.$typ.'</i>':$typ).'</a> ';
+					}
+					
+					foreach($my_activities->getUserActivities($sort) as $key => $akt) {
+						if($key == 0) echo "<h2>Twoje aktywności</h2>";
+						echo '<b>'.($key+1) . '</b>. <a href="aktywnosc.php?id='.$akt['id_aktywnosci'].'">'.$akt['nazwa_treningu'] .'</a> ('.$akt['nazwa_sportu'] .') - '. $akt['dystans'] . 'km ('.$akt['data_treningu'].')<br/>';
+					}
+
+
+				break;
+
 
 				case 'trasy':
 					if(isset($_GET['action']) && $_GET['action'] == "usun" && isset($_GET['id']) && intval($_GET['id'])){

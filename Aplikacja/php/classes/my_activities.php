@@ -227,6 +227,37 @@
 
 		}
 
+		function getUserActivities($metodaSortowania=0)
+		{
+			try {
+				switch($metodaSortowania)
+				{
+					case 0: // wszystkie, wg daty malejąco
+						$stmt = $this -> pdo -> prepare('SELECT id_aktywnosci, nazwa_treningu, nazwa_sportu, dystans, data_treningu FROM aktywnosci INNER JOIN sporty ON nr_sportu=id_sportu WHERE nr_uzytkownika LIKE BINARY :nr_usera ORDER BY data_treningu DESC');
+						break;
+					case 1: // wszystkie, wg daty rosnąco 
+						$stmt = $this -> pdo -> prepare('SELECT id_aktywnosci, nazwa_treningu, nazwa_sportu, dystans, data_treningu FROM aktywnosci INNER JOIN sporty ON nr_sportu=id_sportu WHERE nr_uzytkownika LIKE BINARY :nr_usera  ORDER BY data_treningu ASC');
+						break;
+					case 2: // wg długości rosnąco
+						$stmt = $this -> pdo -> prepare('SELECT id_aktywnosci, nazwa_treningu, nazwa_sportu, dystans, data_treningu FROM aktywnosci INNER JOIN sporty ON nr_sportu=id_sportu WHERE nr_uzytkownika LIKE BINARY :nr_usera  ORDER BY dystans DESC');
+						break;
+					case 3: // wg długości malejąco
+						$stmt = $this -> pdo -> prepare('SELECT id_aktywnosci, nazwa_treningu, nazwa_sportu, dystans, data_treningu FROM aktywnosci INNER JOIN sporty ON nr_sportu=id_sportu WHERE nr_uzytkownika LIKE BINARY :nr_usera  ORDER BY dystans ASC');
+						break;
+				}
+				$stmt -> bindValue(':nr_usera', $_SESSION['WiRunner_log_id'], PDO::PARAM_INT);
+				$stmt -> execute();
+				
+				$rows = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+				
+				$stmt -> closeCursor();
+				unset($stmt);
+				return $rows;
+			}
+			catch(PDOException $e) {
+				return -1;
+			}
+		}
 		
 		function kalkulatorTempa($dystans=0, $godzin=0, $minut=0, $sekund=0) {
 			if(is_numeric( $dystans ) && is_numeric( $godzin ) && is_numeric( $minut ) && is_numeric( $sekund ) && $dystans > 0 && $godzin >= 0 && $minut >= 0 && $sekund >= 0 && $minut < 60 && $sekund < 60 && ($godzin > 0 || $minut > 0 || $sekund > 0))

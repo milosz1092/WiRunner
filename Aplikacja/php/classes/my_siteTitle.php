@@ -25,7 +25,8 @@
 			);
 
 			$this -> konto_links = array(
-				'edytujprofil'	=>	array('Edytuj swoje dane', NULL),
+				'edytujprofil'		=>	array('Edytuj swoje dane', NULL),
+				'aktywnosci'		=>	array('Twoje aktywności', NULL),
 				'trasy'			=>	array ('Trasy', NULL),
 				'urywalizacje'		=>	array ('Rywalizacje', NULL),
 				'poczta'		=>	array ('Poczta', NULL),
@@ -40,6 +41,8 @@
 				'rywalizacje'	=>	array ('Rywalizacje', array(
 					'add'			=>		'dodaj'
 				)),
+				
+				'statystki'		=>	array ('Statystki aktywności', NULL)
 			);
 			
 		}
