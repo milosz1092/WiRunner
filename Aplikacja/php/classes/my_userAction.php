@@ -16,7 +16,7 @@
 
 			if(!isset($bledy)) {
 				try {
-					$stmt = $this -> pdo -> prepare('SELECT id_uzytkownika, nr_rangi, email FROM uzytkownicy WHERE email LIKE BINARY :mail AND haslo LIKE BINARY :haslo');
+					$stmt = $this -> pdo -> prepare('SELECT id_uzytkownika, nr_rangi, email, blokada FROM uzytkownicy WHERE email LIKE BINARY :mail AND haslo LIKE BINARY :haslo');
 					$stmt -> bindValue(':mail', $dane['email'], PDO::PARAM_STR);
 					$stmt -> bindValue(':haslo', md5($dane['haslo']), PDO::PARAM_STR);
 					$stmt -> execute();
