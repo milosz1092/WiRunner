@@ -1,0 +1,2 @@
+1.Wymagany sprzêt: Komputer PC ,Mac, smartfon, tablet
+2.Wymagane oprogramowanie: przegl¹darka internetowa IE 7+, Opera, Firefox, Google Chrome lub inna obs³uguj¹ca PHP i JavaScript
